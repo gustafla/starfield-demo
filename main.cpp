@@ -1,19 +1,19 @@
 // Copyright 2014 Lauri Gustafsson
 /*
-This file is part of esfragt.
+This file is part of mehustarfield.
 
-    esfragt is free software: you can redistribute it and/or modify
+    mehustarfield is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    esfragt is distributed in the hope that it will be useful,
+    mehustarfield is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with esfragt, see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with muhustarfield, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "gfx_iobject.hpp"
@@ -50,11 +50,9 @@ int main(int argc, char *argv[])
 
     std::string* fsTemp = new std::string;
     std::string* vsTemp = new std::string;
-    if (false)
-        *fsTemp = UNIFORMS;
-    if (!loadFile("green.frag", *fsTemp))
+    if (!loadFile("white.frag", *fsTemp))
         exit(40);
-    if (!loadFile("generic.vert", *vsTemp))
+    if (!loadFile("star.vert", *vsTemp))
         exit(41);
     GfxShader shaderProgram;
     if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
@@ -63,7 +61,7 @@ int main(int argc, char *argv[])
 
     glReleaseShaderCompiler();
     glUseProgram(shaderProgram.getHandle());
-
+/*
     TGAFile* image;
     for (unsigned short counter = 0; counter < c.imgs; counter++)
     {
@@ -78,33 +76,33 @@ int main(int argc, char *argv[])
     glUniform1i(shaderProgram.getUfmHandle("iChannel1"), 1);
     glUniform1i(shaderProgram.getUfmHandle("iChannel2"), 2);
     glUniform1i(shaderProgram.getUfmHandle("iChannel3"), 3);
-
+*/
     check();
 
-    glEnable(GL_BLEND);
-    if (!c.devmode)
+  glEnable(GL_BLEND);
+    /*if (!c.devmode)*/
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    else
-        glBlendFunc(GL_ONE, GL_SRC_ALPHA);
+  /*else
+        glBlendFunc(GL_ONE, GL_SRC_ALPHA);*/
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    glEnable(GL_CULL_FACE);
+  //glEnable(GL_CULL_FACE);
 
     glViewport(0, 0, c.w, c.h);
 
     check();
 
-    srand(time(NULL));
+    srand(609);
 
     std::vector<float> geometry;
-    unsigned int const STARCOUNT = 10000;
+    unsigned int const STARCOUNT = 20000;
     
     for (int create_i = 0; create_i < STARCOUNT; create_i++) {
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-		geometry.push_back(((float)((rand() % 10000)/10000.0f))*10.0f);
+		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 		//std::cout << "Initial fill " << create_i << std::endl;
 	}
 
@@ -115,7 +113,7 @@ int main(int argc, char *argv[])
     delete res;
 
     GLfloat pProjMat[16] = {0};
-    getPProjMat(pProjMat, 60.0, ((float)c.w)/((float)c.h));
+    getPProjMat(pProjMat, 40.0f, ((float)c.w)/((float)c.h));
     glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
 
     GLfloat xr[16] = {0};
@@ -158,9 +156,9 @@ int main(int argc, char *argv[])
 			//std::cout << "Fill new" << std::endl;
 		}
 */
-        getXRotMat(xr, t*0.2);
-        getYRotMat(yr, t*0.8);
-        getZRotMat(zr, t*0.6);
+        getXRotMat(xr, t*0.16);
+        getYRotMat(yr, (t+sin(t*0.2))*0.1);
+        getZRotMat(zr, t*0.12);
 
         glUniformMatrix4fv(shaderProgram.getUfmHandle("xRotation"), 1, GL_FALSE, xr);
         glUniformMatrix4fv(shaderProgram.getUfmHandle("yRotation"), 1, GL_FALSE, yr);
