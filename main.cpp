@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 
     glReleaseShaderCompiler();
     glUseProgram(shaderProgram.getHandle());
-/*
+
     TGAFile* image;
     for (unsigned short counter = 0; counter < c.imgs; counter++)
     {
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     glUniform1i(shaderProgram.getUfmHandle("iChannel1"), 1);
     glUniform1i(shaderProgram.getUfmHandle("iChannel2"), 2);
     glUniform1i(shaderProgram.getUfmHandle("iChannel3"), 3);
-*/
+
     check();
 
   glEnable(GL_BLEND);
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
     srand(609);
 
     std::vector<float> geometry;
-    unsigned int const STARCOUNT = 20000;
+    unsigned int const STARCOUNT = 8000;
     
     for (int create_i = 0; create_i < STARCOUNT; create_i++) {
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
@@ -137,25 +137,26 @@ int main(int argc, char *argv[])
         gettimeofday(&tTmp, &tz);
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
         glUniform1f(shaderProgram.getUfmHandle("iGlobalTime"), t);
-/*
-		for (int test_i=STARCOUNT*3; test_i>0; test_i-=3) {
-			if (geometry[test_i] < 0.0f)
+
+/*		for (int test_i=STARCOUNT*3-1; test_i>0; test_i-=3) {
+			if (geometry[test_i] < -5.0f)
 				geometry.erase(geometry.begin() + (test_i-2), geometry.begin() + (test_i));
 			//std::cout << "Test and delete " << test_i << std::endl;
 		}
 
-		for (int mov_i=0; mov_i<STARCOUNT*3-2; mov_i+=3) {
-			geometry[mov_i]-=0.0001;
+		for (int mov_i=2; mov_i<STARCOUNT*3; mov_i+=3) {
+			geometry[mov_i]-=0.01;
 			//std::cout << "Move " << mov_i << std::endl;
 		}
 
-		while (geometry.size() < STARCOUNT*3) {
+		while (geometry.size() < STARCOUNT*3) for (int ni=0; ni<100; ni++) {
 			geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 			geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-			geometry.push_back(10.0f);
+			geometry.push_back(5.0f);
 			//std::cout << "Fill new" << std::endl;
-		}
-*/
+            STARCOUNT++;
+		}*/
+
         getXRotMat(xr, t*0.16);
         getYRotMat(yr, (t+sin(t*0.2))*0.1);
         getZRotMat(zr, t*0.12);
