@@ -27,6 +27,7 @@ class GfxShader
 {
 public:
     GfxShader();
+    ~GfxShader();
     GLuint getHandle();
     unsigned int getUfmHandle(std::string);
     unsigned int getAtrHandle(std::string);

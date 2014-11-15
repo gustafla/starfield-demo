@@ -29,6 +29,7 @@ public:
 
     std::string cfName;
     int w, h;
+    int x, y;
     float stretch;
 
     std::string inames[4];

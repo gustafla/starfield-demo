@@ -27,6 +27,8 @@ Config::Config(int argc, char* argv[]):
 cfName("demo.cfg"),
 w(256),
 h(256),
+x(0),
+y(0),
 stretch(1),
 devmode(false),
 fpsCounter(false),
@@ -48,72 +50,84 @@ imgs(0)
                 checkValueParam(n, argc, argv);
                 h = atoi(argv[n]);
             }
-                else if (!strcmp(argv[n], "-s"))
-                {
-                    n++;
-                    checkValueParam(n, argc, argv);
-                    w = h = atoi(argv[n]);
-                }
-                    else if (!strcmp(argv[n], "--help"))
-                    {
-                        std::cout << DOC;
-                        exit(0);
-                    }
-                        else if (!strcmp(argv[n], "--version"))
-                        {
-                            std::cout << VERSION;
-                            exit(0);
-                        }
-                            else if (!strcmp(argv[n], "-f"))
-                            {
-                                fpsCounter = true;
-                                if ((n+1)!=argc)
-                                {
-                                    std::string tmp = argv[n+1];
-                                    if (isdigits(tmp))
-                                    {
-                                        n++;
-                                        fpsIn = atoi(argv[n]);
-                                    }
-                                }
-                            }
-                                else if (!strcmp(argv[n], "-d"))
-                                {
-                                    devmode = true;
-                                }
+               else if (!strcmp(argv[n], "-x"))
+               {
+                   n++;
+                   checkValueParam(n, argc, argv);
+                   x = atoi(argv[n]);
+               }
+                 else if (!strcmp(argv[n], "-y"))
+                 {
+                     n++;
+                     checkValueParam(n, argc, argv);
+                     y = atoi(argv[n]);
+                 }
+                     else if (!strcmp(argv[n], "-s"))
+                     {
+                         n++;
+                         checkValueParam(n, argc, argv);
+                         w = h = atoi(argv[n]);
+                     }
+                         else if (!strcmp(argv[n], "--help"))
+                         {
+                             std::cout << DOC;
+                             exit(0);
+                         }
+                             else if (!strcmp(argv[n], "--version"))
+                             {
+                                 std::cout << VERSION;
+                                 exit(0);
+                             }
+                                 else if (!strcmp(argv[n], "-f"))
+                                 {
+                                     fpsCounter = true;
+                                     if ((n+1)!=argc)
+                                     {
+                                         std::string tmp = argv[n+1];
+                                         if (isdigits(tmp))
+                                         {
+                                             n++;
+                                             fpsIn = atoi(argv[n]);
+                                         }
+                                     }
+                                 }
+                                     else if (!strcmp(argv[n], "-d"))
+                                     {
+                                         devmode = true;
+                                     }
 
-                                    else if (!strcmp(argv[n], "-c"))
-                                    {
-                                        n++;
-                                        checkValueParamf(n, argc, argv);
-                                        stretch = atof(argv[n]);
-                                        if (stretch < 1)
-                                        {
-                                            std::cout << ARGERR;
-                                            exit(4);
-                                        }
-                                    }
-                                        else if (!strcmp(argv[n], "-i"))
-                                        {
-                                            if (imgs >= 4)
-                                            {
-                                                std::cout << "Too many images\n" << ARGERR;
-                                                exit(6);
-                                            }
-                                            n++;
-                                            if (n==argc)
-                                            {
-                                                std::cout << ARGERR;
-                                                exit(20);
-                                            }
-                                            inames[imgs]=argv[n];
-                                            imgs++;
-                                        }
-                                            else
-                                            {
-                                                std::cout << ARGERR;
-                                                exit(5);
-                                            }
+                                         else if (!strcmp(argv[n], "-c"))
+                                         {
+                                             n++;
+                                             checkValueParamf(n, argc, argv);
+                                             stretch = atof(argv[n]);
+                                             if (stretch < 1)
+                                             {
+                                                 std::cout << ARGERR;
+                                                 exit(4);
+                                             }
+                                         }
+                                             else if (!strcmp(argv[n], "-i"))
+                                             {
+                                                 if (imgs >= 4)
+                                                 {
+                                                     std::cout << "Too many images\n" << ARGERR;
+                                                     exit(6);
+                                                 }
+                                                 n++;
+                                                 if (n==argc)
+                                                 {
+                                                     std::cout << ARGERR;
+                                                     exit(20);
+                                                 }
+                                                 inames[imgs]=argv[n];
+                                                 imgs++;
+                                             }
+                                                 else
+                                                 {
+                                                     std::cout << ARGERR;
+                                                     exit(5);
+                                                 }
     }
     h /= stretch;
     w /= stretch;

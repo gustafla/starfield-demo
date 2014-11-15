@@ -25,6 +25,10 @@ handle(0)
 
 }
 
+GfxShader::~GfxShader() {
+    glDeleteProgram(handle);
+}
+
 GLuint GfxShader::getHandle()
 {
     return handle;
@@ -115,6 +119,9 @@ GLint GfxShader::compProgram(std::string vsString, std::string fsString)
         glDeleteProgram(handle);
         return GL_FALSE;
     }
+
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 
     return GL_TRUE;
 }

@@ -13,175 +13,217 @@ This file is part of mehustarfield.
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with muhustarfield, see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with mehustarfield, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "gfx_iobject.hpp"
-#include "tga_file.hpp"
 #include <iostream>
 #include <cstdlib>
-#include <fstream>
+#include <cmath>
 #include <string>
+#include <pthread.h>
 #include "rpi_gfx.hpp"
 #include "gfx_EGL_window.hpp"
-#include "gfx_shader.hpp"
-#include "gfx_texture_2D.hpp"
 #include "util.hpp"
 #include "config.hpp"
 #include "text.hpp"
-#include "gfx_mat.hpp"
-#include <cmath>
-#include <vector>
+#include "common.hpp"
+#include "effects/point_flag.hpp"
+#include "gfx_postprocessor.hpp"
+#include "gfx_noise_texture.hpp"
 
+#include "parts/starfield.hpp"
+#include "parts/flag.hpp"
+
+#include "wav_player.hpp"
+
+#include "getch.hpp"
 /*     (some :D) ERROR CODES:
  *
  *  1 - Shader program failed to compile/link
  *  2 - Failed to create window
  */
+ 
+#define BPS 132.0/60.0
 
-using namespace std;
+void cleanup() {
+    getchRecov();
+}
 
-int main(int argc, char *argv[])
-{
+/*
+ * Music player thread function
+ */
+void* playMusic(void* player) {
+    WavPlayer* wavPlayer = (WavPlayer*)player;
+    for (;;) {
+        wavPlayer->playFrame();
+        //usleep(100); //Let's not run this 9001fps, ALSA won't be even needing audio that fast;
+    }
+}
+
+struct DemoArg {
+    int argc;
+    char** argv;
+};
+
+/*
+ * Demo player thread function
+ */
+void* playDemo(void* arg) {
+    //Get parameters
+    DemoArg* args = (DemoArg*)arg;
+    int argc = args->argc;
+    char** argv = args->argv;
     Config c(argc, argv);
+    //Create a window
     GfxEGLWindow window(&c);
     if(!window.createWindow(GFX_WINDOW_RGB))
         exit(2);
 
-    std::string* fsTemp = new std::string;
-    std::string* vsTemp = new std::string;
-    if (!loadFile("white.frag", *fsTemp))
-        exit(40);
-    if (!loadFile("star.vert", *vsTemp))
-        exit(41);
-    GfxShader shaderProgram;
-    if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
-        exit(1);
-    delete fsTemp;
+    //Set the clear color
+    glClearColor(0.0, 0.0, 0.0, 1.0);
 
-    glReleaseShaderCompiler();
-    glUseProgram(shaderProgram.getHandle());
+    //Enable blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-    TGAFile* image;
-    for (unsigned short counter = 0; counter < c.imgs; counter++)
-    {
-        std::cout << "Image " << counter << ": " << c.inames[counter] << std::endl;
-        image = new TGAFile;
-        image->load(c.inames[counter]);
-        glActiveTexture(GL_TEXTURE0+counter);
-        gfxLoadTexture2D(image->getImage(), image->getWidth(), image->getHeight(), ((image->getBpp() == 32) ? GL_RGBA : GL_RGB));
-        delete image;
-    }
-    glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
-    glUniform1i(shaderProgram.getUfmHandle("iChannel1"), 1);
-    glUniform1i(shaderProgram.getUfmHandle("iChannel2"), 2);
-    glUniform1i(shaderProgram.getUfmHandle("iChannel3"), 3);
-
-    check();
-
-  glEnable(GL_BLEND);
-    /*if (!c.devmode)*/
-        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-  /*else
-        glBlendFunc(GL_ONE, GL_SRC_ALPHA);*/
-
+    //Enable depth testing (why isn't this on by default?)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
   //glEnable(GL_CULL_FACE);
 
+    //Set a viewport
     glViewport(0, 0, c.w, c.h);
 
     check();
 
+    //Initialize cstdlib random seed
     srand(609);
 
-    std::vector<float> geometry;
-    unsigned int const STARCOUNT = 8000;
+    //GfxNoiseTexture mainNoise(48, 48);
+
+    //Common data. Will be important when there are many effects/scenes in different (their own) objects
+    CommonData common(c.w, c.h);
     
-    for (int create_i = 0; create_i < STARCOUNT; create_i++) {
-		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-		//std::cout << "Initial fill " << create_i << std::endl;
-	}
+    pthread_t audioThread;
+    WavPlayer music("music.wav");
+    pthread_create(&audioThread, NULL, playMusic, (void*)&music);
+    
+    GfxPostProcessor crt(&common, "crt.frag");
+    GfxPostProcessor blur(&common, "fastblur.frag", crt.getTexture(), NULL, GL_LINEAR, 4.0);
+    crt.takei1(blur.getTexture());
+    //crt.takei2(mainNoise.getTexture());
 
-    GLfloat* res = new GLfloat[2];
-    res[0] = c.w;
-    res[1] = c.h;
-    glUniform2fv(shaderProgram.getUfmHandle("iResolution"), 1, res);
-    delete res;
+    DemoStarfield p0(&common);
+	DemoFlag      p1(&common);
+	unsigned int  part = 0;
+	float  tPartStart  = 0.0;
+	float  tLoopStart  = 0.0;
 
-    GLfloat pProjMat[16] = {0};
-    getPProjMat(pProjMat, 40.0f, ((float)c.w)/((float)c.h));
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
-
-    GLfloat xr[16] = {0};
-    GLfloat yr[16] = {0};
-    GLfloat zr[16] = {0};
-
+    //Timer stuff
     struct timeval tTmp;
     struct timeval startT;
     struct timezone tz;
-    float t = 0.0f;
     float fpsLastT = 0.0f;
     unsigned int frames = 0;
+    float t=0.0;
+    float tMusicEOF = -1.0;
 
     gettimeofday(&tTmp, &tz);
     gettimeofday(&startT, &tz);
 
     for (;;)
     {
+        //Check() checks that our fragile GL isn't seeing anything wrong going on
         check();
 
+        //Update timer for the frame
         gettimeofday(&tTmp, &tz);
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
-        glUniform1f(shaderProgram.getUfmHandle("iGlobalTime"), t);
+        common.t = t-tLoopStart;
+        common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
+        //common.beatHalfSine = 0.2;
+        //std::cout << common.beatHalfSine << std::endl;
+        //std::cout << common.t << std::endl;
+        //mainNoise.generate();
 
-/*		for (int test_i=STARCOUNT*3-1; test_i>0; test_i-=3) {
-			if (geometry[test_i] < -5.0f)
-				geometry.erase(geometry.begin() + (test_i-2), geometry.begin() + (test_i));
-			//std::cout << "Test and delete " << test_i << std::endl;
+        crt.bindFramebuffer(); //drawing to the "root" PP
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+        switch (part) {
+			case 0:
+				p0.draw();
+				if (t-tLoopStart > tPartStart+10.0){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+				break;
+			case 1:
+				p1.draw();
+				if (t-tLoopStart > tPartStart+10.0){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+				break;
+			default:
+				part = 0;
+				tLoopStart = t;
+				tPartStart = t-tLoopStart;
+				break;
 		}
 
-		for (int mov_i=2; mov_i<STARCOUNT*3; mov_i+=3) {
-			geometry[mov_i]-=0.01;
-			//std::cout << "Move " << mov_i << std::endl;
-		}
-
-		while (geometry.size() < STARCOUNT*3) for (int ni=0; ni<100; ni++) {
-			geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-			geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
-			geometry.push_back(5.0f);
-			//std::cout << "Fill new" << std::endl;
-            STARCOUNT++;
-		}*/
-
-        getXRotMat(xr, t*0.16);
-        getYRotMat(yr, (t+sin(t*0.2))*0.1);
-        getZRotMat(zr, t*0.12);
-
-        glUniformMatrix4fv(shaderProgram.getUfmHandle("xRotation"), 1, GL_FALSE, xr);
-        glUniformMatrix4fv(shaderProgram.getUfmHandle("yRotation"), 1, GL_FALSE, yr);
-        glUniformMatrix4fv(shaderProgram.getUfmHandle("zRotation"), 1, GL_FALSE, zr);
-
-        glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 3, GL_FLOAT, GL_FALSE, 0, &geometry[0]);
-        glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
-
-        glDrawArrays(GL_POINTS, 0, geometry.size()/3);
-
+        blur.draw(); //Self drawing PPs bind their FB automatically
+        glClear(GL_DEPTH_BUFFER_BIT);
+        gfxBindFB0(); //Now we'll be drawing to screen
+        crt.draw();
+        //What was just drawn will now get read by the screen driver
         window.swapBuffers();
+        //For clarity, it's good to clear both frame- and renderbuffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        if (c.fpsCounter)
-        {
+        if (tMusicEOF == -1.0 && music.done()) {
+            tMusicEOF = t;
+        }
+            
+        if (tMusicEOF != -1.0 && t >= (tMusicEOF+5.0)) {
+            break;
+        }
+            
+        //FPS counter "magic"
+        if (c.fpsCounter) {
             frames++;
             if (frames > c.fpsIn)
             {
-                cout << "FPS=" << (c.fpsIn / (t - fpsLastT)) << endl;
+                std::cout << "FPS=" << (c.fpsIn / (t - fpsLastT)) << std::endl;
                 fpsLastT = t;
                 frames = 0;
             }
         }
+    }
+    exit(0);
+}
+
+int main(int argc, char *argv[])
+{
+    atexit(cleanup);
+    DemoArg demoArg;
+    demoArg.argc = argc;
+    demoArg.argv = argv;
+    pthread_t demoThread;
+    pthread_create(&demoThread, NULL, playDemo, (void*)&demoArg);
+    
+    /*
+     * Yes. Demo in a separate thread and main() waiting for ESC using a weird
+     * c lib dependent piece of code.
+     * Why does it have to be this hard?
+     */
+
+    char const ESC = 27;
+    char c=0;
+    for (;;) {
+        c = getch();
+        if (c == ESC)
+            break;
     }
     return 0;
 }

@@ -20,19 +20,18 @@ This file is part of esfragt.
 #define GFX_TEXTURE_HPP
 
 #include "rpi_gfx.hpp"
-/*
+
 class GfxTexture2D
 {
-public:
-    GfxTexture2D(const unsigned char* image, unsigned int w, unsigned int h, uint32_t u=GL_TEXTURE0, uint32_t format=GL_RGB, uint32_t filter=GL_NEAREST, uint32_t wrap=GL_REPEAT);
-    GLuint getHandle();
-protected:
-
-    //GLuint handle;
-    GLuint unit;
+    public:
+        GfxTexture2D(const unsigned char* image, unsigned int w, unsigned int h, unsigned int bind=0, uint32_t format=GL_RGB, uint32_t filter=GL_NEAREST, uint32_t wrap=GL_REPEAT);
+        ~GfxTexture2D();
+        GLuint getHandle();
+        void image2D(unsigned char* image, unsigned int w, unsigned int h, uint32_t format=GL_RGB);
+        void bindToUnit(unsigned int unit);
+    private:
+        GLuint handle;
+        GLuint bound;
 };
-*/
-
-void gfxLoadTexture2D(const unsigned char* image, unsigned int w, unsigned int h, uint32_t format=GL_RGB, uint32_t filter=GL_NEAREST, uint32_t wrap=GL_REPEAT);
 
 #endif
