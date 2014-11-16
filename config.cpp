@@ -1,19 +1,19 @@
 // Copyright 2014 Lauri Gustafsson
 /*
-This file is part of esfragt.
+This file is part of [DEMO NAME].
 
-    esfragt is free software: you can redistribute it and/or modify
+    [DEMO NAME] is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    esfragt is distributed in the hope that it will be useful,
+    [DEMO NAME] is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with esfragt, see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "config.hpp"
@@ -24,16 +24,13 @@ This file is part of esfragt.
 #include <cstring>
 
 Config::Config(int argc, char* argv[]):
-cfName("demo.cfg"),
-w(256),
-h(256),
+w(1280),
+h(720),
 x(0),
 y(0),
 stretch(1),
-devmode(false),
 fpsCounter(false),
-fpsIn(100),
-imgs(0)
+fpsIn(100)
 {
     /*YAY crappy parameter checking ^__^*/
     for (int n=1; n<argc; n++)
@@ -91,43 +88,22 @@ imgs(0)
                                          }
                                      }
                                  }
-                                     else if (!strcmp(argv[n], "-d"))
+                                     else if (!strcmp(argv[n], "-c"))
                                      {
-                                         devmode = true;
-                                     }
-
-                                         else if (!strcmp(argv[n], "-c"))
+                                         n++;
+                                         checkValueParamf(n, argc, argv);
+                                         stretch = atof(argv[n]);
+                                         if (stretch < 1)
                                          {
-                                             n++;
-                                             checkValueParamf(n, argc, argv);
-                                             stretch = atof(argv[n]);
-                                             if (stretch < 1)
-                                             {
-                                                 std::cout << ARGERR;
-                                                 exit(4);
-                                             }
+                                             std::cout << ARGERR;
+                                             exit(4);
                                          }
-                                             else if (!strcmp(argv[n], "-i"))
-                                             {
-                                                 if (imgs >= 4)
-                                                 {
-                                                     std::cout << "Too many images\n" << ARGERR;
-                                                     exit(6);
-                                                 }
-                                                 n++;
-                                                 if (n==argc)
-                                                 {
-                                                     std::cout << ARGERR;
-                                                     exit(20);
-                                                 }
-                                                 inames[imgs]=argv[n];
-                                                 imgs++;
-                                             }
-                                                 else
-                                                 {
-                                                     std::cout << ARGERR;
-                                                     exit(5);
-                                                 }
+                                     }
+                                         else
+                                         {
+                                             std::cout << ARGERR;
+                                             exit(5);
+                                         }
     }
     h /= stretch;
     w /= stretch;

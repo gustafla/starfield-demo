@@ -1,24 +1,24 @@
 # Copyright 2014 Lauri Gustafsson
 #
-# This file is part of mehustarfield.
+# This file is part of [DEMO NAME].
 #
-#     mehustarfield is free software: you can redistribute it and/or modify
+#     [DEMO NAME] is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
 #     the Free Software Foundation, either version 3 of the License, or
 #     (at your option) any later version.
 #
-#     mehustarfield is distributed in the hope that it will be useful,
+#     [DEMO NAME] is distributed in the hope that it will be useful,
 #     but WITHOUT ANY WARRANTY; without even the implied warranty of
 #     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #     GNU General Public License for more details.
 #
 #     You should have received a copy of the GNU General Public License
-#     along with mehustarfield, see COPYING. If not, see <http://www.gnu.org/licenses/>.
+#     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 #
 
-# A makefile to build mehustarfield.
+# A makefile to build [DEMO NAME].
 
-SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp gfx_iobject.cpp types.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp
+SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp gfx_iobject.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp types.cpp demo_thread.cpp audio_thread.cpp
 vectest: SRCS = vectest.cpp
 TARGET = starfield
 vectest: TARGET = vectest
@@ -28,7 +28,6 @@ debug: CFLAGS = -g
 INCLUDES += -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I./ -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 LFLAGS = -L/opt/vc/lib/ -L/opt/vc/src/hello_pi/lib/ilclient -L/opt/vc/src/hello_pi/lib/vgfont
 LIBS = -lGLESv2 -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lpthread -lm -lrt -lasound
-LIBS_CUSTOM =
 CC = g++
 
 all: $(TARGET)

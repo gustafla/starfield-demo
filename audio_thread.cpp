@@ -16,23 +16,16 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_NOISE_TEXTURE_HPP
-#define GFX_NOISE_TEXTURE_HPP
+#include "audio_thread.hpp"
+#include "wav_player.hpp"
 
-#include "gfx_texture_2D.hpp"
-
-class GfxNoiseTexture {
-    public:
-        GfxNoiseTexture(unsigned int w, unsigned int h);
-        ~GfxNoiseTexture();
-        GfxTexture2D* getTexture();
-        void generate();
-
-    private:
-        unsigned int width;
-        unsigned int height;
-        GfxTexture2D* texture;
-        unsigned char* image;
-};
-
-#endif
+/*
+ * Music player thread function
+ */
+void* playMusic(void* player) {
+    WavPlayer* wavPlayer = (WavPlayer*)player;
+    for (;;) {
+        wavPlayer->playFrame();
+        //usleep(100); //Let's not run this 9001fps, ALSA won't be even needing audio that fast;
+    }
+}

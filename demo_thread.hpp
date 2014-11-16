@@ -16,23 +16,14 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_NOISE_TEXTURE_HPP
-#define GFX_NOISE_TEXTURE_HPP
+#ifndef DEMO_THREAD_HPP
+#define DEMO_THREAD_HPP
 
-#include "gfx_texture_2D.hpp"
-
-class GfxNoiseTexture {
-    public:
-        GfxNoiseTexture(unsigned int w, unsigned int h);
-        ~GfxNoiseTexture();
-        GfxTexture2D* getTexture();
-        void generate();
-
-    private:
-        unsigned int width;
-        unsigned int height;
-        GfxTexture2D* texture;
-        unsigned char* image;
+struct DemoArg {
+    int argc;
+    char** argv;
 };
+
+void* playDemo(void* arg);
 
 #endif
