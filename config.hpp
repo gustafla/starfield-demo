@@ -19,7 +19,7 @@ This file is part of [DEMO NAME].
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#include <string>
+#include <fstream>
 #include "rpi_gfx.hpp"
 
 class Config

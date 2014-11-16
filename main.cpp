@@ -20,6 +20,8 @@ This file is part of [DEMO NAME].
 #include <cstdlib>
 #include "demo_thread.hpp"
 #include "getch.hpp"
+#include "rpi_gfx.hpp"
+#include "cleanup.hpp"
 
 /*     (some :D) ERROR CODES:
  *
@@ -27,13 +29,10 @@ This file is part of [DEMO NAME].
  *  2 - Failed to create window
  */
 
-void cleanup() {
-    getchRecov();
-}
-
 int main(int argc, char *argv[])
 {
     atexit(cleanup);
+    bcm_host_init(); //For RPi graphical stuff;
     DemoArg demoArg;
     demoArg.argc = argc;
     demoArg.argv = argv;

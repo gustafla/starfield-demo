@@ -25,5 +25,6 @@ extern const std::string UNIFORMS;
 extern const std::string VERSION;
 extern const std::string ARGERR;
 extern const std::string DOC;
+extern std::string const PIPE_CAT;
 
 #endif

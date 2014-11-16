@@ -53,3 +53,7 @@ const std::string DOC = "Usage: [DEMO NAME] [OPTION]\n"
                         "\n"
                         "You can report bugs or send mail/spam/\"offers\" to luutifa@gmail.com\n"
                         "[DEMO NAME] home page: <[DEMO URL]>\n";
+
+std::string const PIPE_CAT = "Recommended to pipe stdout text to cat or a file.\n"
+                             "Out keyboard checking requires weird terminal stuff.\n"
+                             "-------------------------------------------------\n";

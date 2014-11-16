@@ -31,8 +31,6 @@ void GfxEGLWindow::swapBuffers()
 
 bool GfxEGLWindow::createWindow(GLuint flags)
 {
-    bcm_host_init();
-
     EGLint attribList[] =
     {
         EGL_RED_SIZE,       5,
@@ -61,9 +59,6 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     uint32_t h;
     uint32_t x;
     uint32_t y;
-
-    if (graphics_get_display_size(0 /*LCD*/, &w, &h) < 0)
-        return false;
 
     w = c->w;
     h = c->h;

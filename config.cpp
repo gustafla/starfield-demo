@@ -24,8 +24,8 @@ This file is part of [DEMO NAME].
 #include <cstring>
 
 Config::Config(int argc, char* argv[]):
-w(1280),
-h(720),
+w(0),
+h(0),
 x(0),
 y(0),
 stretch(1),
@@ -67,16 +67,22 @@ fpsIn(100)
                      }
                          else if (!strcmp(argv[n], "--help"))
                          {
+                             std::cout << PIPE_CAT;
+                             sleep(4);
                              std::cout << DOC;
                              exit(0);
                          }
                              else if (!strcmp(argv[n], "--version"))
                              {
+                                 std::cout << PIPE_CAT;
+                                 sleep(4);
                                  std::cout << VERSION;
                                  exit(0);
                              }
                                  else if (!strcmp(argv[n], "-f"))
                                  {
+                                     std::cout << PIPE_CAT;
+                                     sleep(4);
                                      fpsCounter = true;
                                      if ((n+1)!=argc)
                                      {
@@ -96,15 +102,32 @@ fpsIn(100)
                                          if (stretch < 1)
                                          {
                                              std::cout << ARGERR;
+                                             sleep(4);
                                              exit(4);
                                          }
                                      }
                                          else
                                          {
                                              std::cout << ARGERR;
+                                             sleep(4);
                                              exit(5);
                                          }
     }
+    
+    int errDisp;
+    uint32_t actualW, actualH;
+    if ((w == 0 || h == 0) && (errDisp = graphics_get_display_size(0, &actualW, &actualH)) < 0) {
+        std::cout << "Failed to get display size.\n";
+        sleep(4);
+        exit(errDisp);
+    }
+    
+    if (w == 0)
+        w = actualW;
+        
+    if (h == 0)
+        h = actualH;
+        
     h /= stretch;
     w /= stretch;
 }
