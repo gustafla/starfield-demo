@@ -29,7 +29,6 @@ This file is part of [DEMO NAME].
 #include <cmath>
 #include "gfx_noise_texture.hpp"
 #include <iostream>
-
 #include "parts/starfield.hpp"
 #include "parts/flag.hpp"
 
@@ -75,9 +74,12 @@ void* playDemo(void* arg) {
     //Common data. Will be important when there are many effects/scenes in different (their own) objects
     CommonData common(c.w, c.h);
     
-    pthread_t audioThread;
-    WavPlayer music("music.wav");
-    pthread_create(&audioThread, NULL, playMusic, (void*)&music);
+    WavPlayer* music = NULL;
+    if (c.audio) {
+        pthread_t audioThread;
+        music = new WavPlayer("music.wav");
+        pthread_create(&audioThread, NULL, playMusic, (void*)music);
+    }
     
     GfxPostProcessor crt(&common, "crt.frag");
     GfxPostProcessor blur(&common, "fastblur.frag", crt.getTexture(), NULL, GL_LINEAR, 4.0);
@@ -151,12 +153,22 @@ void* playDemo(void* arg) {
         //For clarity, it's good to clear both frame- and renderbuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        if (tMusicEOF == -1.0 && music.done()) {
-            tMusicEOF = t;
-        }
+        if (music != NULL) {
+            if (tMusicEOF == -1.0 && music->done()) {
+                tMusicEOF = t;
+            }
             
-        if (tMusicEOF != -1.0 && t >= (tMusicEOF+5.0)) {
-            break;
+            if (tMusicEOF != -1.0 && t >= (tMusicEOF+5.0)) {
+                if (c.loop) {
+                    part = 0;
+                    tLoopStart = t;
+                    tPartStart = t-tLoopStart;
+                    music->restart();
+                    tMusicEOF = -1.0;
+                }
+                else
+                    break;
+            }
         }
             
         //FPS counter "magic"

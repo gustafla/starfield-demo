@@ -30,6 +30,8 @@ x(0),
 y(0),
 stretch(1),
 fpsCounter(false),
+audio(true),
+loop(false),
 fpsIn(100)
 {
     /*YAY crappy parameter checking ^__^*/
@@ -68,21 +70,21 @@ fpsIn(100)
                          else if (!strcmp(argv[n], "--help"))
                          {
                              std::cout << PIPE_CAT;
-                             sleep(4);
+                             sleep(5);
                              std::cout << DOC;
                              exit(0);
                          }
                              else if (!strcmp(argv[n], "--version"))
                              {
                                  std::cout << PIPE_CAT;
-                                 sleep(4);
+                                 sleep(5);
                                  std::cout << VERSION;
                                  exit(0);
                              }
                                  else if (!strcmp(argv[n], "-f"))
                                  {
                                      std::cout << PIPE_CAT;
-                                     sleep(4);
+                                     sleep(5);
                                      fpsCounter = true;
                                      if ((n+1)!=argc)
                                      {
@@ -102,23 +104,30 @@ fpsIn(100)
                                          if (stretch < 1)
                                          {
                                              std::cout << ARGERR;
-                                             sleep(4);
+                                             sleep(5);
                                              exit(4);
                                          }
                                      }
-                                         else
+                                         else if (!strcmp(argv[n], "--no-audio") || !strcmp(argv[n], "--no-sound") || !strcmp(argv[n], "--no-music"))
                                          {
-                                             std::cout << ARGERR;
-                                             sleep(4);
-                                             exit(5);
+                                             audio=false;
                                          }
+                                             else if (!strcmp(argv[n], "--loop")) {
+                                                 loop=true;
+                                             }
+                                                 else
+                                                 {
+                                                     std::cout << ARGERR;
+                                                     sleep(5);
+                                                     exit(5);
+                                                 }
     }
     
     int errDisp;
     uint32_t actualW, actualH;
     if ((w == 0 || h == 0) && (errDisp = graphics_get_display_size(0, &actualW, &actualH)) < 0) {
         std::cout << "Failed to get display size.\n";
-        sleep(4);
+        sleep(5);
         exit(errDisp);
     }
     

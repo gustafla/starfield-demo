@@ -33,6 +33,7 @@ class WavPlayer {
         ~WavPlayer();
         int playFrame();
         bool done();
+        void restart();
     private:
         AudioOut* playbackDevice;
         std::ifstream file;
@@ -41,6 +42,7 @@ class WavPlayer {
         unsigned int bufferSize;
         void errorPrint(std::string filename);
         int err;
+        std::streampos audioDataBegin;
 };
 
 #endif

@@ -48,12 +48,16 @@ const std::string DOC = "Usage: [DEMO NAME] [OPTION]\n"
                         "  -s                window width and height, a square\n"
                         "  -f                print out a FPS reading after every n frame(s)\n"
                         "                    (default 100)\n"
+                        "      --no-audio    don't play music, don't exit automatically\n"
+                        "      --no-sound    same as --no-audio\n"
+                        "      --no-music    same as --no-audio\n"
+                        "      --loop        loop demo infinitely\n"
                         "      --help        display this help and exit\n"
                         "      --version     display version information and exit\n"
                         "\n"
                         "You can report bugs or send mail/spam/\"offers\" to luutifa@gmail.com\n"
                         "[DEMO NAME] home page: <[DEMO URL]>\n";
 
-std::string const PIPE_CAT = "Recommended to pipe stdout text to cat or a file.\n"
+std::string const PIPE_CAT = "Please pipe stdout text to a file or cat.\n"
                              "Out keyboard checking requires weird terminal stuff.\n"
-                             "-------------------------------------------------\n";
+                             "----------------------------------------------------\n";

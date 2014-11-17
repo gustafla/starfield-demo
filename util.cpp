@@ -40,7 +40,7 @@ void checkValueParam(int n, int argc, char* argv[])
     if (n==argc)
     {
         cout << ARGERR;
-        sleep(4);
+        sleep(5);
         exit(20);
     }
 
@@ -49,7 +49,7 @@ void checkValueParam(int n, int argc, char* argv[])
     if (!isdigits(tmps))
     {
         cout << ARGERR;
-        sleep(4);
+        sleep(5);
         exit(30);
     }
 }
@@ -79,7 +79,7 @@ void checkValueParamf(int n, int argc, char* argv[])
     if (n==argc)
     {
         cout << ARGERR;
-        sleep(4);
+        sleep(5);
         exit(21);
     }
 
@@ -88,7 +88,7 @@ void checkValueParamf(int n, int argc, char* argv[])
     if (!isfloat(tmps))
     {
         cout << ARGERR;
-        sleep(4);
+        sleep(5);
         exit(31);
     }
 }

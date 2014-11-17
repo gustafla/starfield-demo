@@ -32,6 +32,8 @@ public:
     float stretch;
 
     bool fpsCounter;
+    bool audio;
+    bool loop;
     unsigned short fpsIn;
 };
 

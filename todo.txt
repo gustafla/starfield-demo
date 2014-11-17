@@ -1,0 +1,10 @@
+TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
+  T    O   O  D   D  O   O           T     XX      T  
+  T    O   O  D   D  O   O   ..      T      XX     T  
+  T     OOO   DDDD    OOO    ..      T    XX  X    T  
+------------------------------------------------------
+
+- Accommodate for different size audio h/w buffers
+- Implement working demo looping (with audio)
+- Screen and pp shader tex ufm names
+- A simple resource loader/handler object

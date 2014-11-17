@@ -131,6 +131,7 @@ bufferSize(bufferSize) {
         
     size = data_size;
     
+    audioDataBegin = file.tellg();
     playbackDevice = new AudioOut("default", bufferSize, sampleRate);
 }
 
@@ -140,7 +141,7 @@ WavPlayer::~WavPlayer() {
 
 int WavPlayer::playFrame() {
     if (playbackDevice->wantData()) {
-        if (!file.eof()) {
+        if (!file.eof() && !file.fail()) {
             file.read(reinterpret_cast<char*>(playbackDevice->getS16Buffer()), (sizeof(int16_t)*bufferSize));
             err = playbackDevice->writeBufOut();
             return err;
@@ -152,4 +153,8 @@ bool WavPlayer::done() {
     if (file.eof())
         return true;
     else return false;
+}
+
+void WavPlayer::restart() {
+    file.seekg(audioDataBegin);
 }
