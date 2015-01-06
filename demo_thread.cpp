@@ -88,6 +88,7 @@ void* playDemo(void* arg) {
     GfxPostProcessor blur(&common, "shaders/fastblur.frag", GL_LINEAR, 4.0);
     blur.takeTexture(crt.getTexture(), "frameIn");
     crt.takeTexture(blur.getTexture(), "blurFrame");
+    bool doPP = false;
 
     PIntro     p0(&common);
     PStarfield p1(&common);
@@ -120,8 +121,10 @@ void* playDemo(void* arg) {
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
         common.t = t-tLoopStart;
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
-
-        crt.bindFramebuffer(); //drawing to the "root" PP
+        if (doPP)
+            crt.bindFramebuffer(); //drawing to the "root" PP
+        else
+            gfxBindFB0();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         switch (part) {
@@ -130,6 +133,7 @@ void* playDemo(void* arg) {
 				if (t-tLoopStart > tPartStart+31.0){
 					part++;
 					tPartStart = t-tLoopStart;
+                    doPP = true;
 				}
 				break;
 			case 1:
@@ -159,11 +163,13 @@ void* playDemo(void* arg) {
 				tPartStart = t-tLoopStart;
 				break;
 		}
-        blur.bindFramebuffer();
-        blur.draw(); //Blur doesn't draw to screen, instead to it's own texture that goes to crt as blurFrame
-        glClear(GL_DEPTH_BUFFER_BIT);
-        gfxBindFB0(); //Now we'll be drawing to screen
-        crt.draw();
+        if (doPP) {
+            blur.bindFramebuffer();
+            blur.draw(); //Blur doesn't draw to screen, instead to it's own texture that goes to crt as blurFrame
+            glClear(GL_DEPTH_BUFFER_BIT);
+            gfxBindFB0(); //Now we'll be drawing to screen
+            crt.draw();
+        }
         //What was just drawn will now get read by the screen driver
         window.swapBuffers();
         //For clarity, it's good to clear both frame- and renderbuffer

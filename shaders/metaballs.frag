@@ -17,6 +17,6 @@ void main() {
     //pL += fillCircle(vec2(sin(t*0.22)*0.6, sin(t*0.64)*0.13), 8.0);
     //pL += fillCircle(vec2(cos(t*0.53)*0.47, sin(t)*0.724), 5.0);
 
-    pL = clamp((pL-0.5)*20000.0, 0.0, 1.0);
+    pL = clamp((pL-0.5)*20.0, 0.0, 1.0);
     gl_FragColor = vec4(pL, pL, pL, 0.2);
 }

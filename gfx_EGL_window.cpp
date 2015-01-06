@@ -133,7 +133,7 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     buffer = eglBuffer;
     context = eglContext;
 
-    eglSwapInterval(eglDisplay, 0);
+    //eglSwapInterval(eglDisplay, 0);
 
     return true;
 }
