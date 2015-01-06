@@ -29,10 +29,13 @@ This file is part of [DEMO NAME].
 #include <cmath>
 #include "gfx_noise_texture.hpp"
 #include <iostream>
-#include "parts/starfield.hpp"
-#include "parts/flag.hpp"
 
-#define BPS 132.0/60.0
+#include "parts/starfield.hpp"
+#include "parts/intro.hpp"
+#include "parts/flag.hpp"
+#include "parts/plasma_bars.hpp"
+
+#define BPS 122.0/60.0
 
 /*
  * Demo player thread function
@@ -76,18 +79,21 @@ void* playDemo(void* arg) {
     
     WavPlayer* music = NULL;
     if (c.audio) {
-        pthread_t audioThread;
         music = new WavPlayer("music.wav");
+        pthread_t audioThread;
         pthread_create(&audioThread, NULL, playMusic, (void*)music);
     }
     
-    GfxPostProcessor crt(&common, "crt.frag");
-    GfxPostProcessor blur(&common, "fastblur.frag", crt.getTexture(), NULL, GL_LINEAR, 4.0);
-    crt.takei1(blur.getTexture());
-    //crt.takei2(mainNoise.getTexture());
+    GfxPostProcessor crt(&common, "shaders/crt.frag");
+    GfxPostProcessor blur(&common, "shaders/fastblur.frag", GL_LINEAR, 4.0);
+    blur.takeTexture(crt.getTexture(), "frameIn");
+    crt.takeTexture(blur.getTexture(), "blurFrame");
 
-    DemoStarfield p0(&common);
-	DemoFlag      p1(&common);
+    PIntro     p0(&common);
+    PStarfield p1(&common);
+	PFlag      p2(&common);
+    PPlasma    p3(&common);
+    
 	unsigned int  part = 0;
 	float  tPartStart  = 0.0;
 	float  tLoopStart  = 0.0;
@@ -114,10 +120,6 @@ void* playDemo(void* arg) {
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
         common.t = t-tLoopStart;
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
-        //common.beatHalfSine = 0.2;
-        //std::cout << common.beatHalfSine << std::endl;
-        //std::cout << common.t << std::endl;
-        //mainNoise.generate();
 
         crt.bindFramebuffer(); //drawing to the "root" PP
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -125,7 +127,7 @@ void* playDemo(void* arg) {
         switch (part) {
 			case 0:
 				p0.draw();
-				if (t-tLoopStart > tPartStart+10.0){
+				if (t-tLoopStart > tPartStart+31.0){
 					part++;
 					tPartStart = t-tLoopStart;
 				}
@@ -137,14 +139,28 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
 				break;
+            case 2:
+                p2.draw();
+                if (t-tLoopStart > tPartStart+10.0){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 3:
+                p3.draw();
+                if (t-tLoopStart > tPartStart+10.0){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
 			default:
 				part = 0;
 				tLoopStart = t;
 				tPartStart = t-tLoopStart;
 				break;
 		}
-
-        blur.draw(); //Self drawing PPs bind their FB automatically
+        blur.bindFramebuffer();
+        blur.draw(); //Blur doesn't draw to screen, instead to it's own texture that goes to crt as blurFrame
         glClear(GL_DEPTH_BUFFER_BIT);
         gfxBindFB0(); //Now we'll be drawing to screen
         crt.draw();
@@ -153,21 +169,13 @@ void* playDemo(void* arg) {
         //For clarity, it's good to clear both frame- and renderbuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        if (music != NULL) {
+        if (c.audio) {
             if (tMusicEOF == -1.0 && music->done()) {
                 tMusicEOF = t;
             }
             
             if (tMusicEOF != -1.0 && t >= (tMusicEOF+5.0)) {
-                if (c.loop) {
-                    part = 0;
-                    tLoopStart = t;
-                    tPartStart = t-tLoopStart;
-                    music->restart();
-                    tMusicEOF = -1.0;
-                }
-                else
-                    break;
+                break;
             }
         }
             

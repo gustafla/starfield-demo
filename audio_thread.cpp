@@ -22,8 +22,8 @@ This file is part of [DEMO NAME].
 /*
  * Music player thread function
  */
-void* playMusic(void* player) {
-    WavPlayer* wavPlayer = (WavPlayer*)player;
+void* playMusic(void* arg) {
+    WavPlayer* wavPlayer = (WavPlayer*)arg;
     for (;;) {
         wavPlayer->playFrame();
         //usleep(100); //Let's not run this 9001fps, ALSA won't be even needing audio that fast;

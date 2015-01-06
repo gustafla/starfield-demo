@@ -31,7 +31,6 @@ y(0),
 stretch(1),
 fpsCounter(false),
 audio(true),
-loop(false),
 fpsIn(100)
 {
     /*YAY crappy parameter checking ^__^*/
@@ -112,15 +111,12 @@ fpsIn(100)
                                          {
                                              audio=false;
                                          }
-                                             else if (!strcmp(argv[n], "--loop")) {
-                                                 loop=true;
+                                             else
+                                             {
+                                                 std::cout << ARGERR;
+                                                 sleep(5);
+                                                 exit(5);
                                              }
-                                                 else
-                                                 {
-                                                     std::cout << ARGERR;
-                                                     sleep(5);
-                                                     exit(5);
-                                                 }
     }
     
     int errDisp;

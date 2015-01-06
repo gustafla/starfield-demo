@@ -18,17 +18,17 @@ This file is part of [DEMO NAME].
 
 #include "parts/starfield.hpp"
 
-DemoStarfield::DemoStarfield(CommonData* icommon) {
-    stars = new PointField(icommon);
-    ovl = new GfxScreen(icommon, "ovl.frag", "mehuovl.tga");
+PStarfield::PStarfield(CommonData* icommon) {
+    stars = new EPointField(icommon);
+    ovl = new GfxScreen(icommon, "shaders/ovl.frag", "mehuovl.tga");
 }
 
-DemoStarfield::~DemoStarfield() {
+PStarfield::~PStarfield() {
     delete stars;
     delete ovl;
 }
 
-void DemoStarfield::draw() {
+void PStarfield::draw() {
     stars->draw();
     glClear(GL_DEPTH_BUFFER_BIT);
     ovl->draw();

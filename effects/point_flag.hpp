@@ -25,10 +25,10 @@ This file is part of [DEMO NAME].
 #include "gfx_shader.hpp"
 #include "common.hpp"
 
-class PointFlag {
+class EPointFlag {
     public:
-        PointFlag(CommonData* icommon);
-        ~PointFlag();
+        EPointFlag(CommonData* icommon);
+        ~EPointFlag();
         void draw();
     private:
         CommonData* common;

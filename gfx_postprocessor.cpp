@@ -20,18 +20,15 @@ This file is part of [DEMO NAME].
 #include "util.hpp"
 #include <string>
 
-GfxPostProcessor::GfxPostProcessor(CommonData* icommon, std::string fs, GfxTexture2D* iiChannel0, GfxTexture2D* iiChannel1, GLuint filter, float c, float cy):
+GfxPostProcessor::GfxPostProcessor(CommonData* icommon, std::string fs, uint32_t filter, float c, float cy):
 common(icommon),
-iChannel0(iiChannel0),
-iChannel1(iiChannel1),
-iChannel2(NULL),
-selfOut(NULL) {
+texCount(0) {
     //Load, compile, enable shaders
     std::string* fsTemp = new std::string;
     std::string* vsTemp = new std::string;
     if (!loadFile(fs, *fsTemp))
         exit(40);
-    if (!loadFile("simple.vert", *vsTemp))
+    if (!loadFile("shaders/simple.vert", *vsTemp))
         exit(41);
     if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
         exit(1);
@@ -56,18 +53,10 @@ selfOut(NULL) {
 
     check();
 
-    if (iChannel0 == NULL)
-        iChannel0 = new GfxTexture2D(NULL, res[0], res[1], 0, GL_RGB, filter);
-    else
-        selfOut = new GfxTexture2D(NULL, res[0], res[1], 0, GL_RGB, filter);
+    ownTexture = new GfxTexture2D(NULL, res[0], res[1], 0, GL_RGB, filter);
     glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
-    glUniform1i(shaderProgram.getUfmHandle("iChannel1"), 1);
-    glUniform1i(shaderProgram.getUfmHandle("iChannel2"), 2);
 
-    if (selfOut != NULL)
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, selfOut->getHandle(), 0);
-    else
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, iChannel0->getHandle(), 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ownTexture->getHandle(), 0);
     
     glGenRenderbuffers(1, &renderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
@@ -86,24 +75,20 @@ selfOut(NULL) {
 }
 
 GfxPostProcessor::~GfxPostProcessor() {
-    if (selfOut != NULL)
-        delete selfOut;
-    else
-        delete iChannel0;
+    delete ownTexture;
     glDeleteRenderbuffers(1, &renderBuffer);
     glDeleteFramebuffers(1, &frameBuffer);
 }
 
 void GfxPostProcessor::draw() {
-    if (selfOut != NULL)
-        bindFramebuffer();
     //Drawing will happen with this shader, and these (this) texture
     glUseProgram(shaderProgram.getHandle());
-    iChannel0->bindToUnit(0);
-    if (iChannel1 != NULL)
-        iChannel1->bindToUnit(1);
-    if (iChannel2 != NULL)
-        iChannel2->bindToUnit(2);
+    ownTexture->bindToUnit(0);
+    
+    for (int i=0; i < texCount; i++) {
+        textures[i]->bindToUnit(i+1);
+    }
+        
     //Update time
     glUniform1fv(shaderProgram.getUfmHandle("iGlobalTime"), 1, &common->t);
 
@@ -121,15 +106,12 @@ void GfxPostProcessor::bindFramebuffer() {
 }
 
 GfxTexture2D* GfxPostProcessor::getTexture() {
-    if (selfOut == NULL)
-        return iChannel0;
-    else return selfOut;
+    return ownTexture;
 }
 
-void GfxPostProcessor::takei1(GfxTexture2D* i) {
-    iChannel1 = i;
-}
-
-void GfxPostProcessor::takei2(GfxTexture2D* i) {
-    iChannel2 = i;
+void GfxPostProcessor::takeTexture(GfxTexture2D* t, std::string name) {
+    glUseProgram(shaderProgram.getHandle());
+    glUniform1i(shaderProgram.getUfmHandle(name), texCount+1);
+    textures.push_back(t);
+    texCount++;
 }

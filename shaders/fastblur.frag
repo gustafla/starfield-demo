@@ -17,7 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 uniform vec2 iResolution;
-uniform sampler2D iChannel0;
+uniform sampler2D frameIn;
 
 float offset[5];
 float weight[5];
@@ -36,14 +36,14 @@ void main() {
 
     vec3 fragmentColor;
 
-    fragmentColor = texture2D( iChannel0, gl_FragCoord.xy/iResolution.xy ).rgb * weight[0];
+    fragmentColor = texture2D( frameIn, gl_FragCoord.xy/iResolution.xy ).rgb * weight[0];
     for (int i=1; i<5; i++) {
-        fragmentColor += texture2D( iChannel0, ( vec2(gl_FragCoord)+vec2(0.0, offset[i]) )/iResolution.xy ).rgb * weight[i];
-        fragmentColor += texture2D( iChannel0, ( vec2(gl_FragCoord)-vec2(0.0, offset[i]) )/iResolution.xy ).rgb * weight[i];
+        fragmentColor += texture2D( frameIn, ( vec2(gl_FragCoord)+vec2(0.0, offset[i]) )/iResolution.xy ).rgb * weight[i];
+        fragmentColor += texture2D( frameIn, ( vec2(gl_FragCoord)-vec2(0.0, offset[i]) )/iResolution.xy ).rgb * weight[i];
     }
     for (int i=1; i<5; i++) {
-        fragmentColor += texture2D( iChannel0, ( vec2(gl_FragCoord)+vec2(offset[i], 0.0) )/iResolution.xy ).rgb * weight[i];
-        fragmentColor += texture2D( iChannel0, ( vec2(gl_FragCoord)-vec2(offset[i], 0.0) )/iResolution.xy ).rgb * weight[i];
+        fragmentColor += texture2D( frameIn, ( vec2(gl_FragCoord)+vec2(offset[i], 0.0) )/iResolution.xy ).rgb * weight[i];
+        fragmentColor += texture2D( frameIn, ( vec2(gl_FragCoord)-vec2(offset[i], 0.0) )/iResolution.xy ).rgb * weight[i];
     }
 
     gl_FragColor = vec4(fragmentColor, 1.0);

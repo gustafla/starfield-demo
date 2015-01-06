@@ -23,13 +23,13 @@ This file is part of [DEMO NAME].
 #include "effects/point_flag.hpp"
 #include "rpi_gfx.hpp"
 
-class DemoFlag{
+class PFlag{
 	public:
-		DemoFlag(CommonData* icommon);
-		~DemoFlag();
+		PFlag(CommonData* icommon);
+		~PFlag();
 		void draw();
 	private:
-		PointFlag* flag;
+		EPointFlag* flag;
 };
 
 #endif

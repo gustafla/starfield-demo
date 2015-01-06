@@ -19,6 +19,6 @@ This file is part of [DEMO NAME].
 #ifndef AUDIO_THREAD_HPP
 #define AUDIO_THREAD_HPP
 
-void* playMusic(void* player);
+void* playMusic(void* arg);
 
 #endif

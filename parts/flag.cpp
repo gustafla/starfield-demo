@@ -18,14 +18,14 @@ This file is part of [DEMO NAME].
 
 #include "parts/flag.hpp" 
 
-DemoFlag::DemoFlag(CommonData* icommon) {
-    flag = new PointFlag(icommon);
+PFlag::PFlag(CommonData* icommon) {
+    flag = new EPointFlag(icommon);
 }
 
-DemoFlag::~DemoFlag() {
+PFlag::~PFlag() {
     delete flag;
 }
 
-void DemoFlag::draw() {
+void PFlag::draw() {
     flag->draw();
 }

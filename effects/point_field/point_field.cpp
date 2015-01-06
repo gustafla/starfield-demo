@@ -22,11 +22,11 @@ This file is part of [DEMO NAME].
 #include "gfx_mat.hpp"
 #include <cmath>
 
-PointField::PointField(CommonData* icommon, unsigned int const count):
+EPointField::EPointField(CommonData* icommon, unsigned int const count):
 common(icommon) {
     std::string* fsTemp = new std::string;
     std::string* vsTemp = new std::string;
-    if (!loadFile("textured_point.frag", *fsTemp))
+    if (!loadFile("shaders/textured_point.frag", *fsTemp))
         exit(40);
     if (!loadFile("effects/point_field/star.vert", *vsTemp))
         exit(41);
@@ -67,11 +67,11 @@ common(icommon) {
     glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
 }
 
-PointField::~PointField() {
+EPointField::~EPointField() {
     delete pointTexture;
 }
 
-void PointField::draw() { 
+void EPointField::draw() { 
     //Drawing will happen with this shader, and these (this) texture
     glUseProgram(shaderProgram.getHandle());
     pointTexture->bindToUnit(0);

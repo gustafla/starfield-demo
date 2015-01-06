@@ -158,3 +158,4 @@ bool WavPlayer::done() {
 void WavPlayer::restart() {
     file.seekg(audioDataBegin);
 }
+

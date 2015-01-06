@@ -24,14 +24,14 @@ This file is part of [DEMO NAME].
 #include "effects/point_field.hpp"
 #include "rpi_gfx.hpp"
 
-class DemoStarfield {
+class PStarfield {
     public:
-        DemoStarfield(CommonData* icommon);
-        ~DemoStarfield();
+        PStarfield(CommonData* icommon);
+        ~PStarfield();
         void draw();
     private:
         //CommonData* common;
-        PointField* stars;
+        EPointField* stars;
         GfxScreen*  ovl;
 };
 

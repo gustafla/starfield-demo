@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     /*
      * Yes. Demo in a separate thread and main() waiting for ESC using a weird
      * c lib dependent piece of code.
-     * Why does it have to be this hard?
+     * Why does it have to be this hard? (Maybe I'm just making it hard...)
      */
 
     char const ESC = 27;

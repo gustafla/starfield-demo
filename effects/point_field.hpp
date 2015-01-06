@@ -25,10 +25,10 @@ This file is part of [DEMO NAME].
 #include "gfx_shader.hpp"
 #include "common.hpp"
 
-class PointField {
+class EPointField {
     public:
-        PointField(CommonData* icommon, unsigned int const count=2000);
-        ~PointField();
+        EPointField(CommonData* icommon, unsigned int const count=2000);
+        ~EPointField();
         void draw();
     private:
         CommonData* common;

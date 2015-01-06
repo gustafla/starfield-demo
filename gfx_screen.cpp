@@ -29,7 +29,7 @@ iCount(0) {
     std::string* vsTemp = new std::string;
     if (!loadFile(fs, *fsTemp))
         exit(40);
-    if (!loadFile("simple.vert", *vsTemp))
+    if (!loadFile("shaders/simple.vert", *vsTemp))
         exit(41);
     if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
         exit(1);

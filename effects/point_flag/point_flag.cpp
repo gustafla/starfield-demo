@@ -24,12 +24,12 @@ This file is part of [DEMO NAME].
 #include "rpi_gfx.hpp"
 #include "util.hpp"
 
-PointFlag::PointFlag(CommonData* icommon):
+EPointFlag::EPointFlag(CommonData* icommon):
 common(icommon) {
     //Load, compile, enable shaders
     std::string* fsTemp = new std::string;
     std::string* vsTemp = new std::string;
-    if (!loadFile("textured_point.frag", *fsTemp))
+    if (!loadFile("shaders/textured_point.frag", *fsTemp))
         exit(40);
     if (!loadFile("effects/point_flag/proj_wave_point.vert", *vsTemp))
         exit(41);
@@ -74,11 +74,11 @@ common(icommon) {
     glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
 }
 
-PointFlag::~PointFlag() {
+EPointFlag::~EPointFlag() {
     delete pointTexture;
 }
 
-void PointFlag::draw() {
+void EPointFlag::draw() {
     //Drawing will happen with this shader, and these (this) texture
     glUseProgram(shaderProgram.getHandle());
     pointTexture->bindToUnit(0);
