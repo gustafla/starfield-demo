@@ -1,4 +1,4 @@
 starfield
 *.o
-*.tga
-*.wav
+*.tga*
+*.wav*
