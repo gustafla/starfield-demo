@@ -18,7 +18,7 @@
 
 # A makefile to build [DEMO NAME].
 
-SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp gfx_iobject.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp types.cpp demo_thread.cpp audio_thread.cpp cleanup.cpp parts/plasma_bars.cpp parts/intro.cpp
+SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp gfx_iobject.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp types.cpp demo_thread.cpp audio_thread.cpp cleanup.cpp parts/plasma_bars.cpp parts/intro.cpp fade.cpp
 vectest: SRCS = vectest.cpp
 TARGET = starfield
 vectest: TARGET = vectest
@@ -47,7 +47,8 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f *.o *~ $(TARGET)
-
+	rm -f $(TARGET)
+	find . -name "*.o" -type f -delete
+	
 install: $(TARGET)
 	cp $(TARGET) /usr/local/bin/

@@ -61,8 +61,8 @@ common(icommon) {
     check();
     
     //Generate point "mat"
-    for (float x=-1.2; x<1.2; x+=0.14) {
-        for(float y=-0.9; y<0.9; y+=0.14) {
+    for (float x=-4.0; x<4.0; x+=0.14) {
+        for(float y=-3.0; y<3.0; y+=0.14) {
             points.push_back(x);
             points.push_back(y);
             points.push_back(0.0);

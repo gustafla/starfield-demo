@@ -21,7 +21,7 @@ This file is part of [DEMO NAME].
 #include "tga_file.hpp"
 #include <string>
 
-GfxScreen::GfxScreen(CommonData* icommon, std::string fs, std::string i0):
+GfxScreen::GfxScreen(CommonData* icommon, std::string fs, std::string i0, float c): //float c has to match framebuffer size to avoit odd effects!
 common(icommon),
 iCount(0) {
     //Load, compile, enable shaders
@@ -37,8 +37,13 @@ iCount(0) {
     delete vsTemp;
     glUseProgram(shaderProgram.getHandle());
 
+    GLfloat res[2] = {
+        common->res[0]/c,
+        common->res[1]/c
+    };
+
     //Set miscellanous shader uniform pointers
-    glUniform2fv(shaderProgram.getUfmHandle("iResolution"), 1, common->res);
+    glUniform2fv(shaderProgram.getUfmHandle("iResolution"), 1, res);
     glUniform1fv(shaderProgram.getUfmHandle("iGlobalTime"), 1, &common->t);
 
     check();

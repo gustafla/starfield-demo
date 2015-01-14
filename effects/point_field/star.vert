@@ -35,9 +35,9 @@ void main() {
     v.z = mod(v.z, 10.0);
     v.z -= 5.0;
 	v *= yRotation * xRotation * zRotation;
-    //v.y-=abs(sin((iGlobalTime*0.5)*PI*BPS)*0.2);
+    //v.z-=beat*0.05; //This looks bad.
     //v.z-=pow(max(0.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))),max(1.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))));
     float perspective = clamp(((v.z/4.0)+1.0), 0.0, 1.0);
-	gl_PointSize = (iResolution.x/20.0)*(perspective*perspective)*((1.0-beat)+0.4);
+	gl_PointSize = (iResolution.x/20.0)*(perspective*perspective)*((1.0-beat*0.7)+0.4);
     gl_Position = v * projection;
 }

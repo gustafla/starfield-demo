@@ -109,6 +109,10 @@ GfxTexture2D* GfxPostProcessor::getTexture() {
     return ownTexture;
 }
 
+GfxShader* GfxPostProcessor::getShader() {
+    return &shaderProgram;
+}
+
 void GfxPostProcessor::takeTexture(GfxTexture2D* t, std::string name) {
     glUseProgram(shaderProgram.getHandle());
     glUniform1i(shaderProgram.getUfmHandle(name), texCount+1);

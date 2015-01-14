@@ -35,6 +35,8 @@ This file is part of [DEMO NAME].
 #include "parts/flag.hpp"
 #include "parts/plasma_bars.hpp"
 
+#include "fade.hpp"
+
 #define BPS 122.0/60.0
 
 /*
@@ -90,10 +92,12 @@ void* playDemo(void* arg) {
     crt.takeTexture(blur.getTexture(), "blurFrame");
     bool doPP = false;
 
+    //demo parts :D
     PIntro     p0(&common);
     PStarfield p1(&common);
 	PFlag      p2(&common);
     PPlasma    p3(&common);
+    Fade*      fade;
     
 	unsigned int  part = 0;
 	float  tPartStart  = 0.0;
@@ -120,37 +124,72 @@ void* playDemo(void* arg) {
         gettimeofday(&tTmp, &tz);
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
         common.t = t-tLoopStart;
+        //and a rythmic pulse
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
         if (doPP)
             crt.bindFramebuffer(); //drawing to the "root" PP
-        else
-            gfxBindFB0();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        switch (part) {
+        switch (part) { //Demo in a switch :)
 			case 0:
 				p0.draw();
-				if (t-tLoopStart > tPartStart+31.0){
+				if (t-tLoopStart > tPartStart+30.0){ //30.0
+                    fade = new Fade(&common, 0.6);
+                    p0.draw(fade); //Hackish... But works :/
+					part++;
+					tPartStart = t-tLoopStart;
+                    doPP = false;
+                    gfxBindFB0();
+				}
+				break;
+            case 1:
+				fade->draw();
+				if (t-tLoopStart > tPartStart+0.6){
+                    delete fade;
 					part++;
 					tPartStart = t-tLoopStart;
                     doPP = true;
 				}
 				break;
-			case 1:
+			case 2:
 				p1.draw();
-				if (t-tLoopStart > tPartStart+10.0){
+				if (t-tLoopStart > tPartStart+30.0){
+                    fade = new Fade(&common, 0.5);
+                    fade->bindFramebuffer();
+                    p1.draw();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
 				break;
-            case 2:
-                p2.draw();
-                if (t-tLoopStart > tPartStart+10.0){
+            case 3:
+                fade->draw();
+                if (t-tLoopStart > tPartStart+0.5){
+                    delete fade;
+                    fade = new Fade(&common, 0.5, FADE_BLACK_IN);
 					part++;
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 3:
+            case 4:
+                fade->bindFramebuffer();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                p2.draw();
+                crt.bindFramebuffer();
+                fade->draw();
+                if (t-tLoopStart > tPartStart+0.5){
+                    delete fade;
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 5:
+                p2.draw();
+                if (t-tLoopStart > tPartStart+16.0){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 6:
                 p3.draw();
                 if (t-tLoopStart > tPartStart+10.0){
 					part++;
@@ -158,9 +197,10 @@ void* playDemo(void* arg) {
 				}
                 break;
 			default:
-				part = 0;
+				part = 2; //0?
 				tLoopStart = t;
 				tPartStart = t-tLoopStart;
+                doPP = true; //false?
 				break;
 		}
         if (doPP) {
@@ -172,7 +212,7 @@ void* playDemo(void* arg) {
         }
         //What was just drawn will now get read by the screen driver
         window.swapBuffers();
-        //For clarity, it's good to clear both frame- and renderbuffer
+        //For clarity, it's good to clear both frame- and renderbuffer... or maybe not... I'll check this later
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         if (c.audio) {

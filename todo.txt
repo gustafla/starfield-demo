@@ -5,5 +5,10 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 ------------------------------------------------------
 
 - Accommodate for different size audio h/w buffers
-- Screen and pp shader tex ufm names
 - A simple resource loader/handler object
+- Sync'd noise blur?
+- uniform frameIn or iChannel0?
+
+DONE:
+
+- Screen and pp shader tex ufm names 

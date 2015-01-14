@@ -33,6 +33,7 @@ class GfxPostProcessor {
         void draw();
         void bindFramebuffer();
         GfxTexture2D* getTexture();
+        GfxShader* getShader();
         void takeTexture(GfxTexture2D* t, std::string name);
     private:
         CommonData* common;

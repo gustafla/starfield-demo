@@ -27,7 +27,7 @@ This file is part of [DEMO NAME].
 
 class GfxScreen {
     public:
-        GfxScreen(CommonData* icommon, std::string fs, std::string i0="");
+        GfxScreen(CommonData* icommon, std::string fs, std::string i0="", float c=1.0);
         void draw();
     private:
         GfxTexture2D* i;
