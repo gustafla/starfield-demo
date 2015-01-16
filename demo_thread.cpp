@@ -99,7 +99,7 @@ void* playDemo(void* arg) {
     PPlasma    p3(&common);
     Fade*      fade;
     
-	unsigned int  part = 0;
+	int    part = c.partStart;
 	float  tPartStart  = 0.0;
 	float  tLoopStart  = 0.0;
 
@@ -132,6 +132,7 @@ void* playDemo(void* arg) {
 
         switch (part) { //Demo in a switch :)
 			case 0:
+                doPP = false;
 				p0.draw();
 				if (t-tLoopStart > tPartStart+30.0){ //30.0
                     fade = new Fade(&common, 0.6);
@@ -143,15 +144,17 @@ void* playDemo(void* arg) {
 				}
 				break;
             case 1:
+                doPP = false;
 				fade->draw();
 				if (t-tLoopStart > tPartStart+0.6){
                     delete fade;
 					part++;
 					tPartStart = t-tLoopStart;
-                    doPP = true;
+                    
 				}
 				break;
 			case 2:
+                doPP = true;
 				p1.draw();
 				if (t-tLoopStart > tPartStart+30.0){
                     fade = new Fade(&common, 0.5);
@@ -162,6 +165,7 @@ void* playDemo(void* arg) {
 				}
 				break;
             case 3:
+                doPP = true;
                 fade->draw();
                 if (t-tLoopStart > tPartStart+0.5){
                     delete fade;
@@ -171,6 +175,7 @@ void* playDemo(void* arg) {
 				}
                 break;
             case 4:
+                doPP = true;
                 fade->bindFramebuffer();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 p2.draw();
@@ -183,6 +188,7 @@ void* playDemo(void* arg) {
 				}
                 break;
             case 5:
+                doPP = true;
                 p2.draw();
                 if (t-tLoopStart > tPartStart+16.0){
 					part++;
@@ -190,6 +196,7 @@ void* playDemo(void* arg) {
 				}
                 break;
             case 6:
+                doPP = true;
                 p3.draw();
                 if (t-tLoopStart > tPartStart+10.0){
 					part++;

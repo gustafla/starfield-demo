@@ -34,6 +34,8 @@ public:
     bool fpsCounter;
     bool audio;
     unsigned short fpsIn;
+    
+    int partStart;
 };
 
 #endif

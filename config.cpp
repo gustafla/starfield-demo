@@ -31,7 +31,8 @@ y(0),
 stretch(1),
 fpsCounter(false),
 audio(true),
-fpsIn(100)
+fpsIn(100),
+partStart(0)
 {
     /*YAY crappy parameter checking ^__^*/
     for (int n=1; n<argc; n++)
@@ -107,16 +108,22 @@ fpsIn(100)
                                              exit(4);
                                          }
                                      }
-                                         else if (!strcmp(argv[n], "--no-audio") || !strcmp(argv[n], "--no-sound") || !strcmp(argv[n], "--no-music"))
+                                         else if (!strcmp(argv[n], "-p"))
                                          {
-                                             audio=false;
+                                             n++;
+                                             checkValueParam(n, argc, argv);
+                                             partStart = atoi(argv[n]);
                                          }
-                                             else
-                                             {
-                                                 std::cout << ARGERR;
-                                                 sleep(5);
-                                                 exit(5);
-                                             }
+                                            else if (!strcmp(argv[n], "--no-audio") || !strcmp(argv[n], "--no-sound") || !strcmp(argv[n], "--no-music"))
+                                            {
+                                                audio=false;
+                                            }
+                                                else
+                                                {
+                                                    std::cout << ARGERR;
+                                                    sleep(5);
+                                                    exit(5);
+                                                }
     }
     
     int errDisp;

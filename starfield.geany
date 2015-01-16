@@ -23,7 +23,7 @@ long_line_behaviour=1
 long_line_column=255
 
 [files]
-current_page=10
+current_page=8
 FILE_NAME_0=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio.cpp;0;4
 FILE_NAME_1=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio.hpp;0;4
 FILE_NAME_2=939;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio_thread.cpp;0;4
@@ -32,8 +32,8 @@ FILE_NAME_4=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fclean
 FILE_NAME_5=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fcleanup.hpp;0;4
 FILE_NAME_6=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fcommon.cpp;0;4
 FILE_NAME_7=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fcommon.hpp;0;4
-FILE_NAME_8=4683;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fconfig.cpp;0;4
-FILE_NAME_9=964;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fconfig.hpp;0;4
+FILE_NAME_8=4096;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fconfig.cpp;0;4
+FILE_NAME_9=1014;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fconfig.hpp;0;4
 FILE_NAME_10=5565;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fdemo_thread.cpp;0;4
 FILE_NAME_11=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fdemo_thread.hpp;0;4
 FILE_NAME_12=0;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fgetch.cpp;0;4
