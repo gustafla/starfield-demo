@@ -1,25 +1,25 @@
 // Copyright 2014 Lauri Gustafsson
 /*
-This file is part of wassembly14-intro.
+This file is part of [DEMO NAME].
 
-    wassembly14-intro is free software: you can redistribute it and/or modify
+    [DEMO NAME] is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    wassembly14-intro is distributed in the hope that it will be useful,
+    [DEMO NAME] is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with wassembly14-intro, see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "gfx_texture_2D.hpp"
 
-GfxTexture2D::GfxTexture2D(const unsigned char* image, unsigned int w, unsigned int h, unsigned int bind, uint32_t format, uint32_t filter, uint32_t wrap) {
-    glActiveTexture(GL_TEXTURE0+bind);
+GfxTexture2D::GfxTexture2D(const unsigned char* image, unsigned int w, unsigned int h, uint32_t format, uint32_t filter, uint32_t wrap) {
+    glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &handle);
     glBindTexture(GL_TEXTURE_2D, handle);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
@@ -27,6 +27,17 @@ GfxTexture2D::GfxTexture2D(const unsigned char* image, unsigned int w, unsigned 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
     glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, image);
+}
+
+GfxTexture2D::GfxTexture2D(std::string filename, uint32_t filter, uint32_t wrap) {
+    glActiveTexture(GL_TEXTURE0);
+    glGenTextures(1, &handle);
+    glBindTexture(GL_TEXTURE_2D, handle);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+    loadFromFile(filename);
 }
 
 GfxTexture2D::~GfxTexture2D() {
@@ -41,12 +52,20 @@ GLuint GfxTexture2D::getHandle()
 void GfxTexture2D::bindToUnit(unsigned int unit) {
     glActiveTexture(GL_TEXTURE0+unit);
     glBindTexture(GL_TEXTURE_2D, handle);
-    bound = unit;
 }
 
 void GfxTexture2D::image2D(unsigned char* image, unsigned int w, unsigned int h, uint32_t format) {
     bindToUnit(0);
     glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, image);
+}
+
+void GfxTexture2D::loadFromFile(std::string filename) {
+    TGAFile* image;
+
+    image = new TGAFile;
+    image->load(filename);
+    image2D(image->getImage(), image->getWidth(), image->getHeight(), ((image->getBpp() == 32) ? GL_RGBA : GL_RGB));
+    delete image;
 }
 
 /*void gfxLoadTexture2D(const unsigned char* image, unsigned int w, unsigned int h, uint32_t format, uint32_t filter, uint32_t wrap)

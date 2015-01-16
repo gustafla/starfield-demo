@@ -41,13 +41,8 @@ common(icommon) {
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture
-    TGAFile* image;
-
-    image = new TGAFile;
-    image->load("mehu256.tga");
-    pointTexture = new GfxTexture2D(image->getImage(), image->getWidth(), image->getHeight(), 0, ((image->getBpp() == 32) ? GL_RGBA : GL_RGB));
+    pointTexture = new GfxTexture2D("mehu256.tga");
     pointTexture->bindToUnit(0);
-    delete image;
     glUniform1i(shaderProgram.getUfmHandle("pointTexture"), 0);
 
     //Set miscellanous shader uniforms
@@ -61,8 +56,8 @@ common(icommon) {
     check();
     
     //Generate point "mat"
-    for (float x=-4.0; x<4.0; x+=0.14) {
-        for(float y=-3.0; y<3.0; y+=0.14) {
+    for (float x=-1.6; x<1.6; x+=0.14) {
+        for(float y=-1.1; y<1.1; y+=0.14) {
             points.push_back(x);
             points.push_back(y);
             points.push_back(0.0);

@@ -24,7 +24,7 @@ GfxNoiseTexture::GfxNoiseTexture(unsigned int w, unsigned int h) {
     height = h;
 
     image = (unsigned char*)malloc(width * height * 3);
-    texture = new GfxTexture2D(image, width, height, 0);
+    texture = new GfxTexture2D(image, width, height, 0); //Bug? Don't care. Not using noise textures now as glsl rand is not slower.
     generate();
 }
 

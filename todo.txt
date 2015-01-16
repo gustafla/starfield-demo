@@ -5,9 +5,10 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 ------------------------------------------------------
 
 - Accommodate for different size audio h/w buffers
-- A simple resource loader/handler object
+- A simple resource loader/handler object (Only VBO, actually...)
+- TGA file support into gfxTexture2D!
 - Sync'd noise blur?
-- uniform frameIn or iChannel0?
+- Movable gfx_screens!??
 
 DONE:
 

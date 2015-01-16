@@ -37,12 +37,8 @@ common(icommon) {
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture
-    TGAFile* image;
-    image = new TGAFile;
-    image->load("star.tga");
-    pointTexture = new GfxTexture2D(image->getImage(), image->getWidth(), image->getHeight(), 0, ((image->getBpp() == 32) ? GL_RGBA : GL_RGB));
+    pointTexture = new GfxTexture2D("star.tga");
     pointTexture->bindToUnit(0);
-    delete image;
     glUniform1i(shaderProgram.getUfmHandle("pointTexture"), 0);
 
     //Set miscellanous shader uniforms

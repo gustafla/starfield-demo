@@ -49,11 +49,7 @@ iCount(0) {
     check();
     
     if (i0 != "") {
-        TGAFile* image;
-        image = new TGAFile;
-        image->load(i0);
-        i = new GfxTexture2D(image->getImage(), image->getWidth(), image->getHeight(), 0, ((image->getBpp() == 32) ? GL_RGBA : GL_RGB));
-        delete image;
+        i = new GfxTexture2D(i0);
         glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
         iCount=1;
     }
