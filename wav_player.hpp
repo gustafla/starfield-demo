@@ -29,7 +29,7 @@ This file is part of [DEMO NAME].
 
 class WavPlayer {
     public:
-        WavPlayer(std::string filename, unsigned int ibufferSize=512);
+        WavPlayer(std::string filename, float startAt=0.0f, unsigned int ibufferSize=512);
         ~WavPlayer();
         int playFrame();
         bool done();

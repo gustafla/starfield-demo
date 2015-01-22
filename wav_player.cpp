@@ -28,7 +28,7 @@ void WavPlayer::errorPrint(std::string filename)
     exit(609);
 }
 
-WavPlayer::WavPlayer(std::string filename, unsigned int bufferSize):
+WavPlayer::WavPlayer(std::string filename, float startAt, unsigned int bufferSize):
 bufferSize(bufferSize) {
     char id[4];
     char const RIFF[4] = {
@@ -132,6 +132,9 @@ bufferSize(bufferSize) {
     size = data_size;
     
     audioDataBegin = file.tellg();
+    std::streampos startPos = audioDataBegin;
+    startPos += 2*sampleRate*2*startAt; //bytes_in_int16*sampleRate*channels*start_time
+    file.seekg(startPos);
     playbackDevice = new AudioOut("default", bufferSize, sampleRate);
 }
 

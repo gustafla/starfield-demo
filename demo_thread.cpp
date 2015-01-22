@@ -30,12 +30,13 @@ This file is part of [DEMO NAME].
 #include "gfx_noise_texture.hpp"
 #include <iostream>
 
+#include "fade.hpp"
+#include "demo_timing.hpp"
+
 #include "parts/starfield.hpp"
 #include "parts/intro.hpp"
 #include "parts/flag.hpp"
 #include "parts/plasma_bars.hpp"
-
-#include "fade.hpp"
 
 #define BPS 122.0/60.0
 
@@ -81,7 +82,12 @@ void* playDemo(void* arg) {
     
     WavPlayer* music = NULL;
     if (c.audio) {
-        music = new WavPlayer("music.wav");
+        float startAt=0.0;
+        for (unsigned int partTi = 0; partTi < c.partStart; partTi++) {
+            startAt += PART_TIMES[partTi]; //Skip music to the '-p' start time too
+        }
+        //startAt -= PART_TIMES[c.partStart]; //Back to the beginning of the first shown part
+        music = new WavPlayer("music.wav", startAt);
         pthread_t audioThread;
         pthread_create(&audioThread, NULL, playMusic, (void*)music);
     }
@@ -134,7 +140,7 @@ void* playDemo(void* arg) {
 			case 0:
                 doPP = false;
 				p0.draw();
-				if (t-tLoopStart > tPartStart+30.0){ //30.0
+				if (t-tLoopStart > tPartStart+PART_TIMES[part]){ //30.0
                     fade = new Fade(&common, 0.6);
                     p0.draw(fade); //Hackish... But works :/
 					part++;
@@ -146,7 +152,7 @@ void* playDemo(void* arg) {
             case 1:
                 doPP = false;
 				fade->draw();
-				if (t-tLoopStart > tPartStart+0.6){
+				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     delete fade;
 					part++;
 					tPartStart = t-tLoopStart;
@@ -156,7 +162,7 @@ void* playDemo(void* arg) {
 			case 2:
                 doPP = true;
 				p1.draw();
-				if (t-tLoopStart > tPartStart+30.0){
+				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     fade = new Fade(&common, 0.5);
                     fade->bindFramebuffer();
                     p1.draw();
@@ -167,7 +173,7 @@ void* playDemo(void* arg) {
             case 3:
                 doPP = true;
                 fade->draw();
-                if (t-tLoopStart > tPartStart+0.5){
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     delete fade;
                     fade = new Fade(&common, 0.5, FADE_BLACK_IN);
 					part++;
@@ -181,7 +187,7 @@ void* playDemo(void* arg) {
                 p2.draw();
                 crt.bindFramebuffer();
                 fade->draw();
-                if (t-tLoopStart > tPartStart+0.5){
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     delete fade;
 					part++;
 					tPartStart = t-tLoopStart;
@@ -190,7 +196,7 @@ void* playDemo(void* arg) {
             case 5:
                 doPP = true;
                 p2.draw();
-                if (t-tLoopStart > tPartStart+16.0){
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;
 				}
@@ -198,7 +204,7 @@ void* playDemo(void* arg) {
             case 6:
                 doPP = true;
                 p3.draw();
-                if (t-tLoopStart > tPartStart+10.0){
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;
 				}

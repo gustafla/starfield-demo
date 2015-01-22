@@ -4,12 +4,13 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
   T     OOO   DDDD    OOO    ..      T    XX  X    T  
 ------------------------------------------------------
 
-- Accommodate for different size audio h/w buffers
-- A simple resource loader/handler object (Only VBO, actually...)
-- TGA file support into gfxTexture2D!
+- Accommodate for different size audio h/w buffers (timing)
+- A simple resource loader/handler object (Only VBO+VAO, actually...)
 - Sync'd noise blur?
 - Movable gfx_screens!??
+- Edit help
 
 DONE:
 
+- TGA file support into gfxTexture2D!
 - Screen and pp shader tex ufm names 

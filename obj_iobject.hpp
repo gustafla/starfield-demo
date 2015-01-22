@@ -17,6 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 #include <vector>
+#include <string>
 
 class IndexedObject {
     public:
@@ -26,7 +27,7 @@ class IndexedObject {
         std::vector<unsigned int>* getIndices();*/
         int getISize();
         int getVSize();
-        bool loadObjFile(const char* file);
+        bool loadObjFile(std::string file);
     private:
         std::vector<float> vertices;
         std::vector<unsigned int> indices;

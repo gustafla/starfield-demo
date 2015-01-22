@@ -17,7 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 #include "types.hpp"
-#include "gfx_iobject.hpp"
+#include "obj_iobject.hpp"
 #include <fstream>
 #include <vector>
 #include <iostream>
@@ -40,11 +40,11 @@ int IndexedObject::getVSize() {
     return vertices.size();
 }
 
-bool IndexedObject::loadObjFile(const char* file) {
+bool IndexedObject::loadObjFile(std::string file) {
     std::vector<std::string*> coord;
     std::vector<vec3*> normals;
 
-    std::ifstream in(file);
+    std::ifstream in(file.c_str());
     if (!in.is_open()) {
         std::cout << file << ": no such file.\n";
         return false;
