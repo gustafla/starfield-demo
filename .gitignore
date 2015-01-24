@@ -1,5 +1,6 @@
 starfield
 *.o
+*.obj
 *.tga*
 *.wav*
 *.d
