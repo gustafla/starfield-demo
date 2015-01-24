@@ -37,6 +37,7 @@ This file is part of [DEMO NAME].
 #include "parts/intro.hpp"
 #include "parts/flag.hpp"
 #include "parts/plasma_bars.hpp"
+#include "parts/cube.hpp"
 
 #define BPS 122.0/60.0
 
@@ -103,6 +104,7 @@ void* playDemo(void* arg) {
     PStarfield p1(&common);
 	PFlag      p2(&common);
     PPlasma    p3(&common);
+    PCube      p4(&common);
     Fade*      fade;
     
 	int    part = c.partStart;
@@ -204,6 +206,14 @@ void* playDemo(void* arg) {
             case 6:
                 doPP = true;
                 p3.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 7:
+                doPP = true;
+                p4.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;

@@ -133,7 +133,7 @@ bufferSize(bufferSize) {
     
     audioDataBegin = file.tellg();
     std::streampos startPos = audioDataBegin;
-    startPos += 2*sampleRate*2*startAt; //bytes_in_int16*sampleRate*channels*start_time
+    startPos += 2*sampleRate*2*startAt + bufferSize; //bytes_in_int16*sampleRate*channels*start_time
     file.seekg(startPos);
     playbackDevice = new AudioOut("default", bufferSize, sampleRate);
 }

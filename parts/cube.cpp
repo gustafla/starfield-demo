@@ -16,32 +16,27 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_SHADER_HPP
-#define GFX_SHADER_HPP
+#include "cube.hpp"
 
-#include <map>
-#include <string>
-#include "rpi_gfx.hpp"
+PCube::PCube(CommonData* icommon):
+common(icommon) {
+    shader = new GfxShader("shaders/generic.vert", "shaders/green.frag");
+}
 
-class GfxShader
-{
-public:
-    GfxShader();
-    GfxShader(std::string vsName, std::string fsName);
-    ~GfxShader();
-    GLuint getHandle();
-    unsigned int getUfmHandle(std::string);
-    unsigned int getAtrHandle(std::string);
-    GLint compProgram(std::string vsString, std::string fsString);
-    void use();
+PCube::~PCube() {
+    delete shader;
+    common->models->freeModel("cube.obj");
+}
 
-protected:
-    std::map<std::string, unsigned int> uniforms;
-    std::map<std::string, unsigned int> attributes;
+void PCube::draw() {
+    shader->use();
+    getXRotMat(xr, common->t*0.2);
+    getYRotMat(yr, common->t*0.8);
+    getZRotMat(zr, common->t*0.6);
 
-    GLuint compShader(GLenum type, const char* src);
-
-    GLuint handle;
-};
-
-#endif
+    glUniformMatrix4fv(shader->getUfmHandle("xRotation"), 1, GL_FALSE, xr);
+    glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
+    glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
+    
+    common->models->getModel("cube.obj")->draw(shader);
+}

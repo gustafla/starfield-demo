@@ -17,12 +17,27 @@ This file is part of [DEMO NAME].
 */
 
 #include "gfx_shader.hpp"
+#include "util.hpp"
 #include <iostream>
 
 GfxShader::GfxShader():
 handle(0)
 {
 
+}
+
+GfxShader::GfxShader(std::string vsName, std::string fsName):
+handle(0)
+{
+    //Load, compile shaders
+    std::string fsTemp;
+    std::string vsTemp;
+    if (!loadFile(fsName, fsTemp))
+        exit(40);
+    if (!loadFile(vsName, vsTemp))
+        exit(41);
+    if(compProgram(vsTemp, fsTemp) == GL_FALSE)
+        exit(1);
 }
 
 GfxShader::~GfxShader() {
@@ -124,4 +139,8 @@ GLint GfxShader::compProgram(std::string vsString, std::string fsString)
     glDeleteShader(fragmentShader);
 
     return GL_TRUE;
+}
+
+void GfxShader::use() {
+    glUseProgram(handle);
 }

@@ -19,6 +19,8 @@ This file is part of [DEMO NAME].
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#include "gfx_model_handler.hpp"
+
 class CommonData {
     public:
         CommonData(unsigned int x, unsigned int y);
@@ -27,6 +29,8 @@ class CommonData {
         float res[2];
         float halfYRes[2];
         float beatHalfSine;
+        
+        GfxModelHandler* models;
 };
 
 #endif

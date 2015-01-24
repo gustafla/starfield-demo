@@ -24,4 +24,5 @@ beatHalfSine(0.0f) {
     halfYRes[0] = res[0] = x;
     res[1] = y;
     halfYRes[1] = y/2;
+    models = new GfxModelHandler;
 }

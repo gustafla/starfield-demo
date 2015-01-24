@@ -16,32 +16,28 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_SHADER_HPP
-#define GFX_SHADER_HPP
+#ifndef DEMO_CUBE_HPP
+#define DEMO_CUBE_HPP
 
-#include <map>
-#include <string>
+#include "common.hpp"
+#include "gfx_shader.hpp"
+#include "gfx_mat.hpp"
+#include "gfx_model.hpp"
 #include "rpi_gfx.hpp"
 
-class GfxShader
-{
-public:
-    GfxShader();
-    GfxShader(std::string vsName, std::string fsName);
-    ~GfxShader();
-    GLuint getHandle();
-    unsigned int getUfmHandle(std::string);
-    unsigned int getAtrHandle(std::string);
-    GLint compProgram(std::string vsString, std::string fsString);
-    void use();
-
-protected:
-    std::map<std::string, unsigned int> uniforms;
-    std::map<std::string, unsigned int> attributes;
-
-    GLuint compShader(GLenum type, const char* src);
-
-    GLuint handle;
+class PCube{
+	public:
+		PCube(CommonData* icommon);
+		~PCube();
+		void draw();
+	private:
+        GfxShader* shader;
+        
+        CommonData* common;
+        
+        GLfloat xr[16];
+        GLfloat yr[16];
+        GLfloat zr[16];
 };
 
 #endif
