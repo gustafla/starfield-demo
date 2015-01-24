@@ -7,17 +7,7 @@ GfxModel::GfxModel(std::string objFileName) {
     
     if(!obj->loadObjFile(objFileName))
         exit(-200);
-/*
-    std::vector<float> vertices;
-    for (int n=0; n<obj->getISize(); n++) {
-        vertices.push_back(obj->getVertices()[obj->getIndices()[n]*3]);
-        vertices.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);
-        vertices.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);
-    }
-    size = vertices.size();
-*/
-    //delete obj;
-    
+
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, obj->getVSize(), obj->getVertices(), GL_STATIC_DRAW);

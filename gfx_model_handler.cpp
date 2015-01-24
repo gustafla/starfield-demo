@@ -4,7 +4,7 @@ GfxModel* GfxModelHandler::getModel(std::string name) {
     if (models.find(name) == models.end()) { //If there is no model name
         models[name] = new GfxModel(name);   //Create and map
     }
-    return models[name]; //Give a pointer to the models in heap
+    return models[name]; //Give a pointer to the model in heap
 }
 
 bool GfxModelHandler::freeModel(std::string name) {
