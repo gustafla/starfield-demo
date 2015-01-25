@@ -28,7 +28,7 @@ float* IndexedObject::getVertices() {
     return &vertices[0];
 }
 
-unsigned int* IndexedObject::getIndices() {
+unsigned short* IndexedObject::getIndices() {
     return &indices[0];
 }
 
@@ -70,7 +70,7 @@ bool IndexedObject::loadObjFile(std::string file) {
             sscanf(coord[i]->c_str(), "vn %f %f %f", &tx, &ty, &tz);
             normals.push_back(new vec3(tx, ty, tz));
         } else if (coord[i]->c_str()[0]=='f') {
-            int a, b, c;
+            unsigned short a, b, c;
             if (count(coord[i]->begin(), coord[i]->end(), ' ') == 3) {
                 sscanf(coord[i]->c_str(), "f %d %d %d", &a, &b, &c);
                 std::cout << "Loader: Triangle indices: " << a << " " << b << " " << c << std::endl;

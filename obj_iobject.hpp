@@ -21,14 +21,12 @@ This file is part of [DEMO NAME].
 
 class IndexedObject {
     public:
-        float* getVertices/*Ptr*/();
-        unsigned int* getIndices/*Ptr*/();/*
-        std::vector<float>* getVertices();
-        std::vector<unsigned int>* getIndices();*/
+        float* getVertices();
+        unsigned short* getIndices();
         int getISize();
         int getVSize();
         bool loadObjFile(std::string file);
     private:
         std::vector<float> vertices;
-        std::vector<unsigned int> indices;
+        std::vector<unsigned short> indices;
 };

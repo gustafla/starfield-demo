@@ -21,6 +21,10 @@ This file is part of [DEMO NAME].
 PCube::PCube(CommonData* icommon):
 common(icommon) {
     shader = new GfxShader("shaders/generic.vert", "shaders/green.frag");
+    shader->use();
+    GLfloat pProjMat[16] = {0};
+    getPProjMat(pProjMat, 60.0, ((float)common->res[0])/((float)common->res[1]));
+    glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
 }
 
 PCube::~PCube() {
@@ -37,6 +41,6 @@ void PCube::draw() {
     glUniformMatrix4fv(shader->getUfmHandle("xRotation"), 1, GL_FALSE, xr);
     glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
     glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
-    
+    gfxBindFB0();
     common->models->getModel("cube.obj")->draw(shader);
 }
