@@ -52,11 +52,13 @@ common(icommon) {
     check();
 
     //Create the random "starfield"
+    std::vector<float> geometry;
     for (int create_i = 0; create_i < count; create_i++) {
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 		geometry.push_back((((float)((rand() % 10000)/10000.0f))-0.5f)*10.0f);
 	}
+    vertices = new GfxModel("", &geometry[0], geometry.size(), GL_POINTS);
     
     //Create projection matrix
     getPProjMat(pProjMat, 40.0f, common->res[0]/common->res[1]);
@@ -65,6 +67,7 @@ common(icommon) {
 
 EPointField::~EPointField() {
     delete pointTexture;
+    delete vertices;
 }
 
 void EPointField::draw() { 
@@ -86,9 +89,6 @@ void EPointField::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 3, GL_FLOAT, GL_FALSE, 0, &geometry[0]);
-    glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
-
-    glDrawArrays(GL_POINTS, 0, geometry.size()/3);
+    vertices->draw(&shaderProgram);
     //Most waving and perspective magic happens in the shaders
 }

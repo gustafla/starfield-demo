@@ -7,11 +7,12 @@
 
 class GfxModel {
     public:
-        GfxModel(std::string objFileName);
+        GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
         ~GfxModel();
         void draw(GfxShader* shaderProgram);
         void changeShader();
     private:
+        GLuint drawmode;
         GLuint vbo;
         //GLuint indexBuffer;
         std::vector<float> geometry;

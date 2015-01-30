@@ -20,10 +20,10 @@ This file is part of [DEMO NAME].
 
 PCube::PCube(CommonData* icommon):
 common(icommon) {
-    shader = new GfxShader("shaders/generic.vert", "shaders/green.frag");
+    shader = new GfxShader("shaders/cube.vert", "shaders/green.frag");
     shader->use();
     GLfloat pProjMat[16] = {0};
-    getPProjMat(pProjMat, 60.0, ((float)common->res[0])/((float)common->res[1]));
+    getPProjMat(pProjMat, 40.0, ((float)common->res[0])/((float)common->res[1]));
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
     cubeModel = common->models->getModel("cube.obj");
 }

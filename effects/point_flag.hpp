@@ -32,8 +32,9 @@ class EPointFlag {
         void draw();
     private:
         CommonData* common;
-        std::vector<GLfloat> points;
+        //std::vector<GLfloat> points;
         GfxTexture2D* pointTexture;
+        GfxModel* vertices;
         GfxShader shaderProgram;
 
         float pProjMat[16];

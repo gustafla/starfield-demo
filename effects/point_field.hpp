@@ -34,7 +34,8 @@ class EPointField {
         CommonData* common;
         GfxShader shaderProgram;
         GfxTexture2D* pointTexture;
-        std::vector<GLfloat> geometry;
+        //std::vector<GLfloat> geometry;
+        GfxModel* vertices;
 
         GLfloat pProjMat[16];
         GLfloat rotationMatrices[3][16];

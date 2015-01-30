@@ -56,6 +56,7 @@ common(icommon) {
     check();
     
     //Generate point "mat"
+    std::vector<float> points;
     for (float x=-1.6; x<1.6; x+=0.14) {
         for(float y=-1.1; y<1.1; y+=0.14) {
             points.push_back(x);
@@ -63,6 +64,7 @@ common(icommon) {
             points.push_back(0.0);
         }   
     }
+    vertices = new GfxModel("", &points[0], points.size(), GL_POINTS);
     
     //Create projection matrix
     getPProjMat(pProjMat, 40.0f, common->res[0]/common->res[1]);
@@ -71,6 +73,7 @@ common(icommon) {
 
 EPointFlag::~EPointFlag() {
     delete pointTexture;
+    delete vertices;
 }
 
 void EPointFlag::draw() {
@@ -92,9 +95,6 @@ void EPointFlag::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 3, GL_FLOAT, GL_FALSE, 0, &points[0]);
-    glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
-
-    glDrawArrays(GL_POINTS, 0, points.size()/3);
+    vertices->draw(&shaderProgram);
     //Most waving and perspective magic happens in the shaders
 }

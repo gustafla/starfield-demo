@@ -53,7 +53,7 @@ texCount(0) {
 
     check();
 
-    ownTexture = new GfxTexture2D(NULL, res[0], res[1], GL_RGB, filter);
+    ownTexture = new GfxTexture2D(NULL, res[0], res[1], GL_RGB, filter, GL_CLAMP_TO_EDGE);
     glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ownTexture->getHandle(), 0);
