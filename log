@@ -1,24 +1,12 @@
-Loader: Unrecognized: o Cube_Cube.001
-Loader: Vertex: -1 -1 1
-Loader: Vertex: -1 -1 -1
-Loader: Vertex: 1 -1 -1
-Loader: Vertex: 1 -1 1
-Loader: Vertex: -1 1 1
-Loader: Vertex: -1 1 -1
-Loader: Vertex: 1 1 -1
-Loader: Vertex: 1 1 1
-Loader: Unrecognized: s off
-Loader: Triangle indices: 6 2 1
-Loader: Triangle indices: 7 3 2
-Loader: Triangle indices: 8 4 3
-Loader: Triangle indices: 5 1 4
-Loader: Triangle indices: 2 3 4
-Loader: Triangle indices: 7 6 5
-Loader: Triangle indices: 5 6 1
-Loader: Triangle indices: 6 7 2
-Loader: Triangle indices: 7 8 3
-Loader: Triangle indices: 8 5 4
-Loader: Triangle indices: 1 2 4
-Loader: Triangle indices: 8 7 5
+Loader: Unrecognized: 
+Loader: Unrecognized: o screen
+Loader: Unrecognized: 
+Loader: Vertex: -1 -1 0
+Loader: Vertex: -1 1 0
+Loader: Vertex: 1 1 0
+Loader: Vertex: 1 -1 0
+Loader: Unrecognized: 
+Loader: Triangle indices: 1 2 3
+Loader: Triangle indices: 3 4 1
 Loader: Unrecognized: 
 

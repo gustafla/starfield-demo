@@ -18,13 +18,14 @@ This file is part of [DEMO NAME].
 
 #include "rpi_gfx.hpp"
 
-void check()
+void check(std::string err)
 {
     static GLenum error;
     error = glGetError();
 
     if (error)
     {
+        std::cout << "check() error: " << err << "\n";
         if (error == GL_OUT_OF_MEMORY)
             std::cout << "GPU OUT OF MEMORY! ;__;\n";
         if (error == GL_INVALID_OPERATION)

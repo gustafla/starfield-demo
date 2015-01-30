@@ -54,7 +54,7 @@ iCount(0) {
         iCount=1;
     }
 
-    //Here's our screen rectangle
+    /*//Here's our screen rectangle
     vertices[0] = -1.0f;
     vertices[1] = -1.0f;
     vertices[2] = -1.0f;
@@ -62,7 +62,8 @@ iCount(0) {
     vertices[4] = 1.0f;
     vertices[5] = 1.0f;
     vertices[6] = 1.0f;
-    vertices[7] = -1.0f;
+    vertices[7] = -1.0f;*/
+    screen = common->models->getModel("screen.obj");
 }
 
 void GfxScreen::draw() { 
@@ -76,8 +77,9 @@ void GfxScreen::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    /*glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);*/
+    screen->draw(&shaderProgram);
 }

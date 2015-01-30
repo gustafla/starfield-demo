@@ -13,9 +13,9 @@ class GfxModel {
         void changeShader();
     private:
         GLuint vbo;
-        GLuint indexBuffer;
-        GLuint test;
-        unsigned int numIndices;
+        //GLuint indexBuffer;
+        std::vector<float> geometry;
+        unsigned int numVertices;
 };
 
 #endif

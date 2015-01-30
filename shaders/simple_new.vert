@@ -16,29 +16,8 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_CUBE_HPP
-#define DEMO_CUBE_HPP
+attribute vec4 vertex;
 
-#include "common.hpp"
-#include "gfx_shader.hpp"
-#include "gfx_mat.hpp"
-#include "gfx_model.hpp"
-#include "rpi_gfx.hpp"
-
-class PCube{
-	public:
-		PCube(CommonData* icommon);
-		~PCube();
-		void draw();
-	private:
-        GfxShader* shader;
-        GfxModel* cubeModel;
-        
-        CommonData* common;
-        
-        GLfloat xr[16];
-        GLfloat yr[16];
-        GLfloat zr[16];
-};
-
-#endif
+void main() {
+    gl_Position = vertex;
+}

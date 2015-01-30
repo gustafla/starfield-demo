@@ -61,7 +61,7 @@ bool IndexedObject::loadObjFile(std::string file) {
         else if (coord[i]->c_str()[0]=='v' && coord[i]->c_str()[1]==' ') {
             float tx, ty, tz;
             sscanf(coord[i]->c_str(), "v %f %f %f", &tx, &ty, &tz);
-            std::cout << "Loader: Vertex: " << tx << " " << ty << " " << tz << std::endl;
+            //std::cout << "Loader: Vertex: " << tx << " " << ty << " " << tz << std::endl;
             vertices.push_back(tx);
             vertices.push_back(ty);
             vertices.push_back(tz);
@@ -73,14 +73,14 @@ bool IndexedObject::loadObjFile(std::string file) {
             unsigned short a, b, c;
             if (count(coord[i]->begin(), coord[i]->end(), ' ') == 3) {
                 sscanf(coord[i]->c_str(), "f %d %d %d", &a, &b, &c);
-                std::cout << "Loader: Triangle indices: " << a << " " << b << " " << c << std::endl;
+                //std::cout << "Loader: Triangle indices: " << a << " " << b << " " << c << std::endl;
                 indices.push_back(a-1);
                 indices.push_back(b-1);
                 indices.push_back(c-1);
             } else
                 std::cout << "Loader: Skipped line " << i << ". Not a triangular face :(\n";
         } else if (coord[i]->c_str()[0]!='\n'||coord[i]->c_str()[0]!=' ') {
-            std::cout << "Loader: Unrecognized: " << *coord[i] << std::endl;
+            //std::cout << "Loader: Unrecognized: " << *coord[i] << std::endl;
             continue;
         }
     }

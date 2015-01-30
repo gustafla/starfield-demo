@@ -28,11 +28,13 @@ This file is part of [DEMO NAME].
  *  1 - Shader program failed to compile/link
  *  2 - Failed to create window
  */
+void alt_main(int, char**);
 
 int main(int argc, char *argv[])
 {
     atexit(cleanup);
     bcm_host_init(); //For RPi graphical stuff;
+    //alt_main(argc, argv);
     DemoArg demoArg;
     demoArg.argc = argc;
     demoArg.argv = argv;

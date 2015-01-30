@@ -5,6 +5,7 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 ------------------------------------------------------
 
 - Accommodate for different size audio h/w buffers (timing)
+- Change other timing and make a loading screen
 - Sync'd noise blur?
 - Movable gfx_screens!??
 - Edit help

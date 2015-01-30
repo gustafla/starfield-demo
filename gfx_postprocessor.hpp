@@ -42,9 +42,10 @@ class GfxPostProcessor {
         std::vector<GfxTexture2D*> textures;
         unsigned int texCount;
         GfxTexture2D* selfOut;
-        GLfloat vertices[8];
+        //GLfloat vertices[8];
         GLuint frameBuffer;
         GLuint renderBuffer;
+        GfxModel* screen;
 };
 
 #endif

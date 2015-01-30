@@ -25,6 +25,7 @@ common(icommon) {
     GLfloat pProjMat[16] = {0};
     getPProjMat(pProjMat, 60.0, ((float)common->res[0])/((float)common->res[1]));
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
+    cubeModel = common->models->getModel("cube.obj");
 }
 
 PCube::~PCube() {
@@ -41,6 +42,7 @@ void PCube::draw() {
     glUniformMatrix4fv(shader->getUfmHandle("xRotation"), 1, GL_FALSE, xr);
     glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
     glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
-    gfxBindFB0();
-    common->models->getModel("cube.obj")->draw(shader);
+    glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
+    //gfxBindFB0();
+    cubeModel->draw(shader);
 }

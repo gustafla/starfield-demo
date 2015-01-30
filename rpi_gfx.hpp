@@ -43,7 +43,7 @@ This file is part of [DEMO NAME].
 //  GfxEGLWindow flag - multi-sample buffer
 #define GFX_WINDOW_MULTISAMPLE 8
 
-void check();
+void check(std::string err = "");
 void gfxBindFB0();
 
 #endif

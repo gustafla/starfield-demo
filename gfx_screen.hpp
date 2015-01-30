@@ -31,6 +31,7 @@ class GfxScreen {
         void draw();
     private:
         GfxTexture2D* i;
+        GfxModel* screen;
         unsigned short iCount;
         GfxShader shaderProgram;
         CommonData* common;
