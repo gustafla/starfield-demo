@@ -81,17 +81,12 @@ void* playDemo(void* arg) {
     //Common data. Will be important when there are many effects/scenes in different (their own) objects
     CommonData common(c.w, c.h);
     
-    WavPlayer* music = NULL;
-    if (c.audio) {
-        float startAt=0.0;
-        for (unsigned int partTi = 0; partTi < c.partStart; partTi++) {
-            startAt += PART_TIMES[partTi]; //Skip music to the '-p' start time too
-        }
-        //startAt -= PART_TIMES[c.partStart]; //Back to the beginning of the first shown part
-        music = new WavPlayer("music.wav", startAt);
-        pthread_t audioThread;
-        pthread_create(&audioThread, NULL, playMusic, (void*)music);
-    }
+    //Display the stupid loading screen
+    GfxScreen* loading = new GfxScreen(&common, "shaders/showtex.frag", "loading.tga");
+    gfxBindFB0();
+    loading->draw();
+    delete loading;
+    window.swapBuffers();
     
     GfxPostProcessor crt(&common, "shaders/crt.frag");
     GfxPostProcessor blur(&common, "shaders/fastblur.frag", GL_LINEAR, 4.0);
@@ -106,6 +101,19 @@ void* playDemo(void* arg) {
     PPlasma    p3(&common);
     PCube      p4(&common);
     Fade*      fade;
+    
+    //Start the music player thread
+    WavPlayer* music = NULL;
+    if (c.audio) {
+        float startAt=0.0;
+        for (unsigned int partTi = 0; partTi < c.partStart; partTi++) {
+            startAt += PART_TIMES[partTi]; //Skip music to the '-p' start time too
+        }
+        //startAt -= PART_TIMES[c.partStart]; //Back to the beginning of the first shown part
+        music = new WavPlayer("music.wav", startAt);
+        pthread_t audioThread;
+        pthread_create(&audioThread, NULL, playMusic, (void*)music);
+    }
     
 	int    part = c.partStart;
 	float  tPartStart  = 0.0;

@@ -1,12 +1,2 @@
-Loader: Unrecognized: 
-Loader: Unrecognized: o screen
-Loader: Unrecognized: 
-Loader: Vertex: -1 -1 0
-Loader: Vertex: -1 1 0
-Loader: Vertex: 1 1 0
-Loader: Vertex: 1 -1 0
-Loader: Unrecognized: 
-Loader: Triangle indices: 1 2 3
-Loader: Triangle indices: 3 4 1
-Loader: Unrecognized: 
-
+Error linking program:
+ERROR:SEMANTIC-8 (fragment shader, line 6) Argument unused in constructor
