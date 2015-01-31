@@ -16,8 +16,8 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_SCREEN_HPP
-#define GFX_SCREEN_HPP
+#ifndef GFX_SCREEN_MOVABLE_HPP
+#define GFX_SCREEN_MOVABLE_HPP
 
 #include "rpi_gfx.hpp"
 #include "gfx_shader.hpp"
@@ -25,17 +25,28 @@ This file is part of [DEMO NAME].
 #include "common.hpp"
 #include <string>
 
-class GfxScreen {
+class GfxScreenMovable {
     public:
-        GfxScreen(CommonData* icommon, std::string fs, std::string i0="", float c=1.0);
+        GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0="", float c=1.0);
         void draw();
+        void setWH(unsigned int w, unsigned int h);
+        void setW(unsigned int w);
+        void setH(unsigned int h);
+        void setXY(unsigned int x, unsigned int y);
+        void setX(unsigned int x);
+        void setY(unsigned int y);
+        void setXYWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h);
     private:
         GfxTexture2D* i;
-        GfxModel* screen;
         unsigned short iCount;
         GfxShader shaderProgram;
         CommonData* common;
-        //GLfloat vertices[8];
+        GLfloat vertices[16];
+
+        float store_x;
+        float store_y;
+        float store_w;
+        float store_h;
 };
 
 #endif

@@ -16,31 +16,11 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_CUBE_HPP
-#define DEMO_CUBE_HPP
+attribute vec2 vertex;
+attribute vec2 a_pixpos;
+varying vec2 pixpos;
 
-#include "common.hpp"
-#include "gfx_shader.hpp"
-#include "gfx_screen_movable.hpp"
-#include "gfx_mat.hpp"
-#include "gfx_model.hpp"
-#include "rpi_gfx.hpp"
-
-class PCube{
-	public:
-		PCube(CommonData* icommon);
-		~PCube();
-		void draw();
-	private:
-        GfxShader* shader;
-        GfxModel* cubeModel;
-        GfxScreenMovable* twister;
-        
-        CommonData* common;
-        
-        GLfloat xr[16];
-        GLfloat yr[16];
-        GLfloat zr[16];
-};
-
-#endif
+void main() {
+    pixpos = a_pixpos;
+    gl_Position = vec4(vertex, 0.0, 1.0);
+}

@@ -9,5 +9,5 @@ float const PART_TIMES[PARTS] = {
     0.5f,
     16.0f,
     10.0f,
-    120.0f
+    1200.0f
 };

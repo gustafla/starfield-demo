@@ -17,6 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 #include "cube.hpp"
+#include <cmath>
 
 PCube::PCube(CommonData* icommon):
 common(icommon) {
@@ -26,10 +27,12 @@ common(icommon) {
     getPProjMat(pProjMat, 40.0, ((float)common->res[0])/((float)common->res[1]));
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
     cubeModel = common->models->getModel("cube.obj");
+    twister = new GfxScreenMovable(icommon, "shaders/twister_var.frag", 0, 0, common->res[0]/4.0, common->res[1], "twister_texture.tga");
 }
 
 PCube::~PCube() {
     delete shader;
+    delete twister;
     common->models->freeModel("cube.obj");
 }
 
@@ -45,4 +48,7 @@ void PCube::draw() {
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
     //gfxBindFB0();
     cubeModel->draw(shader);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    twister->setX(sin(common->t)*(common->res[0]*0.5-common->res[0]/4.0)+(common->res[0]*0.5-(common->res[0]/4.0)/2));
+    twister->draw();
 }

@@ -1,2 +1,2 @@
 Error linking program:
-ERROR:SEMANTIC-8 (fragment shader, line 6) Argument unused in constructor
+ERROR:LEX/PARSE-2 (fragment shader, line 43) Undefined identifier

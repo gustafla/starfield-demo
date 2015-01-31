@@ -139,7 +139,7 @@ void* playDemo(void* arg) {
         //Update timer for the frame
         gettimeofday(&tTmp, &tz);
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
-        common.t = t-tLoopStart;
+        common.t = (t-tLoopStart);
         //and a rythmic pulse
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
         if (doPP) {
