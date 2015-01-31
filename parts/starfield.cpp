@@ -20,7 +20,7 @@ This file is part of [DEMO NAME].
 
 PStarfield::PStarfield(CommonData* icommon) {
     stars = new EPointField(icommon);
-    ovl = new GfxScreen(icommon, "shaders/ovl.frag", "mehuovl.tga");
+    ovl = new GfxScreenMovable(icommon, "shaders/ovl_var.frag", (icommon->res[0]/2)-((icommon->res[1]*0.52083)/2), 0, (icommon->res[1]*0.52083), icommon->res[1], "mehuovl.tga");
 }
 
 PStarfield::~PStarfield() {

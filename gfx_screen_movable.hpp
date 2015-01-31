@@ -28,6 +28,7 @@ This file is part of [DEMO NAME].
 class GfxScreenMovable {
     public:
         GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0="", float c=1.0);
+        ~GfxScreenMovable();
         void draw();
         void setWH(unsigned int w, unsigned int h);
         void setW(unsigned int w);

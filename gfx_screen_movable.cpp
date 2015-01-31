@@ -187,3 +187,8 @@ void GfxScreenMovable::setXYWH(unsigned int x, unsigned int y, unsigned int w, u
     vertices[12] = ((float(x+w)-(0.5*common->res[0]))/common->res[0])*2.0;
     vertices[13] = -((float(y+h)-(0.5*common->res[1]))/common->res[1])*2.0;
 }
+
+GfxScreenMovable::~GfxScreenMovable() {
+    if (iCount)
+        delete i;
+}

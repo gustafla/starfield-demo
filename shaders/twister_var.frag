@@ -39,7 +39,8 @@ void main() {
     	twister.x-twister.w
     );
     
-    shade /= width*1.8;
+    shade /= width*0.9;
+    shade = min(shade, 1.0);
 
     float texy = pos.y/(iResolution.x/iResolution.y) - iGlobalTime*0.4;
     vec3 s1col = texture2D(iChannel0, vec2(((pos.x-((twister.x+twister.y)/2.0))/(twister.x-twister.y))+0.5, texy)).rgb;
@@ -52,8 +53,8 @@ void main() {
     col.rgb += s3col * alpha.z * shade.z;
     col.rgb += s4col * alpha.w * shade.w;
 
-    col.a = (alpha.x+alpha.y+alpha.z+alpha.w);
-    //col.a = ((shade.x*alpha.x)+(shade.y*alpha.y)+(shade.z*alpha.z)+(shade.w*alpha.w));
+    //col.a = (alpha.x+alpha.y+alpha.z+alpha.w);
+    col.a = ((shade.x*alpha.x)+(shade.y*alpha.y)+(shade.z*alpha.z)+(shade.w*alpha.w));
     
     gl_FragColor = col;
     //gl_FragColor.a = 1.0;

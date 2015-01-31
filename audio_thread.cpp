@@ -26,6 +26,6 @@ void* playMusic(void* arg) {
     WavPlayer* wavPlayer = (WavPlayer*)arg;
     for (;;) {
         wavPlayer->playFrame();
-        //usleep(100); //Let's not run this 9001fps, ALSA won't be even needing audio that fast;
+        usleep(40); //Let's not run this 9001fps, ALSA won't be even needing audio that fast;
     }
 }

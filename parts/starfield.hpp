@@ -20,7 +20,7 @@ This file is part of [DEMO NAME].
 #define DEMO_STARFIELD_HPP
 
 #include "common.hpp"
-#include "gfx_screen.hpp"
+#include "gfx_screen_movable.hpp"
 #include "effects/point_field.hpp"
 #include "rpi_gfx.hpp"
 
@@ -32,7 +32,7 @@ class PStarfield {
     private:
         //CommonData* common;
         EPointField* stars;
-        GfxScreen*  ovl;
+        GfxScreenMovable* ovl;
 };
 
 #endif
