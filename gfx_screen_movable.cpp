@@ -64,25 +64,25 @@ store_y(y) {
     vertices[1] = -((float(y+h)-(0.5*common->res[1]))/common->res[1])*2.0;
     
     vertices[2] = 0.0;
-    vertices[3] = 1.0;
+    vertices[3] = 0.0;
     
     vertices[4] = ((float(x)-(0.5*common->res[0]))/common->res[0])*2.0;
     vertices[5] = -((float(y)-(0.5*common->res[1]))/common->res[1])*2.0;
     
     vertices[6] = 0.0;
-    vertices[7] = 0.0;
+    vertices[7] = 1.0;
     
     vertices[8] = ((float(x+w)-(0.5*common->res[0]))/common->res[0])*2.0;
     vertices[9] = -((float(y)-(0.5*common->res[1]))/common->res[1])*2.0;
     
     vertices[10] = 1.0;
-    vertices[11] = 0.0;
+    vertices[11] = 1.0;
     
     vertices[12] = ((float(x+w)-(0.5*common->res[0]))/common->res[0])*2.0;
     vertices[13] = -((float(y+h)-(0.5*common->res[1]))/common->res[1])*2.0;
     
     vertices[14] = 1.0;
-    vertices[15] = 1.0;
+    vertices[15] = 0.0;
 }
 
 void GfxScreenMovable::draw() { 
