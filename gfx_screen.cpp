@@ -83,3 +83,8 @@ void GfxScreen::draw() {
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);*/
     screen->draw(&shaderProgram);
 }
+
+GfxScreen::~GfxScreen() {
+    if (iCount)
+        delete i;
+}
