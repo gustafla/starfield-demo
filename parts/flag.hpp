@@ -28,6 +28,7 @@ class PFlag{
 		PFlag(CommonData* icommon);
 		~PFlag();
 		void draw();
+		void resetTimer();
 	private:
 		EPointFlag* flag;
 };

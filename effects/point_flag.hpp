@@ -30,6 +30,7 @@ class EPointFlag {
         EPointFlag(CommonData* icommon);
         ~EPointFlag();
         void draw();
+        void resetTimer();
     private:
         CommonData* common;
         //std::vector<GLfloat> points;

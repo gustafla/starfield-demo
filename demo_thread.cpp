@@ -208,6 +208,7 @@ void* playDemo(void* arg) {
                 doPP = true;
                 p2.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    p2.resetTimer();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
@@ -231,6 +232,9 @@ void* playDemo(void* arg) {
 			default:
 				part = 2; //0?
 				tLoopStart = t;
+                for (unsigned int partTi = 0; partTi < 2; partTi++) {
+                    tLoopStart -= PART_TIMES[partTi]; //Adjust correct part timing. Hacky, but not needed often
+                }
 				tPartStart = t-tLoopStart;
                 doPP = true; //false?
 				break;

@@ -29,3 +29,7 @@ PFlag::~PFlag() {
 void PFlag::draw() {
     flag->draw();
 }
+
+void PFlag::resetTimer() {
+    flag->resetTimer();
+}

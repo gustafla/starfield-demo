@@ -18,6 +18,7 @@ This file is part of [DEMO NAME].
 
 #include "effects/point_flag.hpp"
 #include <string>
+#include <iostream>
 #include <cmath>
 #include "tga_file.hpp"
 #include "gfx_mat.hpp"
@@ -100,5 +101,9 @@ void EPointFlag::draw() {
 
     //Drawing happens here
     vertices->draw(&shaderProgram, 1.0-(common->t/2.0-startT/2.0));
-    //Most waving and perspective magic happens in the shaders
+    //Most waving and stuff happens in the shaders
+}
+
+void EPointFlag::resetTimer() {
+    startT = -1.0f;
 }
