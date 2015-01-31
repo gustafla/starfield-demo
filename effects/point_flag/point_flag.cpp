@@ -26,6 +26,7 @@ This file is part of [DEMO NAME].
 
 EPointFlag::EPointFlag(CommonData* icommon):
 common(icommon) {
+    startT=-1.0;
     //Load, compile, enable shaders
     std::string* fsTemp = new std::string;
     std::string* vsTemp = new std::string;
@@ -57,8 +58,8 @@ common(icommon) {
     
     //Generate point "mat"
     std::vector<float> points;
-    for (float x=-1.6; x<1.6; x+=0.14) {
-        for(float y=-1.1; y<1.1; y+=0.14) {
+    for(float y=-1.1; y<1.1; y+=0.14) {
+        for (float x=1.6; x>-1.6; x-=0.14) {
             points.push_back(x);
             points.push_back(y);
             points.push_back(0.0);
@@ -77,6 +78,9 @@ EPointFlag::~EPointFlag() {
 }
 
 void EPointFlag::draw() {
+    if (startT<0.0)
+        startT = common->t;
+    
     //Drawing will happen with this shader, and these (this) texture
     glUseProgram(shaderProgram.getHandle());
     pointTexture->bindToUnit(0);
@@ -95,6 +99,6 @@ void EPointFlag::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    vertices->draw(&shaderProgram);
+    vertices->draw(&shaderProgram, 1.0-(common->t/2.0-startT/2.0));
     //Most waving and perspective magic happens in the shaders
 }

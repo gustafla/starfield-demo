@@ -36,9 +36,30 @@ void GfxModel::draw(GfxShader* shaderProgram) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
     glEnableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
-    glVertexAttribPointer(shaderProgram->getAtrHandle("vertex"), 3, GL_FLOAT, GL_TRUE, 0, /*&geometry[0]*/NULL);
+    glVertexAttribPointer(shaderProgram->getAtrHandle("vertex"), 3, GL_FLOAT, GL_TRUE, 0, /*&geometry[0]*/0);
 
     glDrawArrays(drawmode, 0, numVertices);
+    //glDisableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void GfxModel::draw(GfxShader* shaderProgram, float start) {
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    
+    glEnableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
+    glVertexAttribPointer(shaderProgram->getAtrHandle("vertex"), 3, GL_FLOAT, GL_TRUE, 0, /*&geometry[0]*/0);
+    
+    float s;
+    if (start <= 0.0) {
+        s=0.0;
+        glDrawArrays(drawmode, 0, numVertices);
+    }
+    else {
+        s=start;
+        if (start > 1.0)
+            s=1.0;
+        glDrawArrays(drawmode, s*numVertices, numVertices-numVertices*s+1);
+    }
     //glDisableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

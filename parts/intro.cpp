@@ -26,10 +26,13 @@ void PIntro::draw(Fade* drawTo) {
     else
         drawTo->bindFramebuffer();
     rb->draw();
+    glClear(GL_DEPTH_BUFFER_BIT);
     if (common->t > 15.7)
         mehutext->draw();
+    glClear(GL_DEPTH_BUFFER_BIT);
     if (common->t > 19.6)
         yeartext->draw();
+    glClear(GL_DEPTH_BUFFER_BIT);
     if (common->t > 23.45)
         revisiontext->draw();
 }

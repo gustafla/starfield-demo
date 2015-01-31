@@ -66,7 +66,7 @@ void* playDemo(void* arg) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-  //glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE); //We don't need this
 
     //Set a viewport
     glViewport(0, 0, c.w, c.h);
@@ -110,7 +110,7 @@ void* playDemo(void* arg) {
             startAt += PART_TIMES[partTi]; //Skip music to the '-p' start time too
         }
         //startAt -= PART_TIMES[c.partStart]; //Back to the beginning of the first shown part
-        music = new WavPlayer("music.wav", startAt);
+        music = new WavPlayer("music.wav", startAt, 2048);
         pthread_t audioThread;
         pthread_create(&audioThread, NULL, playMusic, (void*)music);
     }
@@ -144,7 +144,7 @@ void* playDemo(void* arg) {
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
         if (doPP) {
             crt.bindFramebuffer(); //drawing to the "root" PP
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
         switch (part) { //Demo in a switch :)
@@ -244,8 +244,9 @@ void* playDemo(void* arg) {
         }
         //What was just drawn will now get read by the screen driver
         window.swapBuffers();
+        usleep(30);
         //For clarity, it's good to clear both frame- and renderbuffer... or maybe not... I'll check this later
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (c.audio) {
             if (tMusicEOF == -1.0 && music->done()) {

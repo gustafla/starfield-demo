@@ -10,6 +10,7 @@ class GfxModel {
         GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
         ~GfxModel();
         void draw(GfxShader* shaderProgram);
+        void draw(GfxShader* shaderProgram, float start);
         void changeShader();
     private:
         GLuint drawmode;

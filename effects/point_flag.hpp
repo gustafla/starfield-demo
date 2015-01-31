@@ -39,6 +39,7 @@ class EPointFlag {
 
         float pProjMat[16];
         float rotationMatrices[3][16];
+        float startT;
 };
 
 #endif

@@ -73,6 +73,7 @@ void GfxScreen::draw() {
         i->bindToUnit(0);
     //Update time
     glUniform1fv(shaderProgram.getUfmHandle("iGlobalTime"), 1, &common->t);
+    glUniform1fv(shaderProgram.getUfmHandle("beat"), 1, &common->beatHalfSine);
 
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 

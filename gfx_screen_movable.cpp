@@ -59,7 +59,7 @@ store_y(y) {
     }
 
     //Here's our screen rectangle. Pixel positions "transformed" back into vertex positions.
-    //Two attribs, other is "texture coords". 
+    //Two attribs, other is screen space coords.
     vertices[0] = ((float(x)-(0.5*common->res[0]))/common->res[0])*2.0;
     vertices[1] = -((float(y+h)-(0.5*common->res[1]))/common->res[1])*2.0;
     
