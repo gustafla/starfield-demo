@@ -17,6 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 #include "common.hpp"
+#include "gfx_mat.hpp"
 
 CommonData::CommonData(unsigned int x, unsigned int y):
 t(0.0f),
@@ -25,4 +26,5 @@ beatHalfSine(0.0f) {
     res[1] = y;
     halfYRes[1] = y/2;
     models = new GfxModelHandler;
+    getPProjMat(pProjMat40, 40.0, ((float)x)/((float)y));
 }

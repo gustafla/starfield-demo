@@ -1,9 +1,9 @@
 uniform float iGlobalTime;
 uniform vec2 iResolution;
-varying vec2 pixpos;
+varying vec2 texpos;
 
 void main() {
-    vec2 pos = pixpos;
+    vec2 pos = texpos;
     pos.y += (sin(pos.y*6.0+iGlobalTime) + sin(pos.y*2.0-iGlobalTime*0.6)*0.3)*0.3;
     pos.x += (sin(pos.y*5.0+iGlobalTime*1.2)*0.7 + sin(pos.y*4.0-iGlobalTime*0.5)*0.4 + sin(pos.y*4.0+iGlobalTime*0.8))*0.3;
     float primaryMap = ((sin(pos.x*12.0+iGlobalTime*0.3)+0.5) + sin(pos.y*10.0+iGlobalTime) +

@@ -16,6 +16,9 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef RPI_GFX_HPP
+#define RPI_GFX_HPP
+
 #include <stdio.h>
 #include <cstdlib>
 #include <string>
@@ -29,8 +32,7 @@ This file is part of [DEMO NAME].
 #include "GLES2/gl2.h"
 #include "GLES2/gl2ext.h"
 
-#ifndef RPI_GFX_HPP
-#define RPI_GFX_HPP
+#define INT2P(i) (static_cast<char*>(0) + (i))
 
 //  GfxEGLWindow flag - RGB color buffer
 #define GFX_WINDOW_RGB 0

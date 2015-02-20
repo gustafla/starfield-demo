@@ -89,3 +89,11 @@ GfxScreen::~GfxScreen() {
     if (iCount)
         delete i;
 }
+
+void GfxScreen::useProgram() { 
+    glUseProgram(shaderProgram.getHandle());
+}
+
+GfxShader* GfxScreen::getProgram() { 
+    return &shaderProgram;
+}

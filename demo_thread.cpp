@@ -38,6 +38,8 @@ This file is part of [DEMO NAME].
 #include "parts/flag.hpp"
 #include "parts/plasma_bars.hpp"
 #include "parts/cube.hpp"
+#include "parts/feedback_effect.hpp"
+#include "parts/texobj.hpp"
 
 #define BPS 122.0/60.0
 
@@ -60,7 +62,7 @@ void* playDemo(void* arg) {
 
     //Enable blending
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //Enable depth testing (why isn't this on by default?)
     glEnable(GL_DEPTH_TEST);
@@ -95,11 +97,13 @@ void* playDemo(void* arg) {
     bool doPP = false;
 
     //demo parts :D
-    PIntro     p0(&common);
-    PStarfield p1(&common);
-	PFlag      p2(&common);
-    PPlasma    p3(&common);
-    PCube      p4(&common);
+    PIntro          p0(&common);
+    PStarfield      p1(&common);
+	PFlag           p2(&common);
+    PPlasma         p3(&common);
+    PCube           p4(&common);
+    PFeedbackEffect p5(&common);
+    PTexobj         p6(&common);
     Fade*      fade;
     
     //Start the music player thread
@@ -142,6 +146,7 @@ void* playDemo(void* arg) {
         common.t = (t-tLoopStart);
         //and a rythmic pulse
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
+
         if (doPP) {
             crt.bindFramebuffer(); //drawing to the "root" PP
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -224,6 +229,22 @@ void* playDemo(void* arg) {
             case 7:
                 doPP = true;
                 p4.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 8:
+                doPP = true;
+                p5.draw(&crt);
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 9:
+                doPP = true;
+                p6.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;

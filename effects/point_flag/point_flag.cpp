@@ -68,9 +68,7 @@ common(icommon) {
     }
     vertices = new GfxModel("", &points[0], points.size(), GL_POINTS);
     
-    //Create projection matrix
-    getPProjMat(pProjMat, 40.0f, common->res[0]/common->res[1]);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, pProjMat);
+    glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
 }
 
 EPointFlag::~EPointFlag() {

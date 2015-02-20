@@ -37,3 +37,4 @@ void check(std::string err)
 void gfxBindFB0() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
+

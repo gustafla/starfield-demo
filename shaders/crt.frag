@@ -31,6 +31,7 @@ void main() {
     vec3 texCol = texture2D(iChannel0, pos).rgb;
     vec3 blurCol = texture2D(blurFrame, offpos).rgb;
     gl_FragColor = vec4(mix(texCol, blurCol, 0.5)*1.1, 1.0);
-    gl_FragColor.rgb += rand(pos+iGlobalTime*0.001)*0.1-0.05;
+    gl_FragColor.rgb += rand(pos+iGlobalTime*0.01)*0.1-0.05;
     gl_FragColor.rgb *= mod(gl_FragCoord.y, 2.0)*0.8;
+    //gl_FragColor.rgb = sqrt(gl_FragColor.rgb); //The importance of being linear
 }

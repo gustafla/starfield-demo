@@ -16,30 +16,31 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef POINT_FLAG_HPP
-#define POINT_FLAG_HPP
+#ifndef DEMO_TEXOBJ_HPP
+#define DEMO_TEXOBJ_HPP
 
-#include <vector>
+#include "common.hpp"
+#include "gfx_shader.hpp"
+#include "gfx_mat.hpp"
+#include "gfx_model.hpp"
 #include "gfx_texture_2D.hpp"
 #include "rpi_gfx.hpp"
-#include "gfx_shader.hpp"
-#include "common.hpp"
 
-class EPointFlag {
-    public:
-        EPointFlag(CommonData* icommon);
-        ~EPointFlag();
-        void draw();
-        void resetTimer();
-    private:
+class PTexobj{
+	public:
+		PTexobj(CommonData* icommon);
+		~PTexobj();
+		void draw();
+	private:
+        GfxShader* shader;
+        GfxModel* model;
+        GfxTexture2D* texture;
+        
         CommonData* common;
-        //std::vector<GLfloat> points;
-        GfxTexture2D* pointTexture;
-        GfxModel* vertices;
-        GfxShader shaderProgram;
-
-        float rotationMatrices[3][16];
-        float startT;
+        
+        GLfloat xr[16];
+        GLfloat yr[16];
+        GLfloat zr[16];
 };
 
 #endif

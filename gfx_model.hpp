@@ -13,11 +13,13 @@ class GfxModel {
         void draw(GfxShader* shaderProgram, float start);
         void changeShader();
     private:
+        bool textured;
         GLuint drawmode;
         GLuint vbo;
         //GLuint indexBuffer;
         std::vector<float> geometry;
         unsigned int numVertices;
+        unsigned int stride;
 };
 
 #endif

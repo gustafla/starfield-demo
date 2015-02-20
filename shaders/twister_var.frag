@@ -1,6 +1,6 @@
 uniform float iGlobalTime;
 uniform vec2 iResolution;
-varying vec2 pixpos;
+varying vec2 texpos;
 uniform sampler2D iChannel0;
 
 float PI = 3.14159265;
@@ -9,7 +9,7 @@ float width = 0.5;
 float lineHard = 100000000000000.0;
 
 void main() {			
-    vec2 pos = pixpos-vec2(0.5);
+    vec2 pos = texpos-vec2(0.5);
     
     vec4 col = vec4(vec3(0.0), 1.0);
     

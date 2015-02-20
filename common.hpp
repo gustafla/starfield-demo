@@ -20,6 +20,7 @@ This file is part of [DEMO NAME].
 #define COMMON_HPP
 
 #include "gfx_model_handler.hpp"
+#include "rpi_gfx.hpp"
 
 class CommonData {
     public:
@@ -29,6 +30,8 @@ class CommonData {
         float res[2];
         float halfYRes[2];
         float beatHalfSine;
+        
+        GLfloat pProjMat40[16];
         
         GfxModelHandler* models;
 };

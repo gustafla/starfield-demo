@@ -33,7 +33,7 @@ store_y(y) {
     std::string* vsTemp = new std::string;
     if (!loadFile(fs, *fsTemp))
         exit(40);
-    if (!loadFile("shaders/simple_pixpos.vert", *vsTemp))
+    if (!loadFile("shaders/simple_texpos.vert", *vsTemp))
         exit(41);
     if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
         exit(1);
@@ -103,10 +103,10 @@ void GfxScreenMovable::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, sizeof(float)*4, &vertices[0]);
-    glVertexAttribPointer(shaderProgram.getAtrHandle("a_pixpos"), 2, GL_FLOAT, GL_FALSE, sizeof(float)*4, &vertices[2]);
+    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*4, &vertices[0]);
+    glVertexAttribPointer(shaderProgram.getAtrHandle("a_texpos"), 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*4, &vertices[2]);
     glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
-    glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_pixpos"));
+    glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_texpos"));
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }

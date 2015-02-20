@@ -30,6 +30,8 @@ class GfxScreen {
         GfxScreen(CommonData* icommon, std::string fs, std::string i0="", float c=1.0);
         ~GfxScreen();
         void draw();
+        void useProgram();
+        GfxShader* getProgram();
     private:
         GfxTexture2D* i;
         GfxModel* screen;

@@ -17,14 +17,14 @@ This file is part of [DEMO NAME].
 */
 
 uniform vec2 iResolution;
-varying vec2 pixpos;
+varying vec2 texpos;
 uniform float iGlobalTime;
 uniform sampler2D iChannel0;
 
 float PI = 3.14159265;
 
 void main() {
-    vec2 pos = pixpos;
+    vec2 pos = texpos;
     vec2 wpos = vec2(pos.x, pos.y+sin(pos.x*4.0+iGlobalTime*2.0)*0.04);
     vec4 mehupic = texture2D(iChannel0, wpos);
     /*if (mehupic.r < 0.1 && mehupic.b < 0.1)
