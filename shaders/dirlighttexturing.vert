@@ -16,31 +16,25 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_CUBE_HPP
-#define DEMO_CUBE_HPP
+attribute vec3 a_vertex;
+attribute vec3 a_texpos;
+attribute vec3 a_normal;
+attribute vec3 a_lightdir;
+varying vec2 texpos;
+varying float light;
+uniform mat4 projection;
+uniform float iGlobalTime;
+uniform mat4 xRotation;
+uniform mat4 yRotation;
+uniform mat4 zRotation;
+uniform mat4 translation;
 
-#include "common.hpp"
-#include "gfx_shader.hpp"
-#include "gfx_screen_movable.hpp"
-#include "gfx_mat.hpp"
-#include "gfx_model.hpp"
-#include "rpi_gfx.hpp"
-
-class PCube{
-	public:
-		PCube(CommonData* icommon);
-		~PCube();
-		void draw();
-	private:
-        GfxShader* shader;
-        GfxModel* cubeModel;
-        GfxScreenMovable* twister;
-        
-        CommonData* common;
-        
-        GLfloat xr[16];
-        GLfloat yr[16];
-        GLfloat zr[16];
-};
-
-#endif
+void main() {
+    texpos = a_texpos.xy;
+    light = 0.1+max(dot(a_normal*xRotation*yRotation*zRotation, a_lightdir), 0.0);
+    vec4 vm = vec4(a_vertex, 1.0) * xRotation;
+    vm *= yRotation;
+    vm *= zRotation;
+    vm *= translation;
+    gl_Position = vm * projection;
+}

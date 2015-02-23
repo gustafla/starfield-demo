@@ -16,25 +16,27 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_CUBE_HPP
-#define DEMO_CUBE_HPP
+#ifndef DEMO_TEXOBJ_ED_HPP
+#define DEMO_TEXOBJ_ED_HPP
 
 #include "common.hpp"
 #include "gfx_shader.hpp"
-#include "gfx_screen_movable.hpp"
+#include "gfx_postprocessor.hpp"
 #include "gfx_mat.hpp"
 #include "gfx_model.hpp"
+#include "gfx_texture_2D.hpp"
 #include "rpi_gfx.hpp"
 
-class PCube{
+class PTexobjED{
 	public:
-		PCube(CommonData* icommon);
-		~PCube();
-		void draw();
+		PTexobjED(CommonData* icommon);
+		~PTexobjED();
+		void draw(GfxPostProcessor* pp);
 	private:
+        GfxPostProcessor* edPost;
         GfxShader* shader;
-        GfxModel* cubeModel;
-        GfxScreenMovable* twister;
+        GfxModel* model;
+        GfxTexture2D* texture;
         
         CommonData* common;
         

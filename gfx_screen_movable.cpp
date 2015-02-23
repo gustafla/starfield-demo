@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -27,18 +27,8 @@ iCount(0),
 store_w(w),
 store_h(h),
 store_x(x),
-store_y(y) {
-    //Load, compile, enable shaders
-    std::string* fsTemp = new std::string;
-    std::string* vsTemp = new std::string;
-    if (!loadFile(fs, *fsTemp))
-        exit(40);
-    if (!loadFile("shaders/simple_texpos.vert", *vsTemp))
-        exit(41);
-    if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
-        exit(1);
-    delete fsTemp;
-    delete vsTemp;
+store_y(y),
+shaderProgram("shaders/simple_texpos.vert", fs) {
     glUseProgram(shaderProgram.getHandle());
 
     GLfloat res[2] = {
@@ -103,9 +93,9 @@ void GfxScreenMovable::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*4, &vertices[0]);
+    glVertexAttribPointer(shaderProgram.getAtrHandle("a_vertex"), 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*4, &vertices[0]);
     glVertexAttribPointer(shaderProgram.getAtrHandle("a_texpos"), 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*4, &vertices[2]);
-    glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
+    glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_vertex"));
     glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_texpos"));
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

@@ -16,25 +16,30 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "cube.hpp"
+#include "texobj_ed.hpp"
 #include <cmath>
 
-PCube::PCube(CommonData* icommon):
+PTexobjED::PTexobjED(CommonData* icommon):
 common(icommon) {
-    shader = new GfxShader("shaders/cube.vert", "shaders/green.frag");
+    texture = new GfxTexture2D("textest.tga");
+    shader = new GfxShader("shaders/texturedthing.vert", "shaders/showtex_var.frag");
     shader->use();
+    glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
-    cubeModel = common->models->getModel("cube.obj");
-    twister = new GfxScreenMovable(icommon, "shaders/twister_var.frag", 0, 0, common->res[0]/4.0, common->res[1], "twister_texture.tga");
+    model = common->models->getModel("doublecube.obj");
+    edPost = new GfxPostProcessor(common, "shaders/edcolor_post.frag");
 }
 
-PCube::~PCube() {
+PTexobjED::~PTexobjED() {
     delete shader;
-    delete twister;
-    common->models->freeModel("cube.obj");
+    delete texture;
+    delete edPost;
+    common->models->freeModel("biggerthing.obj");
 }
 
-void PCube::draw() {
+void PTexobjED::draw(GfxPostProcessor* pp) {
+    edPost->bindFramebuffer();
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     shader->use();
     getXRotMat(xr, common->t*0.2);
     getYRotMat(yr, common->t*0.8);
@@ -44,9 +49,9 @@ void PCube::draw() {
     glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
     glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
+    texture->bindToUnit(0);
     //gfxBindFB0();
-    cubeModel->draw(shader);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    twister->setX(sin(common->t)*(common->res[0]*0.5-common->res[0]/4.0)+(common->res[0]*0.5-(common->res[0]/4.0)/2));
-    twister->draw();
+    model->draw(shader);
+    pp->bindFramebuffer();
+    edPost->draw();
 }

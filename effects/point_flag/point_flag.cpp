@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -26,20 +26,9 @@ This file is part of [DEMO NAME].
 #include "util.hpp"
 
 EPointFlag::EPointFlag(CommonData* icommon):
-common(icommon) {
+common(icommon),
+shaderProgram("effects/point_flag/proj_wave_point.vert", "shaders/textured_point.frag") {
     startT=-1.0;
-    //Load, compile, enable shaders
-    std::string* fsTemp = new std::string;
-    std::string* vsTemp = new std::string;
-    if (!loadFile("shaders/textured_point.frag", *fsTemp))
-        exit(40);
-    if (!loadFile("effects/point_flag/proj_wave_point.vert", *vsTemp))
-        exit(41);
-    if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
-        exit(1);
-    delete fsTemp;
-    delete vsTemp;
-    
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture

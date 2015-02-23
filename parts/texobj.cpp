@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -22,11 +22,11 @@ This file is part of [DEMO NAME].
 PTexobj::PTexobj(CommonData* icommon):
 common(icommon) {
     texture = new GfxTexture2D("textest.tga");
-    shader = new GfxShader("shaders/texturedthing.vert", "shaders/showtex_var.frag");
+    shader = new GfxShader("shaders/dirlighttexturing.vert", "shaders/showtex_var_simpleshade.frag");
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
-    model = common->models->getModel("biggerthing.obj");
+    model = common->models->getModel("doublecube.obj");
 }
 
 PTexobj::~PTexobj() {

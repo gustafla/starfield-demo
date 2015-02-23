@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -19,8 +19,8 @@ This file is part of [DEMO NAME].
 #include "text.hpp"
 #include <string>
 
-const std::string VERSION = "[DEMO NAME]\n"
-                            "Copyright 2014 Lauri Gustafsson.\n\n"
+const std::string VERSION = "[DEMO NAME] version 1.0\n"
+                            "Copyright 2015 Lauri Gustafsson.\n\n"
                             
                             "[DEMO NAME] is free software: you can redistribute it and/or modify\n"
                             "it under the terms of the GNU General Public License as published by\n"
@@ -58,5 +58,5 @@ const std::string DOC = "Usage: [DEMO NAME] [OPTION]\n"
                         "[DEMO NAME] home page: <[DEMO URL]>\n";
 
 std::string const PIPE_CAT = "Please pipe stdout text to a file or cat.\n"
-                             "Out keyboard checking requires weird terminal stuff.\n"
+                             "Keyboard input requires weird terminal stuff.\n"
                              "----------------------------------------------------\n";

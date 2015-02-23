@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -17,13 +17,14 @@ This file is part of [DEMO NAME].
 */
 
 #include <cstdlib>
+#include <unistd.h>
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include "text.hpp"
 
-using namespace std;
+//using namespace std;
 
 bool isdigits(std::string &s)
 {
@@ -39,16 +40,16 @@ void checkValueParam(int n, int argc, char* argv[])
 {
     if (n==argc)
     {
-        cout << ARGERR;
+        std::cout << ARGERR;
         sleep(5);
         exit(20);
     }
 
-    string tmps = argv[n];
+    std::string tmps = argv[n];
 
     if (!isdigits(tmps))
     {
-        cout << ARGERR;
+        std::cout << ARGERR;
         sleep(5);
         exit(30);
     }
@@ -78,16 +79,16 @@ void checkValueParamf(int n, int argc, char* argv[])
 {
     if (n==argc)
     {
-        cout << ARGERR;
+        std::cout << ARGERR;
         sleep(5);
         exit(21);
     }
 
-    string tmps = argv[n];
+    std::string tmps = argv[n];
 
     if (!isfloat(tmps))
     {
-        cout << ARGERR;
+        std::cout << ARGERR;
         sleep(5);
         exit(31);
     }

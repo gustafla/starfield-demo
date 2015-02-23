@@ -1,3 +1,21 @@
+// Copyright 2015 Lauri Gustafsson
+/*
+This file is part of [DEMO NAME].
+
+    [DEMO NAME] is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    [DEMO NAME] is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "gfx_model.hpp"
 #include <cstdlib>
 #include <vector>
@@ -25,12 +43,12 @@ stride(0) {
         } else {
             textured = true;
             for (int n=0; n<obj->getISize(); n+=2) {
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);
-                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3]);
-                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+1]);
-                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+2]);
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);    //x
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);  //y
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);  //z
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3]);   //tx
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+1]); //ty
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+2]); //tw=0
             }
         }
         
@@ -45,8 +63,7 @@ stride(0) {
         }
         
         delete obj;
-    }
-    else {
+    } else {
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * size, igeometry, GL_STATIC_DRAW);
         numVertices = size/3;
     }
@@ -57,11 +74,11 @@ stride(0) {
 void GfxModel::draw(GfxShader* shaderProgram) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
-    glEnableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
-    glVertexAttribPointer(shaderProgram->getAtrHandle("vertex"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(0));
+    glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_vertex"));
+    glVertexAttribPointer(shaderProgram->getAtrHandle("a_vertex"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(0));
     if (textured) {
         glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
-        glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3));
+        glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
     }
 
     glDrawArrays(drawmode, 0, numVertices);
@@ -71,11 +88,11 @@ void GfxModel::draw(GfxShader* shaderProgram) {
 void GfxModel::draw(GfxShader* shaderProgram, float start) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
-    glEnableVertexAttribArray(shaderProgram->getAtrHandle("vertex"));
-    glVertexAttribPointer(shaderProgram->getAtrHandle("vertex"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(0));
+    glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_vertex"));
+    glVertexAttribPointer(shaderProgram->getAtrHandle("a_vertex"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(0));
     if (textured) {
         glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
-        glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3));
+        glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
     }
     
     float s;

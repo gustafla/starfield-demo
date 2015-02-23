@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -23,18 +23,8 @@ This file is part of [DEMO NAME].
 
 GfxScreen::GfxScreen(CommonData* icommon, std::string fs, std::string i0, float c): //float c has to match framebuffer size to avoit odd effects!
 common(icommon),
-iCount(0) {
-    //Load, compile, enable shaders
-    std::string* fsTemp = new std::string;
-    std::string* vsTemp = new std::string;
-    if (!loadFile(fs, *fsTemp))
-        exit(40);
-    if (!loadFile("shaders/simple.vert", *vsTemp))
-        exit(41);
-    if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
-        exit(1);
-    delete fsTemp;
-    delete vsTemp;
+iCount(0),
+shaderProgram("shaders/simple.vert", fs) {
     glUseProgram(shaderProgram.getHandle());
 
     GLfloat res[2] = {
@@ -78,8 +68,8 @@ void GfxScreen::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    /*glVertexAttribPointer(shaderProgram.getAtrHandle("vertex"), 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glEnableVertexAttribArray(shaderProgram.getAtrHandle("vertex"));
+    /*glVertexAttribPointer(shaderProgram.getAtrHandle("a_vertex"), 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_vertex"));
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);*/
     screen->draw(&shaderProgram);

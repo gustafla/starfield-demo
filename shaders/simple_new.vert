@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -16,8 +16,8 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-attribute vec4 vertex;
+attribute vec3 a_vertex;
 
 void main() {
-    gl_Position = vertex;
+    gl_Position = (a_vertex, 1.0);
 }

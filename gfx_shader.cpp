@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -21,13 +21,13 @@ This file is part of [DEMO NAME].
 #include <iostream>
 
 GfxShader::GfxShader():
-handle(0)
+handle(0), vname("no filename"), fname("no filename")
 {
 
 }
 
 GfxShader::GfxShader(std::string vsName, std::string fsName):
-handle(0)
+handle(0), vname(vsName), fname(fsName)
 {
     //Load, compile shaders
     std::string fsTemp;
@@ -87,7 +87,12 @@ GLuint GfxShader::compShader(GLenum type, const char* src)
         {
             char* infoLog = (char*)malloc(sizeof(char) * infoLen);
             glGetShaderInfoLog(shader, infoLen, NULL, infoLog);
-            std::cout << "Error compiling shader:\n" << infoLog << std::endl;
+            std::cout << "Error compiling shader: ";
+            if (type == GL_VERTEX_SHADER)
+                std::cout << vname;
+            else
+                std::cout << fname;
+            std::cout << std::endl << infoLog << std::endl;
             free(infoLog);
         }
         glDeleteShader(shader);
@@ -127,7 +132,7 @@ GLint GfxShader::compProgram(std::string vsString, std::string fsString)
             char* infoLog = (char*)malloc(sizeof(char) * infoLen);
 
             glGetProgramInfoLog ( handle, infoLen, NULL, infoLog);
-            std::cout << "Error linking program:\n" << infoLog << std::endl;
+            std::cout << "Error linking program: " << vname << " " << fname << std::endl << infoLog << std::endl;
 
             free(infoLog);
         }

@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -35,10 +35,11 @@ public:
     GLint compProgram(std::string vsString, std::string fsString);
     void use();
 
-protected:
+private:
     std::map<std::string, unsigned int> uniforms;
     std::map<std::string, unsigned int> attributes;
-
+    std::string vname;
+    std::string fname;
     GLuint compShader(GLenum type, const char* src);
 
     GLuint handle;

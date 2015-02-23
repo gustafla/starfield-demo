@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -23,17 +23,8 @@ This file is part of [DEMO NAME].
 #include <cmath>
 
 EPointField::EPointField(CommonData* icommon, unsigned int const count):
-common(icommon) {
-    std::string* fsTemp = new std::string;
-    std::string* vsTemp = new std::string;
-    if (!loadFile("shaders/textured_point.frag", *fsTemp))
-        exit(40);
-    if (!loadFile("effects/point_field/star.vert", *vsTemp))
-        exit(41);
-    if(shaderProgram.compProgram(*vsTemp, *fsTemp) == GL_FALSE)
-        exit(1);
-    delete fsTemp;
-    delete vsTemp;
+common(icommon),
+shaderProgram("effects/point_field/star.vert", "shaders/textured_point.frag") {
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture

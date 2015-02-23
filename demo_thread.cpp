@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -40,6 +40,7 @@ This file is part of [DEMO NAME].
 #include "parts/cube.hpp"
 #include "parts/feedback_effect.hpp"
 #include "parts/texobj.hpp"
+#include "parts/texobj_ed.hpp"
 
 #define BPS 122.0/60.0
 
@@ -104,6 +105,7 @@ void* playDemo(void* arg) {
     PCube           p4(&common);
     PFeedbackEffect p5(&common);
     PTexobj         p6(&common);
+    PTexobjED       p7(&common);
     Fade*      fade;
     
     //Start the music player thread
@@ -245,6 +247,14 @@ void* playDemo(void* arg) {
             case 9:
                 doPP = true;
                 p6.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 10:
+                doPP = true;
+                p7.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;

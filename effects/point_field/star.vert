@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson
+// Copyright 2015 Lauri Gustafsson
 /*
 This file is part of [DEMO NAME].
 
@@ -16,7 +16,7 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-attribute vec4 vertex;
+attribute vec3 a_vertex;
 uniform mat4 projection;
 uniform float iGlobalTime;
 uniform mat4 yRotation;
@@ -30,7 +30,7 @@ uniform float beat;
 float TIME  = 5.0;
 
 void main() {
-    vec4 v = vertex;
+    vec4 v = vec4(a_vertex, 1.0);
     v.z -= iGlobalTime;
     v.z = mod(v.z, 10.0);
     v.z -= 5.0;
