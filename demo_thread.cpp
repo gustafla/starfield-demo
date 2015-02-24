@@ -279,7 +279,6 @@ void* playDemo(void* arg) {
         }
         //What was just drawn will now get read by the screen driver
         window.swapBuffers();
-        usleep(30);
         //For clarity, it's good to clear both frame- and renderbuffer... or maybe not... I'll check this later
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

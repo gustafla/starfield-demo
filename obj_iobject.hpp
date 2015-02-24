@@ -16,6 +16,9 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef OBJ_IOBJECT_HPP
+#define OBJ_IOBJECT_HPP
+
 #include <vector>
 #include <string>
 
@@ -56,3 +59,5 @@ class IndexedObject {
         void alarm(std::string t0, float i0, std::string t1, float i1);
         void alarm(std::string t0, float i0);
 };
+
+#endif
