@@ -77,8 +77,10 @@ void GfxModel::draw(GfxShader* shaderProgram) {
     glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_vertex"));
     glVertexAttribPointer(shaderProgram->getAtrHandle("a_vertex"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(0));
     if (textured) {
-        glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
-        glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
+        if (shaderProgram->getAtrHandle("a_texpos") != -1) {
+            glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
+            glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
+        }
     }
 
     glDrawArrays(drawmode, 0, numVertices);

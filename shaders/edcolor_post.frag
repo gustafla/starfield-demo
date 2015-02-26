@@ -20,13 +20,13 @@ uniform float iGlobalTime;
 uniform sampler2D iChannel0;
 
 void main() {
-    const float step = 0.7;
+    const float res = 0.7;
     const float pi = 3.14159265;
     vec2 pos=gl_FragCoord.xy/iResolution.xy;
     vec2 oneoff = vec2(1.0)/iResolution.xy;
     float edcolor = 0.0;
-    for (float i=0.0; i<2.0*pi; i+=step*pi) {
-        edcolor += distance(texture2D(iChannel0, pos+oneoff*vec2(sin(i), cos(i))).rgb, texture2D(iChannel0, pos+oneoff*vec2(sin(i-step*1.141592), cos(i-0.6*1.141592))).rgb);
+    for (float i=0.0; i<2.0*pi; i+=res*pi) {
+        edcolor += distance(texture2D(iChannel0, pos+oneoff*vec2(sin(i), cos(i))).rgb, texture2D(iChannel0, pos+oneoff*vec2(sin(i-res*1.141592), cos(i-res*1.141592)*1.6)).rgb);
     }
     vec3 col = texture2D(iChannel0, pos).rgb;
     vec3 col2 = texture2D(iChannel0, pos+oneoff).rgb;
@@ -34,5 +34,5 @@ void main() {
     vec3 col4 = texture2D(iChannel0, vec2(pos.x+oneoff.x, pos.y-oneoff.y)).rgb;
     vec3 col5 = texture2D(iChannel0, vec2(pos.x-oneoff.x, pos.y+oneoff.y)).rgb;
     vec3 colmean = (col+col2+col3+col4+col5)/5.0; //This is done for smoother colors against a dark background
-    gl_FragColor = vec4(col+edcolor*50.0*colmean, 1.0);
+    gl_FragColor = vec4(col+edcolor*140.0*colmean, 1.0);
 }
