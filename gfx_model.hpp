@@ -32,6 +32,7 @@ class GfxModel {
         void changeShader();
     private:
         bool textured;
+        bool normaled;
         GLuint drawmode;
         GLuint vbo;
         //GLuint indexBuffer;

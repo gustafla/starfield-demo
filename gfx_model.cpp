@@ -24,6 +24,7 @@ This file is part of [DEMO NAME].
 GfxModel::GfxModel(std::string objFileName, float* igeometry, unsigned int size, GLuint idrawmode):
 drawmode(idrawmode),
 textured(false),
+normaled(false),
 stride(0) {
     IndexedObject* obj;
     glGenBuffers(1, &vbo);
@@ -34,13 +35,15 @@ stride(0) {
         if(!obj->loadObjFile(objFileName))
             exit(-200);
         
-        if (!obj->getTSize()) {
+        if (!obj->getTSize() && !obj->getNSize()) {
             for (int n=0; n<obj->getISize(); n++) {
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);
-                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);   //x
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]); //y
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]); //z
             }
-        } else {
+            numVertices = geometry.size()/3;
+            stride = 3;
+        } else if (obj->getTSize() && !obj->getNSize()) {
             textured = true;
             for (int n=0; n<obj->getISize(); n+=2) {
                 geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);    //x
@@ -50,24 +53,45 @@ stride(0) {
                 geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+1]); //ty
                 geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+2]); //tw=0
             }
+            numVertices = geometry.size()/6;
+            stride = 6;
+        } else if (!obj->getTSize() && obj->getNSize()) {
+            normaled = true;
+            for (int n=0; n<obj->getISize(); n+=2) {
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);    //x
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);  //y
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);  //z
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3]);   //x
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3+1]); //y
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3+2]); //z
+            }
+            numVertices = geometry.size()/6;
+            stride = 6;
+        } else if (obj->getTSize() && obj->getNSize()) {
+            normaled = true;
+            textured = true;
+            for (int n=0; n<obj->getISize(); n+=3) {
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);    //x
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]);  //y
+                geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]);  //z
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3]);   //tx
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+1]); //ty
+                geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+2]); //tw=0
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3]);   //x
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3+1]); //y
+                geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3+2]); //z
+            }
+            numVertices = geometry.size()/9;
+            stride = 9;
         }
         
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * geometry.size(), &geometry[0], GL_STATIC_DRAW);
-        
-        if (textured) {
-            numVertices = geometry.size()/6;
-            stride = 6;
-        } else {
-            numVertices = geometry.size()/3;
-            stride = 3;
-        }
-        
         delete obj;
     } else {
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * size, igeometry, GL_STATIC_DRAW);
         numVertices = size/3;
     }
-    check();
+    check(__FILE__, __LINE__);
     geometry.clear(); //Don't need this anymore thanks to VBO
 }
 
@@ -80,6 +104,12 @@ void GfxModel::draw(GfxShader* shaderProgram) {
         if (shaderProgram->getAtrHandle("a_texpos") != -1) {
             glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
             glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
+        }
+    }
+    if (normaled) {
+        if (shaderProgram->getAtrHandle("a_normal") != -1) {
+            glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_normal"));
+            glVertexAttribPointer(shaderProgram->getAtrHandle("a_normal"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P((textured ? 6 : 3)*sizeof(GLfloat)));
         }
     }
 
@@ -96,6 +126,13 @@ void GfxModel::draw(GfxShader* shaderProgram, float start) {
         glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_texpos"));
         glVertexAttribPointer(shaderProgram->getAtrHandle("a_texpos"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P(3*sizeof(GLfloat)));
     }
+    if (normaled) {
+        if (shaderProgram->getAtrHandle("a_normal") != -1) {
+            glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_normal"));
+            glVertexAttribPointer(shaderProgram->getAtrHandle("a_normal"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P((textured ? 6 : 3)*sizeof(GLfloat)));
+        }
+    }
+
     
     float s;
     if (start <= 0.0) {

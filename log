@@ -32,6 +32,41 @@ Loader: cube.obj: Triangle indices: 8 5 4
 Loader: cube.obj: Triangle indices: 1 2 4
 Loader: cube.obj: Triangle indices: 8 7 5
 Loader: cube.obj: Unrecognized: 
+Loader: doublecube_nm.obj: Unrecognized: o Cube.002
+Loader: doublecube_nm.obj: Vertex: 2 -1 1
+Loader: doublecube_nm.obj: Vertex: -2 -1 1
+Loader: doublecube_nm.obj: Vertex: -2 -1 -1
+Loader: doublecube_nm.obj: Vertex: -2 1 -1
+Loader: doublecube_nm.obj: Vertex: -2 1 1
+Loader: doublecube_nm.obj: Vertex: 2 1 1
+Loader: doublecube_nm.obj: Vertex: 2 1 -0.999999
+Loader: doublecube_nm.obj: Vertex: 2 -1 -1
+Loader: doublecube_nm.obj: Texture coord: 0.666667 1 0
+Loader: doublecube_nm.obj: Texture coord: 0 1 0
+Loader: doublecube_nm.obj: Texture coord: 0 0 0
+Loader: doublecube_nm.obj: Texture coord: 0.666667 0 0
+Loader: doublecube_nm.obj: Texture coord: 1 1 0
+Loader: doublecube_nm.obj: Texture coord: 1 0 0
+Loader: doublecube_nm.obj: Normal: 0 -1 -0
+Loader: doublecube_nm.obj: Normal: -0 1 0
+Loader: doublecube_nm.obj: Normal: 1 0 0
+Loader: doublecube_nm.obj: Normal: -0 -0 1
+Loader: doublecube_nm.obj: Normal: -1 -0 -0
+Loader: doublecube_nm.obj: Normal: 0 0 -1
+Loader: doublecube_nm.obj: Unrecognized: s off
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 1 2 3 / 1 2 3 / 1 1 1
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 4 5 6 / 2 3 4 / 2 2 2
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 6 1 7 / 1 4 5 / 3 3 3
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 6 5 2 / 1 2 3 / 4 4 4
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 5 4 3 / 6 4 1 / 5 5 5
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 8 3 4 / 1 2 3 / 6 6 6
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 8 1 3 / 4 1 3 / 1 1 1
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 7 4 6 / 1 2 4 / 2 2 2
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 7 1 8 / 5 4 6 / 3 3 3
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 1 6 2 / 4 1 3 / 4 4 4
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 2 5 3 / 5 6 1 / 5 5 5
+Loader: doublecube_nm.obj: Triangle indices, texture coord indices and normal indices: 7 8 4 / 4 1 3 / 6 6 6
+Loader: doublecube_nm.obj: Unrecognized: 
 Loader: doublecube.obj: Unrecognized: o Cube
 Loader: doublecube.obj: Vertex: 2 -1 -1
 Loader: doublecube.obj: Vertex: 2 -1 1
@@ -66,17 +101,17 @@ Loader: doublecube.obj: Texture coord: 0.666667 0 0
 Loader: doublecube.obj: Texture coord: 1 1 0
 Loader: doublecube.obj: Texture coord: 0.666667 0 0
 Loader: doublecube.obj: Unrecognized: s off
-Loader: doublecube.obj: Triangle indices and texture coord indices: 2 1 3 / 2 4 3
-Loader: doublecube.obj: Triangle indices and texture coord indices: 8 4 7 / 5 6 6
-Loader: doublecube.obj: Triangle indices and texture coord indices: 5 7 6 / 8 2 9
-Loader: doublecube.obj: Triangle indices and texture coord indices: 6 10 7 / 11 3 12
-Loader: doublecube.obj: Triangle indices and texture coord indices: 7 13 8 / 14 4 15
-Loader: doublecube.obj: Triangle indices and texture coord indices: 1 16 4 / 17 8 18
-Loader: doublecube.obj: Triangle indices and texture coord indices: 1 19 2 / 1 4 3
-Loader: doublecube.obj: Triangle indices and texture coord indices: 5 20 8 / 4 6 6
-Loader: doublecube.obj: Triangle indices and texture coord indices: 1 21 5 / 7 2 9
-Loader: doublecube.obj: Triangle indices and texture coord indices: 2 22 6 / 10 3 12
-Loader: doublecube.obj: Triangle indices and texture coord indices: 3 23 7 / 13 4 15
-Loader: doublecube.obj: Triangle indices and texture coord indices: 5 24 1 / 16 8 18
+Loader: doublecube.obj: Triangle indices and texture coord indices: 2 3 4 / 1 2 3
+Loader: doublecube.obj: Triangle indices and texture coord indices: 8 7 6 / 4 5 6
+Loader: doublecube.obj: Triangle indices and texture coord indices: 5 6 2 / 7 8 9
+Loader: doublecube.obj: Triangle indices and texture coord indices: 6 7 3 / 10 11 12
+Loader: doublecube.obj: Triangle indices and texture coord indices: 7 8 4 / 13 14 15
+Loader: doublecube.obj: Triangle indices and texture coord indices: 1 4 8 / 16 17 18
+Loader: doublecube.obj: Triangle indices and texture coord indices: 1 2 4 / 19 1 3
+Loader: doublecube.obj: Triangle indices and texture coord indices: 5 8 6 / 20 4 6
+Loader: doublecube.obj: Triangle indices and texture coord indices: 1 5 2 / 21 7 9
+Loader: doublecube.obj: Triangle indices and texture coord indices: 2 6 3 / 22 10 12
+Loader: doublecube.obj: Triangle indices and texture coord indices: 3 7 4 / 23 13 15
+Loader: doublecube.obj: Triangle indices and texture coord indices: 5 1 8 / 24 16 18
 Loader: doublecube.obj: Unrecognized: 
 

@@ -19,9 +19,9 @@ This file is part of [DEMO NAME].
 attribute vec3 a_vertex;
 attribute vec3 a_texpos;
 attribute vec3 a_normal;
-attribute vec3 a_lightdir;
 varying vec2 texpos;
 varying float light;
+uniform vec3 lightdir;
 uniform mat4 projection;
 uniform float iGlobalTime;
 uniform mat4 xRotation;
@@ -31,10 +31,7 @@ uniform mat4 translation;
 
 void main() {
     texpos = a_texpos.xy;
-    light = 0.1+max(dot(a_normal*xRotation*yRotation*zRotation, a_lightdir), 0.0);
-    vec4 vm = vec4(a_vertex, 1.0) * xRotation;
-    vm *= yRotation;
-    vm *= zRotation;
-    vm *= translation;
-    gl_Position = vm * projection;
+    light = 0.1+max(1.0-acos(dot(xRotation*yRotation*zRotation*a_normal, normalize(lightdir))), 0.0);
+    vec4 vm = projection * translation * xRotation * yRotation * zRotation * vec4(a_vertex, 1.0);
+    gl_Position = vm;
 }

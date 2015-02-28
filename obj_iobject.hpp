@@ -27,9 +27,11 @@ class IndexedObject {
         IndexedObject();
         float* getVertices();
         float* getTcoords();
+        float* getNormals();
         unsigned short* getIndices();
         int getISize();
         int getTSize();
+        int getNSize();
         int getVSize();
         bool loadObjFile(std::string file);
     private:
@@ -37,15 +39,19 @@ class IndexedObject {
 
         std::vector<float> vertices;
         std::vector<float> tcoords;
+        std::vector<float> normals;
         std::vector<unsigned short> indices;
         bool textured;
         bool nottextured;
+        bool normaled;
+        bool notnormaled;
         
         //Don't look down there VVV :)
         //I should learn templates of something
         void alarm(std::string text);
         void alarm(std::string text, int i, std::string text2);
         void alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4, std::string t5, int i5);
+        void alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4, std::string t5, int i5, std::string t6, int i6, std::string t7, int i7, std::string t8, int i8);
         void alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4);
         void alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3);
         void alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2);

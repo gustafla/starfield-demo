@@ -26,5 +26,6 @@ bool isfloat(std::string &s);
 void checkValueParam(int n, int argc, char* argv[]);
 void checkValueParamf(int n, int argc, char* argv[]);
 bool loadFile(std::string inFileName, std::string& outString, int linesize=4096);
+int countSubstring(const std::string& str, const std::string& sub);
 
 #endif

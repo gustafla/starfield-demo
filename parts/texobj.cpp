@@ -26,13 +26,16 @@ common(icommon) {
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
-    model = common->models->getModel("doublecube.obj");
+    model = common->models->getModel("doublecube_nm.obj");
+    getTranslationMat(translation, 0, 0, -4);
+    glUniformMatrix4fv(shader->getUfmHandle("translation"), 1, GL_FALSE, translation);
+    glUniform3f(shader->getUfmHandle("lightdir"), -1.0, 0.0, 0.0);
 }
 
 PTexobj::~PTexobj() {
     delete shader;
     delete texture;
-    common->models->freeModel("biggerthing.obj");
+    common->models->freeModel("doublecube_nm.obj");
 }
 
 void PTexobj::draw() {

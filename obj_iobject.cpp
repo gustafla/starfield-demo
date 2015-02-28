@@ -23,9 +23,10 @@ This file is part of [DEMO NAME].
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
+#include "util.hpp"
 
 IndexedObject::IndexedObject():
-textured(false), nottextured(false) {}
+textured(false), nottextured(false), normaled(false), notnormaled(false) {}
 
 float* IndexedObject::getVertices() {
     return &vertices[0];
@@ -33,6 +34,10 @@ float* IndexedObject::getVertices() {
 
 float* IndexedObject::getTcoords() {
     return &tcoords[0];
+}
+
+float* IndexedObject::getNormals() {
+    return &normals[0];
 }
 
 unsigned short* IndexedObject::getIndices() {
@@ -53,10 +58,15 @@ int IndexedObject::getTSize() {
     else return 0;
 }
 
+int IndexedObject::getNSize() {
+    if (normaled)
+        return normals.size();
+    else return 0;
+}
+
 bool IndexedObject::loadObjFile(std::string file) {
     name = file;
     std::vector<std::string*> objLine;
-    std::vector<vec3*> normals;
 
     std::ifstream in(file.c_str());
     if (!in.is_open()) {
@@ -70,72 +80,105 @@ bool IndexedObject::loadObjFile(std::string file) {
     }
     
     float tx, ty, tz;
-    unsigned short a, b, c, d, e, f;
+    unsigned short a, b, c, d, e, f, g, h, i;
     
-    for (int i=0; i<objLine.size(); i++) {
-        if (objLine[i]->c_str()[0]=='#' || objLine[i]->c_str()[0]=='\n')
+    for (int index=0; index<objLine.size(); index++) {
+        if (objLine[index]->c_str()[0]=='#' || objLine[index]->c_str()[0]=='\n')
             continue;
-        else if (objLine[i]->c_str()[0]=='v' && objLine[i]->c_str()[1]==' ') { //vertex
-            sscanf(objLine[i]->c_str(), "v %f %f %f", &tx, &ty, &tz);
+        else if (objLine[index]->c_str()[0]=='v' && objLine[index]->c_str()[1]==' ') { //vertex
+            sscanf(objLine[index]->c_str(), "v %f %f %f", &tx, &ty, &tz);
             alarm("Vertex: ", tx, " ", ty, " ", tz);
             vertices.push_back(tx);
             vertices.push_back(ty);
             vertices.push_back(tz);
-        } else if (objLine[i]->c_str()[0]=='v' && objLine[i]->c_str()[1]=='n') { //normal (not usable for now)
-            sscanf(objLine[i]->c_str(), "vn %f %f %f", &tx, &ty, &tz);
-            normals.push_back(new vec3(tx, ty, tz));
-        } else if (objLine[i]->c_str()[0]=='v' && objLine[i]->c_str()[1]=='t') { //texture coordinate
-            if (count(objLine[i]->begin(), objLine[i]->end(), ' ') == 3) {
-                sscanf(objLine[i]->c_str(), "vt %f %f %f", &tx, &ty, &tz);
+        } else if (objLine[index]->c_str()[0]=='v' && objLine[index]->c_str()[1]=='n') { //normal
+            sscanf(objLine[index]->c_str(), "vn %f %f %f", &tx, &ty, &tz);
+            alarm("Normal: ", tx, " ", ty, " ", tz);
+            normals.push_back(tx);
+            normals.push_back(ty);
+            normals.push_back(tz);
+        } else if (objLine[index]->c_str()[0]=='v' && objLine[index]->c_str()[1]=='t') { //texture coordinate
+            if (count(objLine[index]->begin(), objLine[index]->end(), ' ') == 3) {
+                sscanf(objLine[index]->c_str(), "vt %f %f %f", &tx, &ty, &tz);
                 alarm("Texture coord: ", tx, " ", ty, " ", tz);
                 tcoords.push_back(tx);
                 tcoords.push_back(ty);
                 tcoords.push_back(tz);
-            } else if (count(objLine[i]->begin(), objLine[i]->end(), ' ') == 2) {
-                sscanf(objLine[i]->c_str(), "vt %f %f", &tx, &ty);
+            } else if (count(objLine[index]->begin(), objLine[index]->end(), ' ') == 2) {
+                sscanf(objLine[index]->c_str(), "vt %f %f", &tx, &ty);
                 alarm("Texture coord: ", tx, " ", ty, " ", 0.0f);
                 tcoords.push_back(tx);
                 tcoords.push_back(ty);
                 tcoords.push_back(0.0f);
             } else {
-                alarm("Something wrong with line ", i, ".");
+                alarm("Something wrong with line ", index, ".");
                 exit(-200);
             }
-        } else if (objLine[i]->c_str()[0]=='f') { //face
-            if (count(objLine[i]->begin(), objLine[i]->end(), ' ') == 3) { //triangular face
-                if (count(objLine[i]->begin(), objLine[i]->end(), '/') == 0) { //only vertex coords
+        } else if (objLine[index]->c_str()[0]=='f') { //face
+            if (count(objLine[index]->begin(), objLine[index]->end(), ' ') == 3) { //triangular face
+                if (count(objLine[index]->begin(), objLine[index]->end(), '/') == 0) { //only vertex coords
                     nottextured = true;
-                    sscanf(objLine[i]->c_str(), "f %d %d %d", &a, &b, &c);
+                    notnormaled = true;
+                    sscanf(objLine[index]->c_str(), "f %d %d %d", &a, &b, &c);
                     alarm("Triangle indices: ", a, " ", b, " ", c);
                     indices.push_back(a-1);
                     indices.push_back(b-1);
                     indices.push_back(c-1);
-                } else if (count(objLine[i]->begin(), objLine[i]->end(), '/') == 3) { //vertex coords + texture coords
+                } else if (countSubstring(*objLine[index], "/") == 3) { //vertex coords + texture coords
                     textured = true;
-                    sscanf(objLine[i]->c_str(), "f %d/%d %d/%d %d/%d", &a, &b, &c, &d, &e, &f);
-                    alarm("Triangle indices and texture coord indices: ", a, " ", b, " ", c, " / ", d, " ", e, " ", f);
+                    notnormaled = true;
+                    sscanf(objLine[index]->c_str(), "f %d/%d %d/%d %d/%d", &a, &b, &c, &d, &e, &f);
+                    alarm("Triangle indices and texture coord indices: ", a, " ", c, " ", e, " / ", b, " ", d, " ", f);
                     indices.push_back(a-1);
                     indices.push_back(b-1);
                     indices.push_back(c-1);
                     indices.push_back(d-1);
                     indices.push_back(e-1);
                     indices.push_back(f-1);
-                } else 
-                    alarm("Skipped line ", i, ". Face indices with normals not supported yet.");
+                } else if (countSubstring(*objLine[index], "//") == 3) { //vertex coords + normals
+                    normaled = true;
+                    nottextured = true;
+                    sscanf(objLine[index]->c_str(), "f %d//%d %d//%d %d//%d", &a, &b, &c, &d, &e, &f);
+                    alarm("Triangle indices and normal indices: ", a, " ", c, " ", e, " / ", b, " ", d, " ", f);
+                    indices.push_back(a-1);
+                    indices.push_back(b-1);
+                    indices.push_back(c-1);
+                    indices.push_back(d-1);
+                    indices.push_back(e-1);
+                    indices.push_back(f-1);
+                } else if (countSubstring(*objLine[index], "/") == 6) { //vertex coords + texture coords + normals
+                    normaled = true;
+                    textured = true;
+                    sscanf(objLine[index]->c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d", &a, &b, &c, &d, &e, &f, &g, &h, &i);
+                    alarm("Triangle indices, texture coord indices and normal indices: ", a, " ", d, " ", g, " / ", b, " ", e, " ", h, " / ", c, " ", f, " ", i);
+                    indices.push_back(a-1);
+                    indices.push_back(b-1);
+                    indices.push_back(c-1);
+                    indices.push_back(d-1);
+                    indices.push_back(e-1);
+                    indices.push_back(f-1);
+                    indices.push_back(g-1);
+                    indices.push_back(h-1);
+                    indices.push_back(i-1);
+                } else
+                    alarm("Skipped line ", index, ". Something very wrong with this line.");
             } else //not triangular face
-                alarm("Skipped line ", i, ". Not a triangular face :(");
+                alarm("Skipped line ", index, ". Not a triangular face :(");
         } else {
-            alarm("Unrecognized: " + *objLine[i]);
+            alarm("Unrecognized: " + *objLine[index]);
             continue;
         }
     }
     
-    if (textured && nottextured) {
-        alarm("Mixed textured and untextured indices not supported.");
+    if ((textured && nottextured) || (normaled && notnormaled)) {
+        alarm("Mixed indices not supported.");
         return false;
     }
     if (!textured && tcoords.size()) {
         alarm("Warning: Texture coords entirely unused.");
+    }
+    if (!normaled && normals.size()) {
+        alarm("Warning: Normals entirely unused.");
     }
     
     return true;
@@ -153,6 +196,10 @@ void IndexedObject::alarm(std::string text, int i, std::string text2) {
 
 void IndexedObject::alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4, std::string t5, int i5) {
     std::cout << "Loader: " << name << ": " << t0 << i0 << t1 << i1 << t2 << i2 << t3 << i3 << t4 << i4 << t5 << i5 << std::endl;
+}
+
+void IndexedObject::alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4, std::string t5, int i5, std::string t6, int i6, std::string t7, int i7, std::string t8, int i8) {
+    std::cout << "Loader: " << name << ": " << t0 << i0 << t1 << i1 << t2 << i2 << t3 << i3 << t4 << i4 << t5 << i5 << t6 << i6<< t7 << i7 << t8 << i8 << std::endl;
 }
 
 void IndexedObject::alarm(std::string t0, int i0, std::string t1, int i1, std::string t2, int i2, std::string t3, int i3, std::string t4, int i4) {
