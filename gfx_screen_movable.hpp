@@ -27,7 +27,7 @@ This file is part of [DEMO NAME].
 
 class GfxScreenMovable {
     public:
-        GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0="", float c=1.0);
+        GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0="", float c=1.0, uint32_t filter=GL_NEAREST, uint32_t wrap=GL_REPEAT);
         ~GfxScreenMovable();
         void draw();
         void setWH(unsigned int w, unsigned int h);
@@ -35,7 +35,9 @@ class GfxScreenMovable {
         void setH(unsigned int h);
         void setXY(unsigned int x, unsigned int y);
         void setX(unsigned int x);
+        void setXgl(float x);
         void setY(unsigned int y);
+        void setYgl(float y);
         void setXYWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h);
     private:
         GfxTexture2D* i;

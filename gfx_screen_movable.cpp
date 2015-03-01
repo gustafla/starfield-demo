@@ -21,7 +21,7 @@ This file is part of [DEMO NAME].
 #include "tga_file.hpp"
 #include <string>
 
-GfxScreenMovable::GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0, float c): //float c has to match framebuffer size to avoit odd effects!
+GfxScreenMovable::GfxScreenMovable(CommonData* icommon, std::string fs, unsigned int x, unsigned int y, unsigned int w, unsigned int h, std::string i0, float c, uint32_t filter, uint32_t wrap): //float c has to match framebuffer size to avoit odd effects!
 common(icommon),
 iCount(0),
 store_w(w),
@@ -43,7 +43,7 @@ shaderProgram("shaders/simple_texpos.vert", fs) {
     check();
     
     if (i0 != "") {
-        i = new GfxTexture2D(i0);
+        i = new GfxTexture2D(i0, filter, wrap);
         glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
         iCount=1;
     }
@@ -149,6 +149,17 @@ void GfxScreenMovable::setX(unsigned int x) {
     vertices[12] = ((float(x+store_w)-(0.5*common->res[0]))/common->res[0])*2.0;
 }
 
+void GfxScreenMovable::setXgl(float x) {
+    //store_x=x;
+    vertices[0] = x;
+
+    vertices[4] = x;
+
+    vertices[8] = x+store_w/(common->res[0]*(common->res[1]/common->res[0]));
+
+    vertices[12] = x+store_w/(common->res[0]*(common->res[1]/common->res[0]));
+}
+
 void GfxScreenMovable::setY(unsigned int y) {
     store_y=y;
     vertices[1] = -((float(y+store_h)-(0.5*common->res[1]))/common->res[1])*2.0;
@@ -158,6 +169,17 @@ void GfxScreenMovable::setY(unsigned int y) {
     vertices[9] = -((float(y)-(0.5*common->res[1]))/common->res[1])*2.0;
 
     vertices[13] = -((float(y+store_h)-(0.5*common->res[1]))/common->res[1])*2.0;
+}
+
+void GfxScreenMovable::setYgl(float y) {
+    //store_y=y;
+    vertices[1] = y;
+
+    vertices[5] = y;
+
+    vertices[9] = y+store_h/(common->res[1]*(common->res[0]/common->res[1]));
+
+    vertices[13] = y+store_h/(common->res[1]*(common->res[0]/common->res[1]));
 }
 
 void GfxScreenMovable::setXYWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h) {

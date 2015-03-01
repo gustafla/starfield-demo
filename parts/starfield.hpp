@@ -30,9 +30,10 @@ class PStarfield {
         ~PStarfield();
         void draw();
     private:
-        //CommonData* common;
+        CommonData* common;
         EPointField* stars;
         GfxScreenMovable* ovl;
+        GfxScreenMovable* scroller;
 };
 
 #endif

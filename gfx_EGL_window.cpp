@@ -107,25 +107,20 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     if ( !eglInitialize(eglDisplay, &majorVersion, &minorVersion) )
         return false;
 
-    // Get configs
     if ( !eglGetConfigs(eglDisplay, NULL, 0, &numConfigs) )
         return false;
 
-    // Choose config
     if ( !eglChooseConfig(eglDisplay, attribList, &config, 1, &numConfigs) )
         return false;
 
-    // Create a surface
     eglBuffer = eglCreateWindowSurface(eglDisplay, config, (EGLNativeWindowType)window, NULL);
     if ( eglBuffer == EGL_NO_SURFACE )
         return false;
 
-    // Create a GL context
     eglContext = eglCreateContext(eglDisplay, config, EGL_NO_CONTEXT, contextAttribs );
     if ( eglContext == EGL_NO_CONTEXT )
         return false;
 
-    // Make the context current
     if ( !eglMakeCurrent(eglDisplay, eglBuffer, eglBuffer, eglContext) )
         return false;
 
@@ -133,7 +128,7 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     buffer = eglBuffer;
     context = eglContext;
 
-    //eglSwapInterval(eglDisplay, 0);
+    //eglSwapInterval(eglDisplay, 0.0);
 
     return true;
 }

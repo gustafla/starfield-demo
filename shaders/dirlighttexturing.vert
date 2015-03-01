@@ -28,10 +28,16 @@ uniform mat4 xRotation;
 uniform mat4 yRotation;
 uniform mat4 zRotation;
 uniform mat4 translation;
+uniform mat4 view;
 
 void main() {
     texpos = a_texpos.xy;
-    light = 0.1+max(1.0-acos(dot(xRotation*yRotation*zRotation*a_normal, normalize(lightdir))), 0.0);
-    vec4 vm = projection * translation * xRotation * yRotation * zRotation * vec4(a_vertex, 1.0);
+    light = 0.1+max(dot(a_normal, xRotation*yRotation*zRotation*normalize(lightdir)), 0.0);
+    mat4 m = translation * xRotation; // Prototyping for later C++ MVP implementation
+    m = m * yRotation;                //
+    m = m * zRotation;                //
+    mat4 mvp = projection * view;     //
+    mvp = mvp * m;                    // This is the correct order.
+    vec4 vm = mvp * vec4(a_vertex, 1.0);
     gl_Position = vm;
 }

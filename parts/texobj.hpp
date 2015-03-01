@@ -24,17 +24,20 @@ This file is part of [DEMO NAME].
 #include "gfx_mat.hpp"
 #include "gfx_model.hpp"
 #include "gfx_texture_2D.hpp"
+#include "gfx_postprocessor.hpp"
 #include "rpi_gfx.hpp"
 
 class PTexobj{
 	public:
 		PTexobj(CommonData* icommon);
 		~PTexobj();
-		void draw();
+		void draw(GfxPostProcessor* pp);
 	private:
         GfxShader* shader;
         GfxModel* model;
         GfxTexture2D* texture;
+        GfxTexture2D* rgbt;
+        GfxPostProcessor* rgb;
         
         CommonData* common;
         
@@ -42,6 +45,7 @@ class PTexobj{
         GLfloat yr[16];
         GLfloat zr[16];
         GLfloat translation[16];
+        GLfloat view[16];
 };
 
 #endif

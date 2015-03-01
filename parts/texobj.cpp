@@ -21,15 +21,20 @@ This file is part of [DEMO NAME].
 
 PTexobj::PTexobj(CommonData* icommon):
 common(icommon) {
-    texture = new GfxTexture2D("textest.tga");
+    texture = new GfxTexture2D("graphics/textest.tga");
+    rgbt = new GfxTexture2D("graphics/rgbfilter.tga");
     shader = new GfxShader("shaders/dirlighttexturing.vert", "shaders/showtex_var_simpleshade.frag");
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
     model = common->models->getModel("doublecube_nm.obj");
-    getTranslationMat(translation, 0, 0, -4);
+    getTranslationMat(translation, 0, 0, -8);
+    getTranslationMat(view, -2, 0, 0);
     glUniformMatrix4fv(shader->getUfmHandle("translation"), 1, GL_FALSE, translation);
-    glUniform3f(shader->getUfmHandle("lightdir"), -1.0, 0.0, 0.0);
+    glUniformMatrix4fv(shader->getUfmHandle("view"), 1, GL_FALSE, view);
+    glUniform3f(shader->getUfmHandle("lightdir"), 0.0, 0.0, -1.0);
+    rgb = new GfxPostProcessor(icommon, "shaders/rgbfilt.frag");
+    rgb->takeTexture(rgbt, "rgbfilter");
 }
 
 PTexobj::~PTexobj() {
@@ -38,7 +43,7 @@ PTexobj::~PTexobj() {
     common->models->freeModel("doublecube_nm.obj");
 }
 
-void PTexobj::draw() {
+void PTexobj::draw(GfxPostProcessor* pp) {
     shader->use();
     getXRotMat(xr, common->t*0.2);
     getYRotMat(yr, common->t*0.8);
@@ -49,6 +54,9 @@ void PTexobj::draw() {
     glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
     texture->bindToUnit(0);
-    //gfxBindFB0();
+    rgb->bindFramebuffer();
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     model->draw(shader);
+    pp->bindFramebuffer();
+    rgb->draw();
 }

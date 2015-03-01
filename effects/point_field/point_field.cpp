@@ -28,7 +28,7 @@ shaderProgram("effects/point_field/star.vert", "shaders/textured_point.frag") {
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture
-    pointTexture = new GfxTexture2D("star.tga");
+    pointTexture = new GfxTexture2D("graphics/star.tga");
     pointTexture->bindToUnit(0);
     glUniform1i(shaderProgram.getUfmHandle("pointTexture"), 0);
 

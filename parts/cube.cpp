@@ -25,7 +25,7 @@ common(icommon) {
     shader->use();
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
     cubeModel = common->models->getModel("cube.obj");
-    twister = new GfxScreenMovable(icommon, "shaders/twister_var.frag", 0, 0, common->res[0]/4.0, common->res[1], "twister_texture.tga");
+    twister = new GfxScreenMovable(icommon, "shaders/twister_var.frag", 0, 0, common->res[0]/4.0, common->res[1], "graphics/twister_texture.tga");
 }
 
 PCube::~PCube() {

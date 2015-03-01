@@ -85,16 +85,18 @@ void* playDemo(void* arg) {
     CommonData common(c.w, c.h);
     
     //Display the stupid loading screen
-    GfxScreen* loading = new GfxScreen(&common, "shaders/showtex.frag", "loading.tga");
+    GfxScreen* loading = new GfxScreen(&common, "shaders/showtex.frag", "graphics/loading.tga");
     gfxBindFB0();
     loading->draw();
     delete loading;
     window.swapBuffers();
     
+    GfxTexture2D     crtTex("graphics/rgbfilter.tga");
     GfxPostProcessor crt(&common, "shaders/crt.frag");
     GfxPostProcessor blur(&common, "shaders/fastblur.frag", GL_LINEAR, 4.0);
     blur.takeTexture(crt.getTexture(), "frameIn");
     crt.takeTexture(blur.getTexture(), "blurFrame");
+    crt.takeTexture(&crtTex, "rgbfilter");
     bool doPP = false;
 
     //demo parts :D
@@ -246,7 +248,7 @@ void* playDemo(void* arg) {
                 break;
             case 9:
                 doPP = true;
-                p6.draw();
+                p6.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;

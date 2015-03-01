@@ -32,7 +32,7 @@ shaderProgram("effects/point_flag/proj_wave_point.vert", "shaders/textured_point
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture
-    pointTexture = new GfxTexture2D("mehu256.tga");
+    pointTexture = new GfxTexture2D("graphics/mehu256.tga");
     pointTexture->bindToUnit(0);
     glUniform1i(shaderProgram.getUfmHandle("pointTexture"), 0);
 

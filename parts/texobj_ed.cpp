@@ -21,7 +21,7 @@ This file is part of [DEMO NAME].
 
 PTexobjED::PTexobjED(CommonData* icommon):
 common(icommon) {
-    texture = new GfxTexture2D("textest.tga");
+    texture = new GfxTexture2D("graphics/textest.tga");
     shader = new GfxShader("shaders/texturedthing.vert", "shaders/showtex_var.frag");
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
