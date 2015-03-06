@@ -32,7 +32,7 @@ uniform mat4 view;
 
 void main() {
     texpos = a_texpos.xy;
-    light = 0.1+max(dot(a_normal, xRotation*yRotation*zRotation*normalize(lightdir)), 0.0);
+    light = 0.1+max(dot(normalize(a_normal), xRotation* yRotation * zRotation * normalize(lightdir)), 0.0);
     mat4 m = translation * xRotation; // Prototyping for later C++ MVP implementation
     m = m * yRotation;                //
     m = m * zRotation;                //

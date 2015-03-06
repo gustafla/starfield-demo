@@ -5,13 +5,16 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 ------------------------------------------------------
 
 - Correct matrix calculations!
-- Lighting doesn't behave correcly?
+- MVP
+- Fix lighting
 - Accommodate for different size audio h/w buffers (timing)
 - Sync'd noise blur?
 - Edit help
+- Resolution + crt rgb + pp interpolation
 
 DONE:
 
+- p2 scroller timing fix
 - Fix GfxScreen texture memleak
 - Movable gfx_screens!??
 - Change other timing and make a loading screen

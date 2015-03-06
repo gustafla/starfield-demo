@@ -27,7 +27,7 @@ common(icommon) {
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
-    model = common->models->getModel("doublecube_nm.obj");
+    model = common->models->getModel("cube_tex.obj");
     getTranslationMat(translation, 0, 0, -8);
     getTranslationMat(view, -2, 0, 0);
     glUniformMatrix4fv(shader->getUfmHandle("translation"), 1, GL_FALSE, translation);
@@ -54,9 +54,9 @@ void PTexobj::draw(GfxPostProcessor* pp) {
     glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
     texture->bindToUnit(0);
-    rgb->bindFramebuffer();
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+//    rgb->bindFramebuffer();
+//    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     model->draw(shader);
-    pp->bindFramebuffer();
-    rgb->draw();
+//    pp->bindFramebuffer();
+//    rgb->draw();
 }

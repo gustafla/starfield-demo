@@ -19,7 +19,8 @@ This file is part of [DEMO NAME].
 #include "parts/starfield.hpp"
 
 PStarfield::PStarfield(CommonData* icommon):
-common(icommon) {
+common(icommon),
+start(-1.0f) {
     stars = new EPointField(icommon);
     ovl = new GfxScreenMovable(icommon, "shaders/ovl_var.frag", (icommon->res[0]/2)-((icommon->res[1]*0.52083)/2), 0, (icommon->res[1]*0.52083), icommon->res[1], "graphics/mehuovl.tga");
     scroller = new GfxScreenMovable(icommon, "shaders/colorscroll.frag", (icommon->res[0]), (icommon->res[1]/8.0)*7.0, (icommon->res[1]*64.0)/8.0, icommon->res[1]/8.0, "graphics/scroller1.tga", 1.0, GL_NEAREST, GL_CLAMP_TO_EDGE);
@@ -32,10 +33,16 @@ PStarfield::~PStarfield() {
 }
 
 void PStarfield::draw() {
+    if (start < 0.0f)
+        start = common->t;
     stars->draw();
     glClear(GL_DEPTH_BUFFER_BIT);
     ovl->draw();
     glClear(GL_DEPTH_BUFFER_BIT);
-    scroller->setXgl(3.6-common->t*0.4);
+    scroller->setXgl(3.6 - (common->t - start) * 0.4);
     scroller->draw();
+}
+
+void PStarfield::resetTimer() {
+    start=-1.0f;
 }

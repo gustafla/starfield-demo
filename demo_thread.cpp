@@ -91,12 +91,13 @@ void* playDemo(void* arg) {
     delete loading;
     window.swapBuffers();
     
-    GfxTexture2D     crtTex("graphics/rgbfilter.tga");
-    GfxPostProcessor crt(&common, "shaders/crt.frag");
+    GfxTexture2D     rgbfiltert("graphics/rgbfilter.tga");
+    GfxPostProcessor crt(&common, "shaders/crt.frag", GL_NEAREST);
     GfxPostProcessor blur(&common, "shaders/fastblur.frag", GL_LINEAR, 4.0);
     blur.takeTexture(crt.getTexture(), "frameIn");
     crt.takeTexture(blur.getTexture(), "blurFrame");
-    crt.takeTexture(&crtTex, "rgbfilter");
+    //crt.takeTexture(&crtTex, "rgbfilter");
+    //GfxPostProcessor scaler(&common, "shaders/2x.frag", GL_NEAREST, 0.5);
     bool doPP = false;
 
     //demo parts :D
@@ -149,7 +150,7 @@ void* playDemo(void* arg) {
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
         common.t = (t-tLoopStart);
         //and a rythmic pulse
-        common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs() in libs!
+        common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs()!
 
         if (doPP) {
             crt.bindFramebuffer(); //drawing to the "root" PP
@@ -188,6 +189,7 @@ void* playDemo(void* arg) {
                     p1.draw();
 					part++;
 					tPartStart = t-tLoopStart;
+                    p1.resetTimer();
 				}
 				break;
             case 3:
@@ -276,7 +278,11 @@ void* playDemo(void* arg) {
             blur.bindFramebuffer();
             blur.draw(); //Blur doesn't draw to screen, instead to it's own texture that goes to crt as blurFrame
             glClear(GL_DEPTH_BUFFER_BIT);
+            //scaler.bindFramebuffer();
+            //crt.draw();
+            //glClear(GL_DEPTH_BUFFER_BIT);
             gfxBindFB0(); //Now we'll be drawing to screen
+            //scaler.draw();
             crt.draw();
         }
         //What was just drawn will now get read by the screen driver

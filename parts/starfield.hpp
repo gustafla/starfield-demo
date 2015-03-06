@@ -29,7 +29,9 @@ class PStarfield {
         PStarfield(CommonData* icommon);
         ~PStarfield();
         void draw();
+        void resetTimer();
     private:
+        float start;
         CommonData* common;
         EPointField* stars;
         GfxScreenMovable* ovl;

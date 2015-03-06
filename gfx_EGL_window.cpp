@@ -72,8 +72,8 @@ bool GfxEGLWindow::createWindow(GLuint flags)
 
     src_rect.x = x;
     src_rect.y = y;
-    src_rect.width = w << 16;
-    src_rect.height = h << 16;
+    src_rect.width = (w) << 16;
+    src_rect.height = (h) << 16;
 
     dispman_display = vc_dispmanx_display_open( 0 /* LCD */);
     dispman_update = vc_dispmanx_update_start( 0 );
