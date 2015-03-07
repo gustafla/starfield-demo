@@ -162,7 +162,7 @@ void* playDemo(void* arg) {
                 doPP = false;
 				p0.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){ //30.0
-                    fade = new Fade(&common, 0.6);
+                    fade = new Fade(&common, 1.0);
                     p0.draw(fade); //Hackish... But works :/
 					part++;
 					tPartStart = t-tLoopStart;
@@ -184,7 +184,7 @@ void* playDemo(void* arg) {
                 doPP = true;
 				p1.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-                    fade = new Fade(&common, 0.5);
+                    fade = new Fade(&common, 1.0);
                     fade->bindFramebuffer();
                     p1.draw();
 					part++;

@@ -22,9 +22,17 @@ uniform float iGlobalTime;
 uniform float tmult;
 uniform float tstart;
 
+float rand(vec2 co){
+    return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
 void main() {
+    vec2 pos = gl_FragCoord.xy/iResolution.xy;
+    float glitch = clamp(sin(iGlobalTime*200.0)*sin(iGlobalTime*2.0)*10.0, 0.0, 2.0);
+    pos.x+=rand(vec2(pos.y+iGlobalTime))*glitch;
+    pos.y+=sin(iGlobalTime*2.0)*sin(iGlobalTime*0.92)*0.4;
     float t=iGlobalTime-tstart;
     float tstretch=t*tmult;
-    gl_FragColor = vec4(texture2D(iChannel0, gl_FragCoord.xy/iResolution.xy).rgb*(1.0-tstretch), 1.0);
+    gl_FragColor = vec4(texture2D(iChannel0, pos).rgb*(1.0-tstretch)+rand(pos)*glitch*0.03, 1.0);
     //gl_FragColor = vec4(1.0,0.5,0.0, 1.0); //Test :D
 }

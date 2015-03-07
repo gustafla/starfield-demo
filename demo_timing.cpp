@@ -21,11 +21,11 @@ This file is part of [DEMO NAME].
 int const PARTS = 11;
 float const PART_TIMES[PARTS] = {
     30.4f,
-    0.6f,
-    31.1f,
+    1.0f,
+    30.7f,
+    1.0f,
     0.5f,
-    0.5f,
-    15.6f,
+    15.1f,
     15.7f,
     30.0f,
     30.0f,

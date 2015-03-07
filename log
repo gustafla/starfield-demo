@@ -121,3 +121,4 @@ Loader: doublecube.obj: Triangle indices and texture coord indices: 2 6 3 / 22 1
 Loader: doublecube.obj: Triangle indices and texture coord indices: 3 7 4 / 23 13 15
 Loader: doublecube.obj: Triangle indices and texture coord indices: 5 1 8 / 24 16 18
 Loader: doublecube.obj: Unrecognized: 
+
