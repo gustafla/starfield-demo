@@ -20,9 +20,9 @@ This file is part of [DEMO NAME].
 
 Fade::Fade(CommonData* icommon, float s, FadeType type) {
     if (type == FADE_BLACK_OUT)
-        fader = new GfxPostProcessor(icommon, "shaders/fadetoblack_post.frag", GL_LINEAR);
+        fader = new GfxPostProcessor(icommon, "shaders/fadetoblack_post.frag", GL_LINEAR, 1.0, GL_REPEAT);
     else if (type == FADE_BLACK_IN)
-        fader = new GfxPostProcessor(icommon, "shaders/fadefromblack_post.frag", GL_LINEAR);
+        fader = new GfxPostProcessor(icommon, "shaders/fadefromblack_post.frag", GL_LINEAR, 1.0, GL_REPEAT);
     glUseProgram(fader->getShader()->getHandle());
     glUniform1f(fader->getShader()->getUfmHandle("tmult"), (1.0/s));
     glUniform1f(fader->getShader()->getUfmHandle("tstart"), icommon->t);

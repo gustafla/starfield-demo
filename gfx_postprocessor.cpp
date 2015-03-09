@@ -20,7 +20,7 @@ This file is part of [DEMO NAME].
 #include "util.hpp"
 #include <string>
 
-GfxPostProcessor::GfxPostProcessor(CommonData* icommon, std::string fs, uint32_t filter, float c, float cy):
+GfxPostProcessor::GfxPostProcessor(CommonData* icommon, std::string fs, uint32_t filter, float c, uint32_t wrap, float cy):
 common(icommon),
 texCount(0),
 shaderProgram("shaders/simple.vert", fs) {
@@ -43,7 +43,7 @@ shaderProgram("shaders/simple.vert", fs) {
 
     check();
 
-    ownTexture = new GfxTexture2D(NULL, res[0], res[1], GL_RGB, filter, GL_CLAMP_TO_EDGE);
+    ownTexture = new GfxTexture2D(NULL, res[0], res[1], GL_RGB, filter, wrap);
     glUniform1i(shaderProgram.getUfmHandle("iChannel0"), 0);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ownTexture->getHandle(), 0);

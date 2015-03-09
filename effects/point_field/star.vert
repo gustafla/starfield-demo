@@ -19,9 +19,7 @@ This file is part of [DEMO NAME].
 attribute vec3 a_vertex;
 uniform mat4 projection;
 uniform float iGlobalTime;
-uniform mat4 yRotation;
-uniform mat4 xRotation;
-uniform mat4 zRotation;
+uniform mat4 rotation;
 uniform vec2 iResolution;
 uniform float beat;
 
@@ -34,10 +32,10 @@ void main() {
     v.z -= iGlobalTime;
     v.z = mod(v.z, 10.0);
     v.z -= 5.0;
-	v *= yRotation * xRotation * zRotation;
+	v = rotation * v;
     //v.z-=beat*0.05; //This looks bad.
     //v.z-=pow(max(0.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))),max(1.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))));
     float perspective = clamp(((v.z/4.0)+1.0), 0.0, 1.0);
 	gl_PointSize = (iResolution.x/20.0)*(perspective*perspective)*((1.0-beat*0.7)+0.4);
-    gl_Position = v * projection;
+    gl_Position = projection * v;
 }

@@ -28,10 +28,10 @@ float rand(vec2 co){
 
 void main() {
     vec2 pos = gl_FragCoord.xy/iResolution.xy;
-    float glitch = clamp(sin(iGlobalTime*200.0)*sin(iGlobalTime*2.0)*10.0, 0.0, 2.0);
-    pos.x+=rand(vec2(pos.y+iGlobalTime))*glitch;
-    pos.y+=sin(iGlobalTime*2.0)*sin(iGlobalTime*0.92)*0.4;
     float t=iGlobalTime-tstart;
+    float glitch = clamp(sin(t*200.0)*sin(t*2.0)*10.0, 0.0, 2.0);
+    pos.x+=rand(vec2(pos.y+t))*glitch;
+    pos.y+=sin(t*2.0)*sin(t*0.92)*3.0;
     float tstretch=t*tmult;
     gl_FragColor = vec4(texture2D(iChannel0, pos).rgb*(1.0-tstretch)+rand(pos)*glitch*0.03, 1.0);
     //gl_FragColor = vec4(1.0,0.5,0.0, 1.0); //Test :D

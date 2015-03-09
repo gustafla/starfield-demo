@@ -32,6 +32,7 @@ class CommonData {
         float beatHalfSine;
         
         GLfloat pProjMat40[16];
+        GLfloat pProjMat80[16];
         
         GfxModelHandler* models;
 };

@@ -26,5 +26,6 @@ beatHalfSine(0.0f) {
     res[1] = y;
     halfYRes[1] = y/2;
     models = new GfxModelHandler;
-    getPProjMat(pProjMat40, 40.0, ((float)x)/((float)y));
+    getPProjMat(pProjMat40, 40.0, ((float)x)/((float)y), 0.1, 100.0);
+    getPProjMat(pProjMat80, 80.0, ((float)x)/((float)y), 0.1, 100.0);
 }
