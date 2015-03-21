@@ -27,9 +27,9 @@ void main() {
     vec4 vm = vec4(a_vertex, 1.0) * xRotation;
     vm *= yRotation;
     vm *= zRotation;
-    vm = vec4(vm.xy, vm.z-(sin(iGlobalTime)+4.0), vm.w);
+    vm = vec4(vm.xy, vm.z-(sin(iGlobalTime)+8.0), vm.w);
     //vm.x += sin(iGlobalTime)*2.0;
     //vm.y += cos(iGlobalTime)*2.0;
-    gl_Position = vm * projection;
+    gl_Position = projection * vm;
     //gl_Position = vec4(vertex, 1.0);
 }

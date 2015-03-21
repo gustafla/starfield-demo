@@ -139,7 +139,7 @@ FILE_NAME_111=1814;C++;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2F
 FILE_NAME_112=287;GLSL;0;16;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fshaders%2Fclamptex_var.frag;0;4
 
 [VTE]
-last_dir=/home/luutifa/proj/demo/starfield
+last_dir=/home/luutifa/proj/programs/gamedev-eng
 
 [gproject]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;

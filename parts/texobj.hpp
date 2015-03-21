@@ -44,6 +44,7 @@ class PTexobj{
         GLfloat xr[16];
         GLfloat yr[16];
         GLfloat zr[16];
+        GLfloat tmp[16];
         GLfloat translation[16];
         GLfloat view[16];
 };

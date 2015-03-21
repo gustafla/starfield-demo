@@ -27,31 +27,32 @@ common(icommon) {
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
     glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
-    model = common->models->getModel("cube_tex.obj");
-    getTranslationMat(translation, 0, 0, -8);
-    getTranslationMat(view, -2, 0, 0);
+    model = common->models->getModel("cube_tex_nm.obj");
+    getTranslationMat(translation, 0, 0, 0);
+    getTranslationMat(view, 0, 0, -8);
     glUniformMatrix4fv(shader->getUfmHandle("translation"), 1, GL_FALSE, translation);
     glUniformMatrix4fv(shader->getUfmHandle("view"), 1, GL_FALSE, view);
     glUniform3f(shader->getUfmHandle("lightdir"), 0.0, 0.0, -1.0);
-    rgb = new GfxPostProcessor(icommon, "shaders/rgbfilt.frag");
-    rgb->takeTexture(rgbt, "rgbfilter");
+    //rgb = new GfxPostProcessor(icommon, "shaders/rgbfilt.frag");
+    //rgb->takeTexture(rgbt, "rgbfilter");
 }
 
 PTexobj::~PTexobj() {
     delete shader;
     delete texture;
-    common->models->freeModel("doublecube_nm.obj");
+    common->models->freeModel("cube_tex_nm.obj");
 }
 
 void PTexobj::draw(GfxPostProcessor* pp) {
     shader->use();
+    
     getXRotMat(xr, common->t*0.2);
     getYRotMat(yr, common->t*0.8);
     getZRotMat(zr, common->t*0.6);
-
-    glUniformMatrix4fv(shader->getUfmHandle("xRotation"), 1, GL_FALSE, xr);
-    glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
-    glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
+    multMat4(tmp, xr, yr);
+    multMat4(xr, tmp, zr);
+    glUniformMatrix4fv(shader->getUfmHandle("rotation"), 1, GL_FALSE, xr);
+    
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
     texture->bindToUnit(0);
 //    rgb->bindFramebuffer();

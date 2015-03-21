@@ -20,16 +20,11 @@ attribute vec3 a_vertex;
 attribute vec3 a_texpos;
 varying vec2 texpos;
 uniform mat4 projection;
+uniform mat4 view;
 uniform float iGlobalTime;
-uniform mat4 xRotation;
-uniform mat4 yRotation;
-uniform mat4 zRotation;
+uniform mat4 rotation;
 
 void main() {
     texpos = a_texpos.xy;
-    vec4 vm = vec4(a_vertex, 1.0) * xRotation;
-    vm *= yRotation;
-    vm *= zRotation;
-    vm = vec4(vm.xy, vm.z-4.0, vm.w);
-    gl_Position = vm * projection;
+    gl_Position = projection * view * rotation * vec4(a_vertex, 1.0);
 }

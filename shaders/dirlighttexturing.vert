@@ -24,20 +24,13 @@ varying float light;
 uniform vec3 lightdir;
 uniform mat4 projection;
 uniform float iGlobalTime;
-uniform mat4 xRotation;
-uniform mat4 yRotation;
-uniform mat4 zRotation;
+uniform mat4 rotation;
 uniform mat4 translation;
 uniform mat4 view;
 
 void main() {
     texpos = a_texpos.xy;
-    light = 0.1+max(dot(normalize(a_normal), xRotation* yRotation * zRotation * normalize(lightdir)), 0.0);
-    mat4 m = translation * xRotation; // Prototyping for later C++ MVP implementation
-    m = m * yRotation;                //
-    m = m * zRotation;                //
-    mat4 mvp = projection * view;     //
-    mvp = mvp * m;                    // This is the correct order.
-    vec4 vm = mvp * vec4(a_vertex, 1.0);
-    gl_Position = vm;
+    light = 0.1+max(dot(normalize(a_normal), rotation * normalize(lightdir)), 0.0);
+    mat4 mvp = projection * view * translation * rotation; // This is hopefully the correct order.
+    gl_Position = mvp * vec4(a_vertex, 1.0);
 }

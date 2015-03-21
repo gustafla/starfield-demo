@@ -29,6 +29,6 @@ uniform vec2 iResolution;
 }*/
 
 void main() {
-    gl_FragColor=vec4(0.0, 1.0-max(gl_FragCoord.z*1.3-0.1, 0.0), 0.0, 1.0);
+    gl_FragColor=vec4(0.0, 1.0-max(gl_FragCoord.z*2.0-1.2, 0.0), 0.0, 1.0);
     //gl_FragColor=vec4(0.0, 1.0, 0.0, 1.0);
 }

@@ -20,11 +20,15 @@ This file is part of [DEMO NAME].
 
 PIntro::PIntro(CommonData* icommon):
 common(icommon) {
-    metaballs = new GfxScreen(icommon, "shaders/metaballs.frag", "", 2.0);
-    rb = new GfxPostProcessor(icommon, "shaders/rb_post.frag", GL_LINEAR, 2.0);
+    metaballs = new GfxScreen(icommon, "shaders/metaballs.frag", "graphics/stone.tga", 2.0);
+    //rb = new GfxPostProcessor(icommon, "shaders/rb_post.frag", GL_LINEAR, 2.0);
+    rb = new GfxPostProcessor(icommon, "shaders/2x.frag", GL_LINEAR, 2.0);
     mehutext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", icommon->res[0]/3, icommon->res[1]/6, icommon->res[0]/6, icommon->res[1]/6, "graphics/mehutext.tga");
     yeartext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", (icommon->res[0]/12)*7, (icommon->res[1]/6)*2, icommon->res[0]/6, icommon->res[1]/6, "graphics/yeartext.tga");
     revisiontext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", (icommon->res[0]/12)*2, (icommon->res[1]/6)*3, icommon->res[0]/6, icommon->res[1]/6, "graphics/revisiontext.tga");
+    pb1 = new ParticleBurst(icommon, -0.2, 0.43, -1.0, 16);
+    pb2 = new ParticleBurst(icommon, 0.4, 0.2, -1.0, 16);
+    pb3 = new ParticleBurst(icommon, -0.3, -0.05, -1.0, 16);
 }
 
 PIntro::~PIntro() {
@@ -36,6 +40,7 @@ PIntro::~PIntro() {
 }
 
 void PIntro::draw(Fade* drawTo) {
+    //gfxBindFB0();
     rb->bindFramebuffer();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     metaballs->draw();
@@ -45,12 +50,27 @@ void PIntro::draw(Fade* drawTo) {
         drawTo->bindFramebuffer();
     rb->draw();
     glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 15.7)
+    if (common->t > 15.7) {
+        pb1->draw();
+    }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 19.6) {
+        pb2->draw();
+    }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 23.45) {
+        pb3->draw();
+    }
+    glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 15.7) {
         mehutext->draw();
-    glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 19.6)
+    }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 19.6) {
         yeartext->draw();
-    glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 23.45)
+    }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 23.45) {
         revisiontext->draw();
+    }
 }

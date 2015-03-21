@@ -135,6 +135,7 @@ void* playDemo(void* arg) {
     float fpsLastT = 0.0f;
     unsigned int frames = 0;
     float t=0.0;
+    float tlast=0.0;
     float tMusicEOF = -1.0;
 
     gettimeofday(&tTmp, &tz);
@@ -148,6 +149,8 @@ void* playDemo(void* arg) {
         //Update timer for the frame
         gettimeofday(&tTmp, &tz);
         t = static_cast<float>(tTmp.tv_sec - startT.tv_sec + ((tTmp.tv_usec - startT.tv_usec) * 1e-6));
+        common.deltat = t-tlast;
+        tlast = t;
         common.t = (t-tLoopStart);
         //and a rythmic pulse
         common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs()!
@@ -162,7 +165,7 @@ void* playDemo(void* arg) {
                 doPP = false;
 				p0.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){ //30.0
-                    fade = new Fade(&common, 1.0);
+                    fade = new Fade(&common, PART_TIMES[part+1], FADE_BLACK_OUT_GLITCHED);
                     p0.draw(fade); //Hackish... But works :/
 					part++;
 					tPartStart = t-tLoopStart;
@@ -184,7 +187,7 @@ void* playDemo(void* arg) {
                 doPP = true;
 				p1.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-                    fade = new Fade(&common, 1.0);
+                    fade = new Fade(&common, PART_TIMES[part+1]);
                     fade->bindFramebuffer();
                     p1.draw();
 					part++;
@@ -197,7 +200,7 @@ void* playDemo(void* arg) {
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     delete fade;
-                    fade = new Fade(&common, 0.5, FADE_BLACK_IN);
+                    fade = new Fade(&common, PART_TIMES[part+1], FADE_BLACK_IN);
 					part++;
 					tPartStart = t-tLoopStart;
 				}
@@ -310,6 +313,7 @@ void* playDemo(void* arg) {
                 frames = 0;
             }
         }
+        usleep(40); //Horrible fix to priorize the audio thread.
     }
     exit(0);
 }

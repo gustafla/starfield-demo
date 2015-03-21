@@ -25,7 +25,9 @@ common(icommon) {
     shader = new GfxShader("shaders/texturedthing.vert", "shaders/showtex_var.frag");
     shader->use();
     glUniform1i(shader->getUfmHandle("iChannel0"), 0);
-    glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat40);
+    glUniformMatrix4fv(shader->getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat80);
+    getTranslationMat(view, 0, 0, -4);
+    glUniformMatrix4fv(shader->getUfmHandle("view"), 1, GL_FALSE, view);
     model = common->models->getModel("doublecube.obj");
     edPost = new GfxPostProcessor(common, "shaders/edcolor_post.frag");
 }
@@ -41,13 +43,14 @@ void PTexobjED::draw(GfxPostProcessor* pp) {
     edPost->bindFramebuffer();
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     shader->use();
+    
     getXRotMat(xr, common->t*0.2);
     getYRotMat(yr, common->t*0.8);
     getZRotMat(zr, common->t*0.6);
+    multMat4(tmp, xr, yr);
+    multMat4(xr, tmp, zr);
+    glUniformMatrix4fv(shader->getUfmHandle("rotation"), 1, GL_FALSE, xr);
 
-    glUniformMatrix4fv(shader->getUfmHandle("xRotation"), 1, GL_FALSE, xr);
-    glUniformMatrix4fv(shader->getUfmHandle("yRotation"), 1, GL_FALSE, yr);
-    glUniformMatrix4fv(shader->getUfmHandle("zRotation"), 1, GL_FALSE, zr);
     glUniform1f(shader->getUfmHandle("iGlobalTime"), common->t);
     texture->bindToUnit(0);
     //gfxBindFB0();

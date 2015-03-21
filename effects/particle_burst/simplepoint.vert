@@ -16,17 +16,12 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTIL_HPP
-#define UTIL_HPP
+attribute vec3 a_vertex;
+uniform mat4 projection;
+uniform vec2 iResolution;
 
-#include <string>
-
-float randf();
-bool isdigits(std::string &s);
-bool isfloat(std::string &s);
-void checkValueParam(int n, int argc, char* argv[]);
-void checkValueParamf(int n, int argc, char* argv[]);
-bool loadFile(std::string inFileName, std::string& outString, int linesize=4096);
-int countSubstring(const std::string& str, const std::string& sub);
-
-#endif
+void main() {
+    vec4 v = vec4(a_vertex, 1.0);
+	gl_PointSize = (iResolution.x/32.0)*pow(clamp(((v.z/4.0)+1.0), 0.0, 1.0), 2.0);
+    gl_Position = projection * v;
+}

@@ -24,6 +24,7 @@ This file is part of [DEMO NAME].
 #include "gfx_screen.hpp"
 #include "gfx_screen_movable.hpp"
 #include "gfx_postprocessor.hpp"
+#include "effects/particle_burst.hpp"
 
 class PIntro{
     public:
@@ -31,6 +32,9 @@ class PIntro{
         ~PIntro();
         void draw(Fade* drawTo=NULL);
     private:
+        ParticleBurst* pb1;
+        ParticleBurst* pb2;
+        ParticleBurst* pb3;
         CommonData* common;
         GfxScreen* metaballs;
         GfxScreenMovable* mehutext;

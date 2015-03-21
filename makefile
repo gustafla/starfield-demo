@@ -18,10 +18,10 @@
 
 # A makefile to build [DEMO NAME].
 
-SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp obj_iobject.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp types.cpp demo_thread.cpp audio_thread.cpp cleanup.cpp parts/plasma_bars.cpp parts/intro.cpp fade.cpp demo_timing.cpp gfx_model.cpp parts/cube.cpp gfx_model_handler.cpp alt_main.cpp gfx_screen_movable.cpp parts/feedback_effect.cpp parts/texobj.cpp parts/texobj_ed.cpp
+SRCS = rpi_gfx.cpp main.cpp util.cpp config.cpp text.cpp gfx_EGL_window.cpp gfx_shader.cpp gfx_texture_2D.cpp tga_file.cpp gfx_mat.cpp obj_iobject.cpp gfx_screen.cpp effects/point_field/point_field.cpp common.cpp gfx_postprocessor.cpp effects/point_flag/point_flag.cpp parts/starfield.cpp parts/flag.cpp gfx_noise_texture.cpp audio.cpp wav_player.cpp getch.cpp types.cpp demo_thread.cpp audio_thread.cpp cleanup.cpp parts/plasma_bars.cpp parts/intro.cpp fade.cpp demo_timing.cpp gfx_model.cpp parts/cube.cpp gfx_model_handler.cpp alt_main.cpp gfx_screen_movable.cpp parts/feedback_effect.cpp parts/texobj.cpp parts/texobj_ed.cpp effects/particle_burst/particle_burst.cpp particle.cpp
 TARGET = starfield
 OBJS = $(SRCS:.cpp=.o)
-CFLAGS += -O2 -fomit-frame-pointer -MMD -MP
+CFLAGS += -O2 -fomit-frame-pointer -funroll-loops -MMD -MP
 debug: CFLAGS = -g
 INCLUDES += -I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I./ -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 LFLAGS = -L/opt/vc/lib/ -L/opt/vc/src/hello_pi/lib/ilclient -L/opt/vc/src/hello_pi/lib/vgfont

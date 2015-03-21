@@ -27,6 +27,7 @@ class CommonData {
         CommonData(unsigned int x, unsigned int y);
 
         float t;
+        float deltat;
         float res[2];
         float halfYRes[2];
         float beatHalfSine;

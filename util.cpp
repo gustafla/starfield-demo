@@ -104,3 +104,7 @@ int countSubstring(const std::string& str, const std::string& sub)
     }
     return count;
 }
+
+float randf() {
+    return ((float(rand()%100000)/100000.0f)-0.5)*2.0;
+}

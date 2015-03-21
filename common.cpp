@@ -21,6 +21,7 @@ This file is part of [DEMO NAME].
 
 CommonData::CommonData(unsigned int x, unsigned int y):
 t(0.0f),
+deltat(0.0f),
 beatHalfSine(0.0f) {
     halfYRes[0] = res[0] = x;
     res[1] = y;
