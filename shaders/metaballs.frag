@@ -42,7 +42,7 @@ void main() {
     pL  += fillCircle(pos, vec2(sin(t*0.0122*te-0.4)*0.6, sin(t*0.0164*te)*0.13), 9.0);
     pL2 += fillCircle(vec2(pos.x-0.01, pos.y), vec2(sin(t*0.0122*te-0.4)*0.6, sin(t*0.0164*te)*0.13), 9.0);
     //pL += fillCircle(vec2(cos(t*0.53)*0.47, sin(t)*0.724), 5.0);
-    float tc = texture2D(iChannel0, pos).r * min((pL*ts)*0.15, 0.5);
+    float tc = texture2D(iChannel0, pos*0.8).r * min((pL*ts)*0.15, 0.5);
     pL  = clamp((pL -0.5)*ts/*"sharpness"*/, 0.0, 1.0);
     pL2 = clamp((pL2-0.5)*ts/*"sharpness"*/, 0.0, 1.0);
     vec3 ballsfinal = vec3(pL, (pL+pL2)/2.0, pL2);

@@ -36,7 +36,7 @@ bool GfxEGLWindow::createWindow(GLuint flags)
         EGL_RED_SIZE,       5,
         EGL_GREEN_SIZE,     6,
         EGL_BLUE_SIZE,      5,
-        EGL_ALPHA_SIZE,     (flags & GFX_WINDOW_ALPHA) ? 8 : EGL_DONT_CARE,
+        EGL_ALPHA_SIZE,     (flags & GFX_WINDOW_ALPHA) ? 8 : 0,
         EGL_DEPTH_SIZE,     (flags & GFX_WINDOW_DEPTH) ? 8 : EGL_DONT_CARE,
         EGL_STENCIL_SIZE,   (flags & GFX_WINDOW_STENCIL) ? 8 : EGL_DONT_CARE,
         EGL_SAMPLE_BUFFERS, (flags & GFX_WINDOW_MULTISAMPLE) ? 1 : 0,
@@ -78,9 +78,13 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     dispman_display = vc_dispmanx_display_open( 0 /* LCD */);
     dispman_update = vc_dispmanx_update_start( 0 );
 
+    VC_DISPMANX_ALPHA_T alpha = {
+        DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS,255,0 // Fixes some alpha blending issues, now the screen stays opaque all the time.
+    };
+
     dispman_element = vc_dispmanx_element_add ( dispman_update, dispman_display,
     0/*layer*/, &dst_rect, 0/*src*/,
-    &src_rect, DISPMANX_PROTECTION_NONE, 0 /*alpha*/, 0/*clamp*/, (DISPMANX_TRANSFORM_T)0/*transform*/);
+    &src_rect, DISPMANX_PROTECTION_NONE, &alpha, 0/*clamp*/, (DISPMANX_TRANSFORM_T)0/*transform*/);
 
     nativewindow.element = dispman_element;
     nativewindow.width = w;
