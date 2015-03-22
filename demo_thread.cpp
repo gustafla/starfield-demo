@@ -77,7 +77,7 @@ void* playDemo(void* arg) {
     check();
 
     //Initialize cstdlib random seed
-    srand(609);
+    srand(4);
 
     //GfxNoiseTexture mainNoise(48, 48);
 
