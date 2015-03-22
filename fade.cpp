@@ -21,6 +21,8 @@ This file is part of [DEMO NAME].
 Fade::Fade(CommonData* icommon, float s, FadeType type) {
     if (type == FADE_BLACK_OUT)
         fader = new GfxPostProcessor(icommon, "shaders/fadetoblack_post.frag", GL_LINEAR, 1.0, GL_REPEAT);
+    if (type == FADE_WHITE_OUT)
+        fader = new GfxPostProcessor(icommon, "shaders/fadetowhite_post.frag", GL_LINEAR, 1.0, GL_REPEAT);
     else if (type == FADE_BLACK_OUT_GLITCHED)
         fader = new GfxPostProcessor(icommon, "shaders/fadetoblackglitch_post.frag", GL_LINEAR, 1.0, GL_REPEAT);
     else if (type == FADE_BLACK_IN)

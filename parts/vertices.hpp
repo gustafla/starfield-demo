@@ -16,29 +16,32 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_OBJECT_HPP
-#define GFX_OBJECT_HPP
+#ifndef DEMO_VERTICES_HPP
+#define DEMO_VERTICES_HPP
 
-#include "obj_iobject.hpp"
-#include "gfx_shader.hpp"
+#include "common.hpp"
+#include "gfx_shader.hpp" 
+#include "gfx_screen.hpp"
+#include "gfx_model.hpp"
+#include "gfx_texture_2D.hpp"
+#include "gfx_mat.hpp"
 #include "rpi_gfx.hpp"
+#include "mvp.hpp"
 
-class GfxModel {
-    public:
-        GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
-        ~GfxModel();
-        void draw(GfxShader* shaderProgram);
-        void draw(GfxShader* shaderProgram, float start);
-        void changeDrawmode(GLuint mode=GL_TRIANGLES);
-    private:
-        bool textured;
-        bool normaled;
-        GLuint drawmode;
-        GLuint vbo;
-        //GLuint indexBuffer;
-        std::vector<float> geometry;
-        unsigned int numVertices;
-        unsigned int stride;
+class PVertices{
+	public:
+		PVertices(CommonData* icommon);
+		~PVertices();
+		void draw();
+		//void resetTimer();
+	private:
+        CommonData* common;
+        GfxShader shaderProgram;
+		//GfxScreen tmapeff;
+        GfxModel* cube;
+        GfxTexture2D texture;
+        //GfxModel cube;
+        MVP mvp;
 };
 
 #endif

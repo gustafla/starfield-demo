@@ -148,6 +148,10 @@ void GfxModel::draw(GfxShader* shaderProgram, float start) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void GfxModel::changeDrawmode(GLuint mode) {
+    drawmode = mode;
+}
+
 GfxModel::~GfxModel() {
     //std::cout << "Model destructor called :O\n";
     glDeleteBuffers(1, &vbo);

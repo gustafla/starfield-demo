@@ -16,29 +16,15 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_OBJECT_HPP
-#define GFX_OBJECT_HPP
+uniform sampler2D iChannel0;
+uniform vec2 iResolution;
+uniform float iGlobalTime;
+uniform float tmult;
+uniform float tstart;
 
-#include "obj_iobject.hpp"
-#include "gfx_shader.hpp"
-#include "rpi_gfx.hpp"
-
-class GfxModel {
-    public:
-        GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
-        ~GfxModel();
-        void draw(GfxShader* shaderProgram);
-        void draw(GfxShader* shaderProgram, float start);
-        void changeDrawmode(GLuint mode=GL_TRIANGLES);
-    private:
-        bool textured;
-        bool normaled;
-        GLuint drawmode;
-        GLuint vbo;
-        //GLuint indexBuffer;
-        std::vector<float> geometry;
-        unsigned int numVertices;
-        unsigned int stride;
-};
-
-#endif
+void main() {
+    vec2 pos = gl_FragCoord.xy/iResolution.xy;
+    float t=iGlobalTime-tstart;
+    float tstretch=t*tmult;
+    gl_FragColor = vec4(texture2D(iChannel0, pos).rgb*(tstretch+1.0)+tstretch, 1.0);
+}

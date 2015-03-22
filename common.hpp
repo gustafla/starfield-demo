@@ -31,6 +31,7 @@ class CommonData {
         float res[2];
         float halfYRes[2];
         float beatHalfSine;
+        float BPS;
         
         GLfloat pProjMat40[16];
         GLfloat pProjMat80[16];

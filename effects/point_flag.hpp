@@ -38,7 +38,7 @@ class EPointFlag {
         GfxModel* vertices;
         GfxShader shaderProgram;
 
-        float rotationMatrices[3][16];
+        float rotation[16];
         float startT;
 };
 

@@ -22,7 +22,7 @@ This file is part of [DEMO NAME].
 #include "gfx_postprocessor.hpp"
 #include "common.hpp"
 
-enum FadeType {FADE_BLACK_IN, FADE_BLACK_OUT, FADE_BLACK_OUT_GLITCHED};
+enum FadeType {FADE_BLACK_IN, FADE_BLACK_OUT, FADE_BLACK_OUT_GLITCHED, FADE_WHITE_IN, FADE_WHITE_OUT};
 
 class Fade {
     public:

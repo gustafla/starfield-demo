@@ -17,18 +17,20 @@ This file is part of [DEMO NAME].
 */
 
 #include "demo_timing.hpp"
+#include <cstdlib>
 
-int const PARTS = 11;
-float const PART_TIMES[PARTS] = {
+float const PART_TIMES[] = {
     30.9f,
     0.5f,
-    31.1f,
+    30.9f,
     0.5f,
     0.5f,
-    15.1f,
+    14.7f,
+    0.4f,
     15.7f,
     30.0f,
     30.0f,
     30.0f,
     30.0f
 };
+int const PARTS = sizeof(PART_TIMES)/sizeof(PART_TIMES[0]);

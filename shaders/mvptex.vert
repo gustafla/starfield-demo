@@ -16,29 +16,12 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_OBJECT_HPP
-#define GFX_OBJECT_HPP
+attribute vec3 a_vertex;
+attribute vec3 a_texpos;
+varying vec2 texpos;
+uniform mat4 mvp;
 
-#include "obj_iobject.hpp"
-#include "gfx_shader.hpp"
-#include "rpi_gfx.hpp"
-
-class GfxModel {
-    public:
-        GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
-        ~GfxModel();
-        void draw(GfxShader* shaderProgram);
-        void draw(GfxShader* shaderProgram, float start);
-        void changeDrawmode(GLuint mode=GL_TRIANGLES);
-    private:
-        bool textured;
-        bool normaled;
-        GLuint drawmode;
-        GLuint vbo;
-        //GLuint indexBuffer;
-        std::vector<float> geometry;
-        unsigned int numVertices;
-        unsigned int stride;
-};
-
-#endif
+void main() {
+    texpos = a_texpos.xy;
+    gl_Position = mvp * vec4(a_vertex, 1.0);
+}

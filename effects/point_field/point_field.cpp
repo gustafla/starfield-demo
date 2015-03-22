@@ -66,13 +66,8 @@ void EPointField::draw() {
     glUniform1fv(shaderProgram.getUfmHandle("beat"), 1, &common->beatHalfSine);
 
     //Let's update rotation matrices
-    float mat[16];
-    getXRotMat(&rotationMatrices[0][0], common->t*0.16);
-    getYRotMat(&rotationMatrices[1][0], (common->t+sin(common->t*0.2))*0.1);
-    getZRotMat(&rotationMatrices[2][0], common->t*0.12);
-    multMat4(mat, &rotationMatrices[0][0], &rotationMatrices[1][0]);
-    multMat4(&rotationMatrices[0][0], mat, &rotationMatrices[2][0]);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("rotation"), 1, GL_FALSE, &rotationMatrices[0][0]);
+    getXYZRotMat(rotation, common->t*0.16, (common->t+sin(common->t*0.2))*0.1, common->t*0.12);
+    glUniformMatrix4fv(shaderProgram.getUfmHandle("rotation"), 1, GL_FALSE, rotation);
 
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 

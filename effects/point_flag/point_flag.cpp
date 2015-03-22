@@ -32,7 +32,7 @@ shaderProgram("effects/point_flag/proj_wave_point.vert", "shaders/textured_point
     glUseProgram(shaderProgram.getHandle());
 
     //Load, set up texture
-    pointTexture = new GfxTexture2D("graphics/mehu256.tga");
+    pointTexture = new GfxTexture2D("graphics/mehu64.tga");
     pointTexture->bindToUnit(0);
     glUniform1i(shaderProgram.getUfmHandle("pointTexture"), 0);
 
@@ -40,9 +40,6 @@ shaderProgram("effects/point_flag/proj_wave_point.vert", "shaders/textured_point
     glUniform2fv(shaderProgram.getUfmHandle("iResolution"), 1, common->res);
     glUniform1fv(shaderProgram.getUfmHandle("iGlobalTime"), 1, &common->t);
     glUniform1fv(shaderProgram.getUfmHandle("beat"), 1, &common->beatHalfSine);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("xRotation"), 1, GL_FALSE, &rotationMatrices[0][0]);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("yRotation"), 1, GL_FALSE, &rotationMatrices[1][0]);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("zRotation"), 1, GL_FALSE, &rotationMatrices[2][0]);
 
     check();
     
@@ -77,13 +74,8 @@ void EPointFlag::draw() {
     glUniform1fv(shaderProgram.getUfmHandle("beat"), 1, &common->beatHalfSine);
 
     //Let's update rotation matrices
-    float mat[16];
-    getXRotMat(&rotationMatrices[0][0], sin(common->t*0.2)*0.1);
-    getYRotMat(&rotationMatrices[1][0], sin(common->t*0.6)*0.4);
-    getZRotMat(&rotationMatrices[2][0], sin(common->t*0.12)*0.1);
-    multMat4(mat, &rotationMatrices[0][0], &rotationMatrices[1][0]);
-    multMat4(&rotationMatrices[0][0], mat, &rotationMatrices[2][0]);
-    glUniformMatrix4fv(shaderProgram.getUfmHandle("rotation"), 1, GL_FALSE, &rotationMatrices[0][0]);
+    getXYZRotMat(rotation, sin(common->t*0.2)*0.1, sin(common->t*0.6)*0.4, sin(common->t*0.12)*0.1);
+    glUniformMatrix4fv(shaderProgram.getUfmHandle("rotation"), 1, GL_FALSE, rotation);
     
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 

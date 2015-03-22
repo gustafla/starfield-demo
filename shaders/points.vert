@@ -16,29 +16,16 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GFX_OBJECT_HPP
-#define GFX_OBJECT_HPP
+attribute vec3 a_vertex;
+uniform mat4 projection;
+uniform mat4 scale;
+uniform mat4 translation;
+uniform mat4 view;
+uniform mat4 rotation;
+uniform vec2 iResolution;
 
-#include "obj_iobject.hpp"
-#include "gfx_shader.hpp"
-#include "rpi_gfx.hpp"
-
-class GfxModel {
-    public:
-        GfxModel(std::string objFileName, float* igeometry=NULL, unsigned int size=0, GLuint idrawmode=GL_TRIANGLES);
-        ~GfxModel();
-        void draw(GfxShader* shaderProgram);
-        void draw(GfxShader* shaderProgram, float start);
-        void changeDrawmode(GLuint mode=GL_TRIANGLES);
-    private:
-        bool textured;
-        bool normaled;
-        GLuint drawmode;
-        GLuint vbo;
-        //GLuint indexBuffer;
-        std::vector<float> geometry;
-        unsigned int numVertices;
-        unsigned int stride;
-};
-
-#endif
+void main() {
+    vec4 v = view * translation * rotation * scale * vec4(a_vertex, 1.0);
+	gl_PointSize = (iResolution.x/32.0)*pow(clamp(((v.z/4.0)+1.0), 0.0, 1.0), 2.0);
+    gl_Position = projection * v;
+}

@@ -1,0 +1,13 @@
+releasing.txt
+
+- remove check()s
+- remove artixndive.txt
+- remove std::couts
+- remove graphics/*.pngs
+- remove unused graphics and sounds
+- move sources to a dedicated dir or package them separately
+- replace [DEMO NAME] to demo's name
+- replace [DEMO URL] with mehuclan/demoscene
+- check text.cpp and those
+- remove this file
+- write a readme

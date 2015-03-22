@@ -37,7 +37,7 @@ class EPointField {
         //std::vector<GLfloat> geometry;
         GfxModel* vertices;
 
-        GLfloat rotationMatrices[3][16];
+        GLfloat rotation[16];
         
         //GLuint vertexBuffer;
 };

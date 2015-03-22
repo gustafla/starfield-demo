@@ -41,8 +41,7 @@ This file is part of [DEMO NAME].
 #include "parts/feedback_effect.hpp"
 #include "parts/texobj.hpp"
 #include "parts/texobj_ed.hpp"
-
-#define BPS 122.0/60.0
+#include "parts/vertices.hpp"
 
 /*
  * Demo player thread function
@@ -104,7 +103,8 @@ void* playDemo(void* arg) {
     PIntro          p0(&common);
     PStarfield      p1(&common);
 	PFlag           p2(&common);
-    PPlasma         p3(&common);
+    //PPlasma         p3(&common);
+    PVertices       p3(&common);
     PCube           p4(&common);
     PFeedbackEffect p5(&common);
     PTexobj         p6(&common);
@@ -153,7 +153,7 @@ void* playDemo(void* arg) {
         tlast = t;
         common.t = (t-tLoopStart);
         //and a rythmic pulse
-        common.beatHalfSine = std::abs(sin(t*M_PI*BPS)); //Wow, conflicting defs of abs()!
+        common.beatHalfSine = std::abs(sin(t*M_PI*common.BPS)); //Wow, conflicting defs of abs()!
 
         if (doPP) {
             crt.bindFramebuffer(); //drawing to the "root" PP
@@ -161,7 +161,7 @@ void* playDemo(void* arg) {
         }
 
         switch (part) { //Demo in a switch :)
-			case 0:
+			case 0: //INTRO
                 doPP = false;
 				p0.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){ //30.0
@@ -173,7 +173,7 @@ void* playDemo(void* arg) {
                     gfxBindFB0();
 				}
 				break;
-            case 1:
+            case 1: //GLITCHY INTRO FADE
                 doPP = false;
 				fade->draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -183,7 +183,7 @@ void* playDemo(void* arg) {
                     
 				}
 				break;
-			case 2:
+			case 2: //STARFIELD WITH SCROLLER
                 doPP = true;
 				p1.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -195,7 +195,7 @@ void* playDemo(void* arg) {
                     p1.resetTimer();
 				}
 				break;
-            case 3:
+            case 3: //STARFIELD TO FLAG FADE
                 doPP = true;
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -205,7 +205,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 4:
+            case 4: //FADE TO FLAG IN
                 doPP = true;
                 fade->bindFramebuffer();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -218,16 +218,29 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 5:
+            case 5: //FLAG
                 doPP = true;
                 p2.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    fade = new Fade(&common, PART_TIMES[part+1], FADE_WHITE_OUT);
+                    fade->bindFramebuffer();
+                    p2.draw();
                     p2.resetTimer();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 6:
+            case 6: //FLAG FADE OUT TO WHITE
+                doPP = true;
+                fade->draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    delete fade;
+                    //fade = new Fade(&common, PART_TIMES[part+1], FADE_BLACK_IN);
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 7:
                 doPP = true;
                 p3.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -235,7 +248,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 7:
+            case 8:
                 doPP = true;
                 p4.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -243,7 +256,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 8:
+            case 9:
                 doPP = true;
                 p5.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -251,7 +264,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 9:
+            case 10:
                 doPP = true;
                 p6.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -259,7 +272,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 10:
+            case 11:
                 doPP = true;
                 p7.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -313,7 +326,7 @@ void* playDemo(void* arg) {
                 frames = 0;
             }
         }
-        usleep(40); //Horrible fix to priorize the audio thread.
+        usleep(2000); //Horrible fix to priorize the audio thread.
     }
     exit(0);
 }

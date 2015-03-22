@@ -17,6 +17,7 @@ This file is part of [DEMO NAME].
 */
 
 #include "gfx_mat.hpp"
+#include "rpi_gfx.hpp"
 #include <cmath>
 
 void multMat4(float* result, float* a, float* b) {
@@ -142,6 +143,37 @@ void getZRotMat(float* mat, float a) {
     mat[13] = 0.0f;
     mat[14] = 0.0f;
     mat[15] = 1.0f;
+}
+
+void getXYZRotMat(float* mat, float x, float y, float z) {
+    GLfloat zm[16] = {0.0f};
+    GLfloat ym[16] = {0.0f};
+    GLfloat xm[16] = {0.0f};
+    GLfloat tmp[16];
+    
+    zm[0] = cos(z);
+    zm[1] = -sin(z);
+    zm[4] = sin(z);
+    zm[5] = cos(z);
+    zm[10] = 1.0f;
+    zm[15] = 1.0f;
+    
+    ym[0] = cos(y);
+    ym[2] = sin(y);
+    ym[5] = 1.0f;  
+    ym[8] = -sin(y);
+    ym[10] = cos(y);
+    ym[15] = 1.0f;
+    
+    xm[0] = 1.0f;
+    xm[5] = cos(x);
+    xm[6] = -sin(x);
+    xm[9] = sin(x);
+    xm[10] = cos(x);
+    xm[15] = 1.0f;
+    
+    multMat4(tmp, xm, ym);
+    multMat4(mat, tmp, zm);
 }
 
 void getTranslationMat(float* mat, float x, float y, float z) {
