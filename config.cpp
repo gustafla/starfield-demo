@@ -20,6 +20,7 @@ This file is part of [DEMO NAME].
 #include "util.hpp"
 #include "text.hpp"
 #include <cstdlib>
+#include <unistd.h>
 #include <iostream>
 #include <cstring>
 
@@ -125,21 +126,25 @@ partStart(0)
                                                     exit(5);
                                                 }
     }
-    
-    int errDisp;
-    uint32_t actualW, actualH;
-    if ((w == 0 || h == 0) && (errDisp = graphics_get_display_size(0, &actualW, &actualH)) < 0) {
-        std::cout << "Failed to get display size.\n";
-        sleep(5);
-        exit(errDisp);
-    }
-    
-    if (w == 0)
-        w = actualW;
+    #ifndef USE_X
+        int errDisp;
+        uint32_t actualW, actualH;
+        if ((w == 0 || h == 0) && (errDisp = graphics_get_display_size(0, &actualW, &actualH)) < 0) {
+            std::cout << "Failed to get display size.\n";
+            sleep(5);
+            exit(errDisp);
+        }
         
-    if (h == 0)
-        h = actualH;
-        
+        if (w == 0)
+            w = actualW;
+            
+        if (h == 0)
+            h = actualH;
+    #else
+        w=1920;
+        h=1080;
+    #endif
+    
     h /= stretch;
     w /= stretch;
 }

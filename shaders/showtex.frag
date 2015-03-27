@@ -16,10 +16,17 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#version 100
+
+precision highp float;
+/*precision highp vec2;
+precision highp vec3;
+precision highp vec4;*/
+
 uniform vec2 iResolution;
 uniform sampler2D iChannel0;
 
 void main() {
-    vec2 pos = gl_FragCoord.xy/iResolution.xy;
+    /*highp*/ vec2 pos = gl_FragCoord.xy/iResolution.xy;
     gl_FragColor = vec4(texture2D(iChannel0, pos).rgb, 1.0);
 }

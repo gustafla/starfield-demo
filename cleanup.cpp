@@ -22,5 +22,7 @@ This file is part of [DEMO NAME].
 
 void cleanup() {
     getchRecov();
-    bcm_host_deinit();
+    #ifndef USE_X
+        bcm_host_deinit();
+    #endif
 }

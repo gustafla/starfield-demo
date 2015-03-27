@@ -53,7 +53,7 @@ void* playDemo(void* arg) {
     char** argv = args->argv;
     Config c(argc, argv);
     //Create a window
-    GfxEGLWindow window(&c);
+    GfxEGLWindow window(&c, "[DEMO NAME]");
     if(!window.createWindow(GFX_WINDOW_RGB))
         exit(2);
 
@@ -119,7 +119,7 @@ void* playDemo(void* arg) {
             startAt += PART_TIMES[partTi]; //Skip music to the '-p' start time too
         }
         //startAt -= PART_TIMES[c.partStart]; //Back to the beginning of the first shown part
-        music = new WavPlayer("music.wav", startAt, 2048);
+        music = new WavPlayer("music.wav", startAt, 8192);
         pthread_t audioThread;
         pthread_create(&audioThread, NULL, playMusic, (void*)music);
     }
@@ -326,7 +326,7 @@ void* playDemo(void* arg) {
                 frames = 0;
             }
         }
-        usleep(2000); //Horrible fix to priorize the audio thread.
+        usleep(5000); //Horrible fix to priorize the audio thread.
     }
     exit(0);
 }

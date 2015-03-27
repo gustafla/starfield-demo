@@ -16,6 +16,8 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
+precision highp float;
+
 uniform sampler2D iChannel0;
 uniform vec2 iResolution;
 uniform float iGlobalTime;

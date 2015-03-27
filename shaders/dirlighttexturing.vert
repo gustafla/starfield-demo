@@ -16,6 +16,8 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
+precision highp float;
+
 attribute vec3 a_vertex;
 attribute vec3 a_texpos;
 attribute vec3 a_normal;
@@ -30,7 +32,7 @@ uniform mat4 view;
 
 void main() {
     texpos = a_texpos.xy;
-    light = 0.1+max(dot(normalize(a_normal), rotation * normalize(lightdir)), 0.0);
+    light = 0.1+max(dot(normalize(vec4(a_normal, 0.0)), rotation * normalize(vec4(lightdir, 0.0))), 0.0);
     mat4 mvp = projection * view * translation * rotation; // This is hopefully the correct order.
     gl_Position = mvp * vec4(a_vertex, 1.0);
 }

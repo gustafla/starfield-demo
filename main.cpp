@@ -33,7 +33,9 @@ void alt_main(int, char**);
 int main(int argc, char *argv[])
 {
     atexit(cleanup);
-    bcm_host_init(); //For RPi graphical stuff;
+    #ifndef USE_X
+        bcm_host_init(); //For RPi graphical stuff;
+    #endif
     //alt_main(argc, argv);
     DemoArg demoArg;
     demoArg.argc = argc;

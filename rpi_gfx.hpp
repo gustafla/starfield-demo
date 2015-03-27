@@ -26,7 +26,9 @@ This file is part of [DEMO NAME].
 #include <iostream>
 #include <stdarg.h>
 #include <sys/time.h>
-#include "bcm_host.h"
+#ifndef USE_X
+    #include "bcm_host.h"
+#endif
 #include "EGL/egl.h"
 #include "EGL/eglext.h"
 #include "GLES2/gl2.h"

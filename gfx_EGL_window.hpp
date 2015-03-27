@@ -19,28 +19,22 @@ This file is part of [DEMO NAME].
 #ifndef GFX_EGL_WINDOW_HPP
 #define GFX_EGL_WINDOW_HPP
 
+#ifndef USE_X
+
 #include "config.hpp"
 #include "rpi_gfx.hpp"
 #include <string>
 
-/*typedef enum {
-    DISPMANX_FLAGS_ALPHA_FROM_SOURCE = 0,
-    DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS = 1,
-    DISPMANX_FLAGS_ALPHA_FIXED_NON_ZERO = 2,
-    DISPMANX_FLAGS_ALPHA_FIXED_EXCEED_0X07 = 3,
-    DISPMANX_FLAGS_ALPHA_PREMULT = 1 << 16,
-    DISPMANX_FLAGS_ALPHA_MIX = 1 << 17
-} DISPMANX_FLAGS_ALPHA_T;*/
-
 class GfxEGLWindow
 {
 public:
-    GfxEGLWindow(Config* ic);
+    GfxEGLWindow(Config* ic, std::string _name="");
     void swapBuffers();
     bool createWindow(GLuint flags);
 
 protected:
-
+    
+    std::string name;
     Config* c;
     EGLNativeWindowType window;
     EGLDisplay display;
@@ -48,4 +42,38 @@ protected:
     EGLSurface buffer;
 };
 
+#else
+
+#include "config.hpp"
+#include "rpi_gfx.hpp"
+#include <string>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xutil.h>
+#include <cstring>
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+class GfxEGLWindow
+{
+public:
+    GfxEGLWindow(Config* ic, std::string _name="");
+    void swapBuffers();
+    bool createWindow(GLuint flags);
+
+protected:
+
+    std::string name;
+    Config* c;
+    EGLNativeWindowType window;
+    EGLDisplay display;
+    EGLContext context;
+    EGLSurface surface;
+};
+#endif
 #endif
