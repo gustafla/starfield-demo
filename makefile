@@ -27,8 +27,9 @@ xwin:CFLAGS=-DUSE_X -O1 -fomit-frame-pointer -funroll-loops -funsafe-math-optimi
 debug: CFLAGS=-g
 INCLUDES+=-I/opt/vc/include/ -I/opt/vc/include/interface/vcos/pthreads -I/opt/vc/include/interface/vmcs_host/linux -I./ -I/opt/vc/src/hello_pi/libs/ilclient -I/opt/vc/src/hello_pi/libs/vgfont
 xwin:INCLUDES=-I./
+LFLAGS=-L/opt/vc/lib
 xwin:LFLAGS=
-LIBS=-lGLESv2 -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lpthread -lm -lrt -lasound
+LIBS=-lGLESv2 -lEGL -lbcm_host -lpthread -lasound
 xwin:LIBS=-lGLESv2 -lEGL -lpthread -lX11 -lasound
 CC=g++
 
@@ -51,6 +52,7 @@ $(TARGET): $(OBJS)
 
 clean:
 	rm -f $(TARGET)
+	rm -f $(TARGET).xwin
 	find . -name "*.o" -type f -delete
 	find . -name "*.d" -type f -delete
 	

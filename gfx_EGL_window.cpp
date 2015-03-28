@@ -22,9 +22,11 @@ GfxEGLWindow::GfxEGLWindow(Config* ic, std::string _name):
 c(ic),
 name(_name)
 {
-    memset(&dummyEvent, 0, sizeof(XClientMessageEvent));
-    dummyEvent.type = ClientMessage;
-    dummyEvent.format = 32;
+    #ifdef USE_X
+        memset(&dummyEvent, 0, sizeof(XClientMessageEvent));
+        dummyEvent.type = ClientMessage;
+        dummyEvent.format = 32;
+    #endif
 }
 
 #ifndef USE_X
