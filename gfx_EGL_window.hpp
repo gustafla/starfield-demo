@@ -31,6 +31,7 @@ public:
     GfxEGLWindow(Config* ic, std::string _name="");
     void swapBuffers();
     bool createWindow(GLuint flags);
+    bool shouldKill();
 
 protected:
     
@@ -65,15 +66,19 @@ public:
     GfxEGLWindow(Config* ic, std::string _name="");
     void swapBuffers();
     bool createWindow(GLuint flags);
+    bool shouldKill();
 
 protected:
-
+    XClientMessageEvent dummyEvent;
     std::string name;
     Config* c;
     EGLNativeWindowType window;
     EGLDisplay display;
+    Display* xdisplay;
+    Window xwindow;
     EGLContext context;
     EGLSurface surface;
+    XEvent event;
 };
 #endif
 #endif

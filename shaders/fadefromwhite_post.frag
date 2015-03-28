@@ -16,35 +16,17 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_VERTICES_HPP
-#define DEMO_VERTICES_HPP
+precision highp float;
 
-#include "common.hpp"
-#include "gfx_shader.hpp" 
-#include "gfx_screen.hpp"
-#include "gfx_screen_movable.hpp"
-#include "gfx_model.hpp"
-#include "gfx_texture_2D.hpp"
-#include "gfx_mat.hpp"
-#include "rpi_gfx.hpp"
-#include "mvp.hpp"
+uniform sampler2D iChannel0;
+uniform vec2 iResolution;
+uniform float iGlobalTime;
+uniform float tmult;
+uniform float tstart;
 
-class PVertices{
-	public:
-		PVertices(CommonData* icommon);
-		~PVertices();
-		void draw();
-		//void resetTimer();
-	private:
-        CommonData* common;
-        GfxShader shaderProgram;
-		GfxScreen bg;
-		GfxScreenMovable frameUp;
-		GfxScreenMovable frameDown;
-        GfxModel* cube;
-        GfxTexture2D texture;
-        //GfxModel cube;
-        MVP mvp;
-};
-
-#endif
+void main() {
+    vec2 pos = gl_FragCoord.xy/iResolution.xy;
+    float t=iGlobalTime-tstart;
+    float tstretch=1.0-(t*tmult);
+    gl_FragColor = vec4(texture2D(iChannel0, pos).rgb*(tstretch+1.0)+tstretch, 1.0);
+}

@@ -22,10 +22,17 @@ GfxEGLWindow::GfxEGLWindow(Config* ic, std::string _name):
 c(ic),
 name(_name)
 {
-
+    memset(&dummyEvent, 0, sizeof(XClientMessageEvent));
+    dummyEvent.type = ClientMessage;
+    dummyEvent.format = 32;
 }
 
 #ifndef USE_X
+
+bool GfxEGLWindow::shouldKill() {
+    return false;
+}
+
 void GfxEGLWindow::swapBuffers()
 {
     eglSwapBuffers(display, buffer);
@@ -141,6 +148,16 @@ bool GfxEGLWindow::createWindow(GLuint flags)
 
 #else
 
+bool GfxEGLWindow::shouldKill() {
+    /*XSendEvent(xdisplay, xwindow, 0, 0, (XEvent*)&dummyEvent);
+    XNextEvent(xdisplay, &event);
+    if (event.type == KeyPress) {
+        XCloseDisplay(xdisplay);
+        return true;
+    }*/ //This "approach" sucks, huge perf hit.
+    return false;
+}
+
 void GfxEGLWindow::swapBuffers()
 {
     eglSwapBuffers(display, surface);
@@ -208,6 +225,8 @@ bool GfxEGLWindow::createWindow(GLuint flags)
     XMapWindow (x_display, win);
     XStoreName (x_display, win, name.c_str()); //WIN NAME
 
+    Atom WM_DELETE_WINDOW = XInternAtom(x_display, "WM_DELETE_WINDOW", False); 
+    XSetWMProtocols(x_display, win, &WM_DELETE_WINDOW, 1);
     // get identifiers for the provided atom name strings
     wm_state = XInternAtom (x_display, "_NET_WM_STATE", FALSE);
 
@@ -226,6 +245,9 @@ bool GfxEGLWindow::createWindow(GLuint flags)
        &xev );
     
     //hWnd = (EGLNativeWindowType) win;
+    xwindow = win;
+    dummyEvent.window = xwindow;
+    xdisplay = x_display;
     
    EGLint numConfigs;
    EGLint majorVersion;

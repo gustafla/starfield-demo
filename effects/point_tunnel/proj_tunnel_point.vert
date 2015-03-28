@@ -16,35 +16,29 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEMO_VERTICES_HPP
-#define DEMO_VERTICES_HPP
+precision highp float;
 
-#include "common.hpp"
-#include "gfx_shader.hpp" 
-#include "gfx_screen.hpp"
-#include "gfx_screen_movable.hpp"
-#include "gfx_model.hpp"
-#include "gfx_texture_2D.hpp"
-#include "gfx_mat.hpp"
-#include "rpi_gfx.hpp"
-#include "mvp.hpp"
+attribute vec3 a_vertex;
+uniform mat4 projection;
+uniform float iGlobalTime;
+uniform mat4 rotation;
+uniform vec2 iResolution;
+uniform float beat;
 
-class PVertices{
-	public:
-		PVertices(CommonData* icommon);
-		~PVertices();
-		void draw();
-		//void resetTimer();
-	private:
-        CommonData* common;
-        GfxShader shaderProgram;
-		GfxScreen bg;
-		GfxScreenMovable frameUp;
-		GfxScreenMovable frameDown;
-        GfxModel* cube;
-        GfxTexture2D texture;
-        //GfxModel cube;
-        MVP mvp;
-};
+//float BPS = 175.0/60.0;
+//float PI  = 3.14159256;
+float TIME  = 5.0;
 
-#endif
+void main() {
+    vec4 v = vec4(a_vertex, 1.0);
+    v.z += iGlobalTime;
+    v.z = mod(v.z, 10.0);
+    v.z -= 5.0;
+    //v.y += sin(v.z+iGlobalTime)*0.06*beat;
+	v = rotation * v;
+    //v.z-=beat*0.05; //This looks bad.
+    //v.z-=pow(max(0.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))),max(1.0,-(TIME*0.5-1.0)+(iGlobalTime-(TIME*0.5-1.0))));
+    float perspective = clamp(((v.z/4.0)+1.0), 0.0, 1.0);
+	gl_PointSize = (iResolution.x/20.0)*(perspective*perspective);
+    gl_Position = projection * v;
+}

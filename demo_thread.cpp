@@ -42,6 +42,7 @@ This file is part of [DEMO NAME].
 #include "parts/texobj.hpp"
 #include "parts/texobj_ed.hpp"
 #include "parts/vertices.hpp"
+#include "parts/tunnel1.hpp"
 
 /*
  * Demo player thread function
@@ -109,6 +110,7 @@ void* playDemo(void* arg) {
     PFeedbackEffect p5(&common);
     PTexobj         p6(&common);
     PTexobjED       p7(&common);
+    PTunnel1        p8(&common);
     Fade*      fade;
     
     //Start the music player thread
@@ -235,12 +237,26 @@ void* playDemo(void* arg) {
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     delete fade;
-                    //fade = new Fade(&common, PART_TIMES[part+1], FADE_BLACK_IN);
+                    fade = new Fade(&common, PART_TIMES[part+1], FADE_WHITE_IN);
 					part++;
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 7:
+            case 7: //FADE IN FROM WHITE
+                doPP = true;
+                fade->bindFramebuffer();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                p3.draw();
+                crt.bindFramebuffer();
+                fade->draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    delete fade;
+                    //fade = new Fade(&common, PART_TIMES[part+1], FADE_WITE_IN);
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 8:
                 doPP = true;
                 p3.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -248,7 +264,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 8:
+            case 9:
                 doPP = true;
                 p4.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -256,7 +272,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 9:
+            case 10:
                 doPP = true;
                 p5.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -264,7 +280,7 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 10:
+            case 11:
                 doPP = true;
                 p6.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -272,10 +288,19 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 11:
+            case 12:
                 doPP = true;
                 p7.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 13:
+                doPP = true;
+                p8.draw(/*&crt*/);
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    p8.resetTimer();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
@@ -327,6 +352,8 @@ void* playDemo(void* arg) {
             }
         }
         usleep(5000); //Horrible fix to priorize the audio thread.
+        if (window.shouldKill())
+            exit(0);
     }
     exit(0);
 }

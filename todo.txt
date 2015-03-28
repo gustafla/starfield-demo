@@ -4,7 +4,8 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
   T     OOO   DDDD    OOO    ..      T    XX  X    T  
 ------------------------------------------------------
 
-- MVP
+- Part with 3D model made of points
+- Cool text thigy with quads (like razor's insert no coins lol)
 - Fix lighting
 - Accommodate for different size audio h/w buffers (timing)
 - Sync'd noise blur?
@@ -14,6 +15,7 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 
 DONE:
 
+- MVP
 - Correct matrix calculations!
 - p2 scroller timing fix
 - Fix GfxScreen texture memleak

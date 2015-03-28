@@ -20,15 +20,17 @@ This file is part of [DEMO NAME].
 #include <cstdlib>
 
 float const PART_TIMES[] = {
-    30.9f,
-    0.5f,
-    30.9f,
-    0.5f,
+    30.9f, //Intro
+    0.5f,  //Intro fade
+    30.9f, //Starfield
+    0.5f,  //
     0.5f,
     14.7f,
     0.4f,
-    15.7f,
+    0.4f,
+    15.3f,
     //4000000.7f,
+    30.0f,
     30.0f,
     30.0f,
     30.0f,

@@ -141,8 +141,10 @@ partStart(0)
         if (h == 0)
             h = actualH;
     #else
+    if (w == 0 || h == 0) {
         w=1920;
         h=1080;
+    }
     #endif
     
     h /= stretch;
