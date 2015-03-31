@@ -16,15 +16,33 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-precision highp float;
+precision mediump float;
 
 uniform float iGlobalTime;
 uniform sampler2D iChannel0;
 varying vec2 texpos;
-
+/*
 void main() {
     //float mov = sin(texpos.x*40.0-iGlobalTime*2.0)*0.5+0.5;
-    float alpha = texture2D(iChannel0, vec2(texpos.x, texpos.y/*(mov+1.0)-(mov*0.5)*/)).r;
+    float alpha = texture2D(iChannel0, vec2(texpos.x, texpos.y)).r;
     vec3 col = vec3(sin(texpos.x*20.0+iGlobalTime), sin(texpos.x*20.0+iGlobalTime*1.5), sin(texpos.x*20.0+iGlobalTime*0.5))*0.5+0.5;
+    gl_FragColor = vec4(col, alpha);
+}
+*/
+
+#define PI2 6.2831853
+
+vec3 rainbow(float x)
+{
+    return vec3(
+        sin(x+0.333*PI2)*0.5+0.5,
+        sin(x+0.666*PI2)*0.5+0.5,
+        sin(x)*0.5+0.5
+    );
+}
+
+void main() {
+    float alpha = texture2D(iChannel0, texpos).r;
+    vec3 col = rainbow(texpos.x*10.0-iGlobalTime);
     gl_FragColor = vec4(col, alpha);
 }

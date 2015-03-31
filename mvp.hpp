@@ -28,6 +28,8 @@ class MVP {
         void buildMVP();
         void buildModel();
         GLfloat mvp[16];
+        GLfloat* getView();
+        GLfloat* getModel();
         void setProjection(GLfloat* _projection);
         
         void setView(GLfloat vtx=0.0f, GLfloat vty=0.0f, GLfloat vtz=0.0f, GLfloat vrx=0.0f, GLfloat vry=0.0f, GLfloat vrz=0.0f);

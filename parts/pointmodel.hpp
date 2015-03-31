@@ -16,32 +16,36 @@ This file is part of [DEMO NAME].
     along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef INTRO_HPP
-#define INTRO_HPP
+#ifndef DEMO_POINTMODEL_HPP
+#define DEMO_POINTMODEL_HPP
 
 #include "common.hpp"
-#include "fade.hpp"
+#include "gfx_shader.hpp" 
 #include "gfx_screen.hpp"
 #include "gfx_screen_movable.hpp"
-#include "gfx_postprocessor.hpp"
-#include "effects/particle_burst.hpp"
+#include "gfx_model.hpp"
+#include "gfx_texture_2D.hpp"
+#include "gfx_mat.hpp"
+#include "rpi_gfx.hpp"
+#include "mvp.hpp"
 
-class PIntro{
-    public:
-        PIntro(CommonData* icommon);
-        ~PIntro();
-        void draw(Fade* drawTo=NULL);
-    private:
-        //ParticleBurst* pb1;
-        ParticleBurst* pb2;
-        ParticleBurst* pb3;
-        //ParticleBurst* pb4;
+class PPointModel{
+	public:
+		PPointModel(CommonData* icommon, std::string name);
+		~PPointModel();
+		void draw();
+		void resetTimer();
+	private:
         CommonData* common;
-        GfxScreen* metaballs;
-        GfxScreenMovable* mehutext;
-        GfxScreenMovable* yeartext;
-        GfxScreenMovable* revisiontext;
-        GfxPostProcessor* rb;
+        GfxShader shaderProgram;
+		//GfxScreen bg;
+		//GfxScreenMovable frameUp;
+		//GfxScreenMovable frameDown;
+        GfxModel* model;
+        GfxTexture2D pointTexture;
+        //GfxModel cube;
+        MVP mvp;
+        float startT;
 };
 
 #endif

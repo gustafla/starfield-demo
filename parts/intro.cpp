@@ -26,9 +26,10 @@ common(icommon) {
     mehutext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", icommon->res[0]/3, icommon->res[1]/6, icommon->res[0]/6, icommon->res[1]/6, "graphics/mehutext.tga");
     yeartext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", (icommon->res[0]/12)*7, (icommon->res[1]/6)*2, icommon->res[0]/6, icommon->res[1]/6, "graphics/yeartext.tga");
     revisiontext = new GfxScreenMovable(icommon, "shaders/showtex_var.frag", (icommon->res[0]/12)*2, (icommon->res[1]/6)*3, icommon->res[0]/6, icommon->res[1]/6, "graphics/revisiontext.tga");
-    pb1 = new ParticleBurst(icommon, -0.2, 0.4, -1.0, 16);
-    pb2 = new ParticleBurst(icommon, 0.45, 0.14, -1.0, 16);
-    pb3 = new ParticleBurst(icommon, -0.6, -0.1, -1.0, 16);
+    //pb1 = new ParticleBurst(icommon, -0.2f, 0.4f, -1.0f, 16);
+    pb2 = new ParticleBurst(icommon, 0.45f, 0.14f, -1.0f, 16);
+    pb3 = new ParticleBurst(icommon, -0.6f, -0.1f, -1.0f, 16);
+    //pb4 = new ParticleBurst(icommon, 0.0f, 0.0f, 0.0f, 16);
 }
 
 PIntro::~PIntro() {
@@ -54,27 +55,30 @@ void PIntro::draw(Fade* drawTo) {
 
     glClear(GL_DEPTH_BUFFER_BIT);
     if (common->t > 15.7) {
-        pb1->draw();
-    }
-    //glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 19.6) {
+        //pb1->draw();
         pb2->draw();
     }
     //glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 23.45) {
+    if (common->t > 19.6) {
         pb3->draw();
+    }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    if (common->t > 23.45) {
+        //pb3->draw();
     }
     
     glClear(GL_DEPTH_BUFFER_BIT);
     if (common->t > 15.7) {
-        mehutext->draw();
-    }
-    //glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 19.6) {
+        //mehutext->draw();
         yeartext->draw();
     }
     //glClear(GL_DEPTH_BUFFER_BIT);
-    if (common->t > 23.45) {
+    if (common->t > 19.6) {
+        //yeartext->draw();
         revisiontext->draw();
     }
+    //glClear(GL_DEPTH_BUFFER_BIT);
+    /*if (common->t > 23.45) {
+        revisiontext->draw();
+    }*/
 }

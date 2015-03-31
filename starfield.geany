@@ -23,9 +23,9 @@ long_line_behaviour=1
 long_line_column=255
 
 [files]
-current_page=33
+current_page=1
 FILE_NAME_0=1097;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio.cpp;0;4
-FILE_NAME_1=17;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio.hpp;0;4
+FILE_NAME_1=395;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio.hpp;0;4
 FILE_NAME_2=765;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio_thread.cpp;0;4
 FILE_NAME_3=17;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Faudio_thread.hpp;0;4
 FILE_NAME_4=896;C++;0;EUTF-8;0;1;0;%2Fhome%2Fluutifa%2Fproj%2Fdemo%2Fstarfield%2Fcleanup.cpp;0;4
@@ -176,6 +176,9 @@ EX_00_LB=_Execute
 EX_00_CM="./starfield"
 EX_00_WD=
 C++FT_01_LB=_Build
-C++FT_01_CM=make -j 8
+C++FT_01_CM=make xwin -j 8
 C++FT_01_WD=
 filetypes=C++;
+C++FT_00_LB=_Compile
+C++FT_00_CM=g++ -Wall -c "%f"
+C++FT_00_WD=

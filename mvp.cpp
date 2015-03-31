@@ -34,8 +34,10 @@ MVP::MVP(GLfloat* _projection, GLfloat vtx, GLfloat vty, GLfloat vtz, GLfloat vr
 }
 
 void MVP::buildMVP() {
-    multMat4(tmp, projection, view);
-    multMat4(mvp, tmp, model);
+    if (projection) {
+        multMat4(tmp, projection, view);
+        multMat4(mvp, tmp, model);
+    }
 }
 
 void MVP::buildModel() {
@@ -82,3 +84,10 @@ void MVP::setModelScale(GLfloat _scale) {
     getScaleMat(scale, _scale);
 }
 
+GLfloat* MVP::getView() {
+    return view;
+}
+
+GLfloat* MVP::getModel() {
+    return model;
+}

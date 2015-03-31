@@ -19,15 +19,18 @@ This file is part of [DEMO NAME].
 precision highp float;
 
 attribute vec3 a_vertex;
-uniform mat4 projection;
+/*uniform mat4 projection;
 uniform mat4 scale;
 uniform mat4 translation;
 uniform mat4 view;
-uniform mat4 rotation;
+uniform mat4 rotation;*/
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 uniform vec2 iResolution;
 
 void main() {
-    vec4 v = view * translation * rotation * scale * vec4(a_vertex, 1.0);
-	gl_PointSize = (iResolution.x/32.0)*pow(clamp(((v.z/4.0)+1.0), 0.0, 1.0), 2.0);
+    vec4 v = view * model * vec4(a_vertex, 1.0);
+	gl_PointSize = (iResolution.x/10.0)*pow(clamp(((v.z/10.0)+1.0), 0.0, 1.0), 2.0);
     gl_Position = projection * v;
 }

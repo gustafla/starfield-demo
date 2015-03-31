@@ -25,7 +25,10 @@ float const PART_TIMES[] = {
     30.9f, //Starfield
     0.5f,  //
     0.5f,
-    14.7f,
+    14.7f, //Flag
+    5.0f, //pointcube
+    5.0f, //pointicos
+    5.0f, //pointhtorus
     0.4f,
     0.4f,
     15.3f,

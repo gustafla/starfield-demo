@@ -43,6 +43,7 @@ This file is part of [DEMO NAME].
 #include "parts/texobj_ed.hpp"
 #include "parts/vertices.hpp"
 #include "parts/tunnel1.hpp"
+#include "parts/pointmodel.hpp"
 
 /*
  * Demo player thread function
@@ -101,16 +102,19 @@ void* playDemo(void* arg) {
     bool doPP = false;
 
     //demo parts :D
-    PIntro          p0(&common);
-    PStarfield      p1(&common);
-	PFlag           p2(&common);
-    //PPlasma         p3(&common);
-    PVertices       p3(&common);
-    PCube           p4(&common);
-    PFeedbackEffect p5(&common);
-    PTexobj         p6(&common);
-    PTexobjED       p7(&common);
-    PTunnel1        p8(&common);
+    //TODO: rename these
+    PIntro          partIntro(&common);
+    PStarfield      partStarfield(&common);
+	PFlag           partFlag(&common);
+    PPointModel     partPointCube(&common, "cube.obj");
+    PPointModel     partPointIcos(&common, "icos.obj");
+    PPointModel     partPointTorus(&common, "htorus_sd.obj");
+    PVertices       partCubes(&common);
+    PCube           partT1(&common);
+    PFeedbackEffect partT2(&common);
+    PTexobj         partT3(&common);
+    PTexobjED       partED(&common);
+    PTunnel1        partTunnel1(&common);
     Fade*      fade;
     
     //Start the music player thread
@@ -165,10 +169,10 @@ void* playDemo(void* arg) {
         switch (part) { //Demo in a switch :)
 			case 0: //INTRO
                 doPP = false;
-				p0.draw();
+				partIntro.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){ //30.0
                     fade = new Fade(&common, PART_TIMES[part+1], FADE_BLACK_OUT_GLITCHED);
-                    p0.draw(fade); //Hackish... But works :/
+                    partIntro.draw(fade); //Hackish... But works :/
 					part++;
 					tPartStart = t-tLoopStart;
                     doPP = false;
@@ -187,14 +191,14 @@ void* playDemo(void* arg) {
 				break;
 			case 2: //STARFIELD WITH SCROLLER
                 doPP = true;
-				p1.draw();
+				partStarfield.draw();
 				if (t-tLoopStart > tPartStart+PART_TIMES[part]){
                     fade = new Fade(&common, PART_TIMES[part+1]);
                     fade->bindFramebuffer();
-                    p1.draw();
+                    partStarfield.draw();
 					part++;
 					tPartStart = t-tLoopStart;
-                    p1.resetTimer();
+                    partStarfield.resetTimer();
 				}
 				break;
             case 3: //STARFIELD TO FLAG FADE
@@ -211,7 +215,7 @@ void* playDemo(void* arg) {
                 doPP = true;
                 fade->bindFramebuffer();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                p2.draw();
+                partFlag.draw();
                 crt.bindFramebuffer();
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -222,31 +226,58 @@ void* playDemo(void* arg) {
                 break;
             case 5: //FLAG
                 doPP = true;
-                p2.draw();
+                partFlag.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-                    fade = new Fade(&common, PART_TIMES[part+1], FADE_WHITE_OUT);
-                    fade->bindFramebuffer();
-                    p2.draw();
-                    p2.resetTimer();
+                    partFlag.resetTimer();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 6: //FLAG FADE OUT TO WHITE
+            case 6: //PCUBE
+                doPP = true;
+                partPointCube.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    partPointCube.resetTimer();
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 7: //PICOS
+                doPP = true;
+                partPointIcos.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    partPointIcos.resetTimer();
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 8: //PTORUS
+                doPP = true;
+                partPointTorus.draw();
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    fade = new Fade(&common, PART_TIMES[part+1], FADE_WHITE_OUT); //IMPORTANT
+                    fade->bindFramebuffer();
+                    partPointTorus.draw();
+                    partPointTorus.resetTimer();
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 9: //[] FADE OUT TO WHITE
                 doPP = true;
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-                    delete fade;
+                    delete fade;                    
                     fade = new Fade(&common, PART_TIMES[part+1], FADE_WHITE_IN);
 					part++;
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 7: //FADE IN FROM WHITE
+            case 10: //FADE IN FROM WHITE
                 doPP = true;
                 fade->bindFramebuffer();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                p3.draw();
+                partCubes.draw();
                 crt.bindFramebuffer();
                 fade->draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
@@ -256,33 +287,9 @@ void* playDemo(void* arg) {
 					tPartStart = t-tLoopStart;
 				}
                 break;
-            case 8:
-                doPP = true;
-                p3.draw();
-                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-					part++;
-					tPartStart = t-tLoopStart;
-				}
-                break;
-            case 9:
-                doPP = true;
-                p4.draw();
-                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-					part++;
-					tPartStart = t-tLoopStart;
-				}
-                break;
-            case 10:
-                doPP = true;
-                p5.draw(&crt);
-                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-					part++;
-					tPartStart = t-tLoopStart;
-				}
-                break;
             case 11:
                 doPP = true;
-                p6.draw(&crt);
+                partCubes.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;
@@ -290,7 +297,7 @@ void* playDemo(void* arg) {
                 break;
             case 12:
                 doPP = true;
-                p7.draw(&crt);
+                partT1.draw();
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
 					part++;
 					tPartStart = t-tLoopStart;
@@ -298,9 +305,33 @@ void* playDemo(void* arg) {
                 break;
             case 13:
                 doPP = true;
-                p8.draw(/*&crt*/);
+                partT2.draw(&crt);
                 if (t-tLoopStart > tPartStart+PART_TIMES[part]){
-                    p8.resetTimer();
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 14:
+                doPP = true;
+                partT3.draw(&crt);
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 15:
+                doPP = true;
+                partED.draw(&crt);
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+					part++;
+					tPartStart = t-tLoopStart;
+				}
+                break;
+            case 16:
+                doPP = true;
+                partTunnel1.draw(/*&crt*/);
+                if (t-tLoopStart > tPartStart+PART_TIMES[part]){
+                    partTunnel1.resetTimer();
 					part++;
 					tPartStart = t-tLoopStart;
 				}
