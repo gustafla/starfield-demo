@@ -1,22 +1,23 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "parts/intro.hpp"
+#include <iostream>
 
 PIntro::PIntro(CommonData* icommon):
 common(icommon) {
@@ -30,6 +31,7 @@ common(icommon) {
     pb2 = new ParticleBurst(icommon, 0.45f, 0.14f, -1.0f, 16);
     pb3 = new ParticleBurst(icommon, -0.6f, -0.1f, -1.0f, 16);
     //pb4 = new ParticleBurst(icommon, 0.0f, 0.0f, 0.0f, 16);
+    std::cout<< __FILE__ << std::endl;
 }
 
 PIntro::~PIntro() {

@@ -1,44 +1,44 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "text.hpp"
 #include <string>
 
-const std::string VERSION = "[DEMO NAME] version 1.0\n"
+const std::string VERSION = "Low Quality is the Future version 1.0\n"
                             "Copyright 2015 Lauri Gustafsson.\n\n"
                             
-                            "[DEMO NAME] is free software: you can redistribute it and/or modify\n"
+                            "Low Quality is the Future is free software: you can redistribute it and/or modify\n"
                             "it under the terms of the GNU General Public License as published by\n"
                             "the Free Software Foundation, either version 3 of the License, or\n"
                             "(at your option) any later version.\n\n"
 
-                            "[DEMO NAME] is distributed in the hope that it will be useful,\n"
+                            "Low Quality is the Future is distributed in the hope that it will be useful,\n"
                             "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
                             "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
                             "GNU General Public License for more details.\n\n"
 
                             "You should have received a copy of the GNU General Public License\n"
-                            "along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.\n";
+                            "along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.\n";
 
 const std::string ARGERR = "Go fix your parameters.\n"
-                           "Try '[DEMO NAME] --help' for more information.\n";
+                           "Try 'Low Quality is the Future --help' for more information.\n";
 
-const std::string DOC = "Usage: [DEMO NAME] [OPTION]\n"
+const std::string DOC = "Usage: Low Quality is the Future [OPTION]\n"
                         "Play a nice hardware demonstration with music.\n"
                         "\n"
                         "  -w                window width\n"
@@ -55,7 +55,7 @@ const std::string DOC = "Usage: [DEMO NAME] [OPTION]\n"
                         "      --version     display version information and exit\n"
                         "\n"
                         "You can report bugs or send mail/spam/\"offers\" to luutifa@gmail.com\n"
-                        "[DEMO NAME] home page: <[DEMO URL]>\n";
+                        "Low Quality is the Future home page: <http://mehuclan.com/demoscene>\n";
 
 std::string const PIPE_CAT = "Please pipe stdout text to a file or cat.\n"
                              "Keyboard input requires weird terminal stuff.\n"

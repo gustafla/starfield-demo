@@ -4,7 +4,7 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
   T     OOO   DDDD    OOO    ..      T    XX  X    T  
 ------------------------------------------------------
 
-- Part with 3D model made of points
+- "long" stars
 - Cool text thigy with quads (like razor's insert no coins lol)
 - Fix lighting
 - Accommodate for different size audio h/w buffers (timing)
@@ -15,6 +15,7 @@ TTTTT   OOO   DDDD    OOO          TTTTT  X  XX  TTTTT
 
 DONE:
 
+- Part with 3D model made of points
 - MVP
 - Correct matrix calculations!
 - p2 scroller timing fix

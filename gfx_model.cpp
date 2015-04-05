@@ -1,19 +1,19 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "gfx_model.hpp"
@@ -21,10 +21,11 @@ This file is part of [DEMO NAME].
 #include <vector>
 #include <iostream>
 
-GfxModel::GfxModel(std::string objFileName, float* igeometry, unsigned int size, GLuint idrawmode):
-drawmode(idrawmode),
+GfxModel::GfxModel(std::string objFileName, float* igeometry, unsigned int size, bool ievenodd):
+drawmode(GL_TRIANGLES),
 textured(false),
 normaled(false),
+evenodd(ievenodd),
 stride(0) {
     IndexedObject* obj;
     glGenBuffers(1, &vbo);
@@ -40,9 +41,17 @@ stride(0) {
                 geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3]);   //x
                 geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+1]); //y
                 geometry.push_back(obj->getVertices()[obj->getIndices()[n]*3+2]); //z
+                if (evenodd) {
+                    geometry.push_back(float((n/3)%2));
+                }
             }
-            numVertices = geometry.size()/3;
-            stride = 3;
+            if (evenodd) {
+                numVertices = geometry.size()/4;
+                stride = 4;
+            } else {
+                numVertices = geometry.size()/3;
+                stride = 3;
+            }
         } else if (obj->getTSize() && !obj->getNSize()) {
             textured = true;
             for (int n=0; n<obj->getISize(); n+=2) {
@@ -52,9 +61,17 @@ stride(0) {
                 geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3]);   //tx
                 geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+1]); //ty
                 geometry.push_back(obj->getTcoords()[obj->getIndices()[n+1]*3+2]); //tw=0
+                if (evenodd) {
+                    geometry.push_back(float(((n/2)/3)%2));
+                }
             }
-            numVertices = geometry.size()/6;
-            stride = 6;
+            if (evenodd) {
+                numVertices = geometry.size()/7;
+                stride = 7;
+            } else {
+                numVertices = geometry.size()/6;
+                stride = 6;
+            }
         } else if (!obj->getTSize() && obj->getNSize()) {
             normaled = true;
             for (int n=0; n<obj->getISize(); n+=2) {
@@ -64,9 +81,17 @@ stride(0) {
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3]);   //x
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3+1]); //y
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+1]*3+2]); //z
+                if (evenodd) {
+                    geometry.push_back(float(((n/2)/3)%2));
+                }
             }
-            numVertices = geometry.size()/6;
-            stride = 6;
+            if (evenodd) {
+                numVertices = geometry.size()/7;
+                stride = 7;
+            } else {
+                numVertices = geometry.size()/6;
+                stride = 6;
+            }
         } else if (obj->getTSize() && obj->getNSize()) {
             normaled = true;
             textured = true;
@@ -80,9 +105,17 @@ stride(0) {
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3]);   //x
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3+1]); //y
                 geometry.push_back(obj->getNormals()[obj->getIndices()[n+2]*3+2]); //z
+                if (evenodd) {
+                    geometry.push_back(float(((n/3)/3)%2));
+                }
             }
-            numVertices = geometry.size()/9;
-            stride = 9;
+            if (evenodd) {
+                numVertices = geometry.size()/10;
+                stride = 10;
+            } else {
+                numVertices = geometry.size()/9;
+                stride = 9;
+            }
         }
         
         glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * geometry.size(), &geometry[0], GL_STATIC_DRAW);
@@ -112,6 +145,12 @@ void GfxModel::draw(GfxShader* shaderProgram) {
             glVertexAttribPointer(shaderProgram->getAtrHandle("a_normal"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P((textured ? 6 : 3)*sizeof(GLfloat)));
         }
     }
+    if (evenodd) {
+        if (shaderProgram->getAtrHandle("a_odd") != -1) {
+            glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_odd"));
+            glVertexAttribPointer(shaderProgram->getAtrHandle("a_odd"), 1, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P( ((!(textured || normaled)) ? 3 : ((textured && normaled) ? 9 : 6)) *sizeof(GLfloat)));
+        }
+    }
 
     glDrawArrays(drawmode, 0, numVertices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -132,7 +171,12 @@ void GfxModel::draw(GfxShader* shaderProgram, float start) {
             glVertexAttribPointer(shaderProgram->getAtrHandle("a_normal"), 3, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P((textured ? 6 : 3)*sizeof(GLfloat)));
         }
     }
-
+    if (evenodd) {
+        if (shaderProgram->getAtrHandle("a_odd") != -1) {
+            glEnableVertexAttribArray(shaderProgram->getAtrHandle("a_odd"));
+            glVertexAttribPointer(shaderProgram->getAtrHandle("a_odd"), 1, GL_FLOAT, GL_TRUE, sizeof(GLfloat)*stride, INT2P( ((!(textured || normaled)) ? 3 : ((textured && normaled) ? 9 : 6)) *sizeof(GLfloat)));
+        }
+    }
     
     float s;
     if (start <= 0.0) {

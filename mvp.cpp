@@ -1,19 +1,19 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "mvp.hpp"
@@ -52,17 +52,17 @@ void MVP::setProjection(GLfloat* _projection) {
 void MVP::setView(GLfloat vtx, GLfloat vty, GLfloat vtz, GLfloat vrx, GLfloat vry, GLfloat vrz) {
     getTranslationMat(viewt, vtx, vty, vtz);
     getXYZRotMat(viewr, vrx, vry, vrz);
-    multMat4(view, viewt, viewr);
+    multMat4(view, viewr, viewt);
 }
 
 void MVP::setViewTranslation(GLfloat vtx, GLfloat vty, GLfloat vtz) {
     getTranslationMat(viewt, vtx, vty, vtz);
-    multMat4(view, viewt, viewr);
+    multMat4(view, viewr, viewt);
 }
 
 void MVP::setViewRotation(GLfloat vrx, GLfloat vry, GLfloat vrz) {
     getXYZRotMat(viewr, vrx, vry, vrz);
-    multMat4(view, viewt, viewr);
+    multMat4(view, viewr, viewt);
 }
 
 void MVP::setModel(GLfloat tx, GLfloat ty, GLfloat tz, GLfloat rx, GLfloat ry, GLfloat rz, GLfloat _scale) {

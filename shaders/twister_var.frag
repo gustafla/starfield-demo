@@ -1,19 +1,19 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 precision highp float;
@@ -59,10 +59,10 @@ void main() {
     	twister.x-twister.w
     );
     
-    shade /= width*0.9;
+    shade /= width;
     shade = min(shade, 1.0);
 
-    float texy = pos.y/(iResolution.x/iResolution.y) - iGlobalTime*0.4;
+    float texy = pos.y/(iResolution.x/iResolution.y)/(1024.0/64.0) - iGlobalTime*0.035 - 0.06;
     vec3 s1col = texture2D(iChannel0, vec2(((pos.x-((twister.x+twister.y)/2.0))/(twister.x-twister.y))+0.5, texy)).rgb;
     vec3 s2col = texture2D(iChannel0, vec2(((pos.x-((twister.y+twister.z)/2.0))/(twister.y-twister.z))+0.5, texy)).rgb;
     vec3 s3col = texture2D(iChannel0, vec2(((pos.x-((twister.z+twister.w)/2.0))/(twister.z-twister.w))+0.5, texy)).rgb;
@@ -73,8 +73,8 @@ void main() {
     col.rgb += s3col * alpha.z * shade.z;
     col.rgb += s4col * alpha.w * shade.w;
 
-    //col.a = (alpha.x+alpha.y+alpha.z+alpha.w);
-    col.a = ((shade.x*alpha.x)+(shade.y*alpha.y)+(shade.z*alpha.z)+(shade.w*alpha.w));
+    col.a = (alpha.x+alpha.y+alpha.z+alpha.w);
+    //col.a = ((shade.x*alpha.x)+(shade.y*alpha.y)+(shade.z*alpha.z)+(shade.w*alpha.w));
     
     gl_FragColor = col;
     //gl_FragColor.a = 1.0;

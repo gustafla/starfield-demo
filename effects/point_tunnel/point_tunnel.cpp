@@ -1,19 +1,19 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "effects/point_tunnel.hpp"
@@ -44,7 +44,6 @@ shaderProgram("effects/point_tunnel/proj_tunnel_point.vert", "shaders/textured_p
     check();
     
     //Generate point tunnel
-    std::vector<float> points;
     for(float z=-5.0f; z<5.0f; z+=M_PI*0.1f) {
         for (float x=0.0f; x<M_PI_2*4.0f; x+=M_PI*0.1f) {
             points.push_back(sin(x+z*0.33f)+sin(z*M_PI*(2.0/5.0f))*0.2);
@@ -52,7 +51,8 @@ shaderProgram("effects/point_tunnel/proj_tunnel_point.vert", "shaders/textured_p
             points.push_back(z);
         }   
     }
-    vertices = new GfxModel("FromPointTunnel", &points[0], points.size(), GL_POINTS);
+    //vertices = new GfxModel("", &(points[0]), points.size()-3, false);
+    //vertices->changeDrawmode(GL_POINTS);
     
     glUniformMatrix4fv(shaderProgram.getUfmHandle("projection"), 1, GL_FALSE, common->pProjMat80);
 }
@@ -80,9 +80,13 @@ void EPointTunnel::draw() {
     //IT'S CRUCIAL TO CALL UNIFORM AND ATTRIBUTE UPDATES ON EVERY FRAME, EVEN IF IT WAS THE POINTER VARIANT "...v(*)"!
 
     //Drawing happens here
-    drawAmount = 2.0f-(common->t/5.0f-start/5.0f);
-    if (drawAmount<1.0f)
-        vertices->draw(&shaderProgram, drawAmount);
+    /*drawAmount = 2.0f-(common->t/5.0f-start/5.0f);
+    if (drawAmount<1.0f)*/
+    glEnableVertexAttribArray(shaderProgram.getAtrHandle("a_vertex"));
+    glVertexAttribPointer(shaderProgram.getAtrHandle("a_vertex"), 3, GL_FLOAT, GL_TRUE, 0/*sizeof(GLfloat)*3*/, &points[0]);
+        //vertices->draw(&shaderProgram/*, drawAmount*/);
+        glDrawArrays(GL_POINTS, 0, points.size()/3-12); //Come on WTF
+    //glBindBuffer(GL_ARRAY_BUFFER, 0);
     //vertices->draw(&shaderProgram);
     //Most waving and stuff happens in the shaders
 }

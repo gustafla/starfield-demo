@@ -1,19 +1,19 @@
 // Copyright 2015 Lauri Gustafsson
 /*
-This file is part of [DEMO NAME].
+This file is part of Low Quality is the Future.
 
-    [DEMO NAME] is free software: you can redistribute it and/or modify
+    Low Quality is the Future is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    [DEMO NAME] is distributed in the hope that it will be useful,
+    Low Quality is the Future is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with [DEMO NAME], see COPYING. If not, see <http://www.gnu.org/licenses/>.
+    along with Low Quality is the Future, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "gfx_screen_movable.hpp"
@@ -75,13 +75,13 @@ shaderProgram("shaders/simple_texpos.vert", fs) {
     vertices[15] = 0.0;
 }
 
-void GfxScreenMovable::draw() { 
+void GfxScreenMovable::draw(float st) { 
     //Drawing will happen with this shader, and these (this) texture
     glUseProgram(shaderProgram.getHandle());
     if (iCount)
         i->bindToUnit(0);
     //Update time
-    glUniform1fv(shaderProgram.getUfmHandle("iGlobalTime"), 1, &common->t);
+    glUniform1f(shaderProgram.getUfmHandle("iGlobalTime"), common->t-st);
     
     GLfloat res[2] = {
         float(store_w),
